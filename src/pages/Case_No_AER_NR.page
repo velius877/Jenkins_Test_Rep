@@ -1,0 +1,10 @@
+<apex:page standardController="Case">
+   <apex:detail subject="{!case.Id}" relatedList="false" title="false"/> 
+   <apex:relatedList list="Affected_Items__r" />
+   <apex:relatedList list="OpenActivities" />
+   <apex:relatedList list="Attachments" />
+   <apex:relatedList list="Orders__r" />
+   <apex:relatedList list="ActivityHistories" />
+   <!--  <apex:relatedList list="Histories" /> -->
+   <apex:relatedList list="Other_Medications_OTCs__r" />
+</apex:page>

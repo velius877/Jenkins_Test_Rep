@@ -1,0 +1,600 @@
+<apex:page standardController="Case" extensions="Case_ICM" tabStyle="Case" action="{!setupCase}">
+<c:jQueryInit bLoadingPanel="true"/>
+<!--<c:loadingPanel /> -->
+<!--------------- Do not move this section of code!  ---------------->
+<apex:includeScript value="/support/console/27.0/integration.js"/>
+<style>
+.lotTable th,td {
+	padding: 5px;
+}
+.lotTable th {f
+	background-color: #eee;
+}
+.lotTable td{
+	background-color:white;
+}
+</style>
+<script type="text/javascript">
+	j$(document).ready(function() {
+		testSetTabTitle();
+	});
+	
+	function testSetTabTitle() {
+		//Set the current tab's title
+		sforce.console.setTabTitle('Case ICM');
+	}
+</script>
+<!-- ---------------------------End Section ------------------ -->
+
+<script type="text/javascript">
+	var j$ = jQuery.noConflict();
+	var availableCategories;
+	var availableSubcategories;
+	var complaintType;
+	var currentCategories = [];
+	
+	j$(document).ready(function() {
+		getCategories();
+				if ("{!id}" == null){
+			sforce.console.setTabTitle('New Case');
+		}
+		// Prevent backspaces..
+		document.addEventListener('keydown', function(event) {
+			 var keycode = event.keyCode || event.charCode;
+			 var curElement = document.activeElement;
+			 var is_input_element = (j$(curElement).is("input") || j$(curElement).is("textarea")); //capture focus on input elements
+			 if(!(is_input_element) && keycode == 8)
+			 {
+				var choice = confirm("Do you really want to leave this page?  Your work will not be saved. Click Cancel to return to same page");
+				if(choice)
+				{
+					
+				}
+				else
+				{
+					event.preventDefault();
+				}
+			 }
+			 
+		}, false);
+	});
+	
+					   
+	function getCategories()
+	{
+		complaintType = j$(".complaintType option:selected").text();
+		console.log('Complaint Type: ' + complaintType);
+		Case_ICM.getCategories( complaintType,
+		function(result, event) {
+		  if(event.type === 'exception') {
+			console.log("exception");
+			console.log(event); 
+		  } else if (event.status) {
+			availableCategories = result;
+		  } else {
+			console.log(event.message);
+		  }
+		}
+	  );
+		initCategories();	   
+	}
+	
+	function getSubcategories()
+	{
+		currentCategories = [];
+		console.log(j$(".selectedCategories"));
+		j$(".selectedCategories").each(function(){
+			console.log('Iterate Categories: ' + j$(this).text());
+			 currentCategories.push(j$(this).text());
+		});
+		console.log(currentCategories);
+		Case_ICM.getSubcategories(currentCategories,
+		function(result, event) {
+		  if(event.type === 'exception') {
+			console.log("exception");
+			console.log(event);
+		  } else if (event.status) {
+			console.log(result);
+			availableSubcategories = result;
+		  } else {
+			console.log(event.message);
+		  }
+		}
+	  );
+		initSubCategories();				
+	}
+	
+	function split( val ) {
+	  return val.split( /,\s*/ );
+	}
+	function extractLast( term ) {
+	  return split( term ).pop();
+	}
+	
+  function initCategories(){  
+j$("[id$='primaryCategory']")
+	  .bind( "keydown", function( event ) {
+		if ( event.keyCode === j$.ui.keyCode.TAB &&
+			j$( this ).data( "ui-autocomplete" ).menu.active ) {
+		  event.preventDefault();
+		}
+	  })
+	  .autocomplete({
+		minLength: 2,
+		source: function( request, response ) {
+		  // delegate back to autocomplete, but extract the last term
+		  response( j$.ui.autocomplete.filter(
+			availableCategories, extractLast( request.term ) ) );
+		},
+		focus: function() {
+		  // prevent value inserted on focus
+		  return false;
+		},
+		select: function( event, ui ) {
+		  this.value = "";
+		  addCategory(ui.item.value, complaintType);
+		  window.setTimeout(function(){
+			getSubcategories();
+		  }, 2000);
+		  return false;
+		}
+	  });
+	  }
+	  
+	function initSubCategories(){
+ 
+j$("[id$='subcategory']")
+	  .bind( "keydown", function( event ) {
+		if ( event.keyCode === j$.ui.keyCode.TAB &&
+			j$( this ).data( "ui-autocomplete" ).menu.active ) {
+		  event.preventDefault();
+		}
+	  })
+	  .autocomplete({
+		minLength: 2,
+		source: function( request, response ) {
+		  // delegate back to autocomplete, but extract the last term
+		  response( j$.ui.autocomplete.filter(
+			availableSubcategories, extractLast( request.term ) ) );
+		},
+		focus: function() {
+		  // prevent value inserted on focus
+		  return false;
+		},
+		select: function( event, ui ) {
+		  this.value = "";
+		  console.log(ui.item.value);
+		  addSubcategory(ui.item.value, complaintType);
+		  return false;
+		}
+	  });
+  }
+	
+</script>
+	<apex:sectionHeader title="Case Edit" subtitle="{!Case.caseNumber}"/>
+	<apex:pageMessages />
+	<apex:form ><apex:pageBlock title="Case Edit" id="mpage">
+	
+		<apex:outputPanel styleClass="icmHdr">
+		   
+			<apex:pageBlockSection id="complaintInfo" title="Case Information" columns="2" collapsible="false" >
+				
+				<apex:outputField value="{!Case.CaseNumber}"/>
+				<apex:outputField value="{!Case.RecordType.Name}"/>
+				<apex:inputField value="{!Case.Brand__c}" required="true"/>
+				<apex:inputField value="{!Case.Origin}"/>
+				<apex:inputField value="{!Case.Intake_Department__c}" required="true"/>
+				<apex:inputField value="{!Case.Status}"/>
+				<apex:inputField value="{!Case.Complaint_Type__c}" styleClass="complaintType" required="true">
+					<apex:actionSupport event="onchange" action="{!displayPage}" rerender="auxInfoPanel,multiCategories,multiSubcategories" onComplete="getCategories();" />
+				</apex:inputField>
+				<apex:inputField value="{!Case.Customer__c}">
+					<apex:actionSupport event="onchange" action="{!displayPage}" rerender="webToCaseInformation" immediate="true"/>
+				</apex:inputField>
+				<apex:outputPanel />
+				<apex:inputCheckBox value="{!Case.International_Complaint__c}"/>
+				
+			</apex:pageBlockSection>
+			<apex:pageBlockSection id="categoryInfo" columns="2" collapsible="false" >
+				   <apex:inputText style="width: 60%" styleClass="primaryCategory" id="primaryCategory" label="Category" value="{!categorySearch}"/>
+				   <apex:inputField value="{!Case.Reference_Numner__c}"/> 
+					<apex:outputPanel id="multiCategories">
+					<table style="width:100%">
+					<apex:repeat value="{!selectedCategoryList}" var="s">
+						<tr >
+							<td style="width:18%"/>
+							<td><apex:image title="Remove" styleClass="dialogClose" value="/s.gif" onclick="removeCategory('{!s}');getSubcategories();" /></td>
+							<td style="white-space:nowrap" class="data2Col  first selectedCategories">{!s}</td>
+						</tr>
+					</apex:repeat>
+					</table>
+				</apex:outputPanel>
+		   </apex:pageBlockSection>
+		   <apex:pageBlockSection id="subcategoryInfo" columns="2" collapsible="false" >
+				<apex:inputText style="width: 60%" id="subcategory" label="Subcategory" value="{!subcategorySearch}"/>
+				  <apex:outputField value="{!Case.Related_Order__c}"/>
+				  <apex:outputPanel id="multiSubcategories">
+					<table style="width:100%">
+					<apex:repeat value="{!selectedSubcategoryList}" var="s">
+							<tr  >
+								<td style="width:18%"/>
+								<td><apex:image title="Remove" styleClass="dialogClose" value="/s.gif" onclick="removeSubcategory('{!s}')" /></td>
+							<td style="white-space:nowrap"  class="data2Col  first selectedSubcategories">{!s}</td>
+						</tr>
+					</apex:repeat>
+					</table> 
+				</apex:outputPanel>
+				</apex:pageBlockSection>
+			<apex:pageBlockSection id="complaintDetailInfo" columns="2" collapsible="false" >
+				<apex:inputField style="width: 100%" value="{!Case.Case_Description__c}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Response_To_Inquiry__c}"/>
+			</apex:pageBlockSection>
+		
+		</apex:outputPanel>
+		
+		<apex:outputPanel styleClass="">
+				<apex:pageBlockSection id="reporterInformation" title="Reporter Information" columns="2" collapsible="true">
+					<apex:inputField value="{!Case.Reporter_Name_del__c}"/> 
+					<apex:inputField value="{!Case.Reporter_Street__c}"/>
+					<apex:inputField value="{!Case.Reporter_Apt__c}"/>
+					<apex:inputField value="{!Case.Reporter_City__c}"/>
+					<apex:inputField value="{!Case.Reporter_State_Picklist__c}"/>
+					<apex:inputField value="{!Case.Reporter_Zip_Code__c}"/>
+			<apex:inputField label="Reporter Country" value="{!Case.PQM_Reporter_Country__c}"/>
+					<apex:inputField value="{!Case.Reporter_Phone__c}"/>
+					<apex:inputField value="{!Case.Reporter_Email__c}"/> 
+			<apex:inputField value="{!Case.Reporter_Relationship_to_Consumer__c}"/>
+				</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel styleClass="" id="test">
+			<apex:pageBlockSection id="consumerInformation" title="Consumer Information" columns="2">
+				<apex:inputField value="{!Case.Consumer_Name__c}"/>  
+				<apex:inputField value="{!Case.Consumer_Street__c}"/>
+				<apex:inputField value="{!Case.Consumer_Apt__c}"/>
+				<apex:inputField value="{!Case.Consumer_City__c}"/>
+				<apex:inputField value="{!Case.Consumer_State_Picklist__c}"/>
+				<apex:inputField value="{!Case.Consumer_Zip_Code__c}"/>
+			<apex:inputField Label="Consumer Country" value="{!Case.PQM_Consumer_Country__c}"/>
+				<apex:inputField value="{!Case.Consumer_Phone__c}"/> 
+				<apex:inputField value="{!Case.Consumer_Email__c}"/>
+				<apex:inputCheckbox value="{!sameAsReporter}" label="Same As Reporter">
+					<apex:actionSupport event="onchange" action="{!getAbove}" rerender="test, consumerInformation" />
+				</apex:inputCheckbox>
+				
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		<apex:outputPanel id="auxInfoPanel">
+		
+		<apex:outputPanel styleClass="">
+			<apex:pageBlockSection id="personalInformation" title="Personal Information" columns="2" rendered="{!isClassII || isClassIII}">	
+				<apex:inputField value="{!Case.Sex__c}"/>
+				<apex:inputField value="{!Case.Pregnant__c}"/>
+				<apex:inputField value="{!Case.Weight__c}"/>
+				<apex:inputField value="{!Case.Height__c}" rendered="{!isClassII}"/>
+				<apex:inputField value="{!Case.Birth_Date__c}"/>
+				<apex:inputField value="{!Case.Consumer_Species__c}" rendered="{!isClassIII}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Known_Allergies_Picklist__c}" rendered="{!isClassII}"/> 
+				<apex:inputField style="width: 100%" value="{!Case.Allergy_Description__c}" rendered="{!isClassII}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Medical_History__c}" rendered="{!isClassII}"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:pageBlockSection id="productInformation" title="Product Information" collapsible="true" columns="1">
+		<apex:outputPanel styleClass="" id="thPB">
+			<apex:pageBlockSection columns="2" >
+					<apex:inputCheckBox value="{!Case.Bayer_Complaint__c}"/>
+			</apex:pageBlockSection>
+		  
+			
+			<apex:repeat value="{!affectedItemsList}" var="a">
+				<table style="width:100%">
+					<tr><th>Affected Item Input Details</th></tr>
+					
+					<tr><td>
+					<table>
+						<tr><td>
+					<apex:image rendered="{!(!a.syncedWithPQM)}" title="Remove" styleClass="dialogClose" value="/s.gif" onclick="removeRecordJs('{!a.index}')" /></td>
+					<td>
+						<table>
+							<tr>
+								<th>Product</th>
+								<th>Lot Number</th>
+								<th>Lot Number Sequence</th>
+							</tr>
+							<tr>
+								<td> <apex:inputField value="{!a.prdDetail.Item__c}"/></td>
+								<td><apex:inputField value="{!a.prdDetail.NBTY_Lot__c}"/></td>
+								<td>  <apex:inputField value="{!a.prdDetail.Lot_Number_Sequence__c}"/></td>
+								
+								<td> <apex:commandButton value="Query Manufacturing Data" reRender="thePB" onclick="lotNumberJs('{!a.index}')"/></td>
+								
+							</tr>
+							</table>
+							</td></tr>
+						</table>
+					
+					</td></tr>
+					
+							<apex:variable rendered="{!IF(a.prdDetail.Bulk_Number__c!=null,true,false)}" var="ab" value="{!a.prdDetail}">
+					<tr><th>Additional Manufacturing Details</th></tr>
+					<tr><td>
+						<table  class="lotTable">
+						<tr>
+								<th>Vendor Lot</th>
+								<th>Item Number</th>
+								<th>Formula Revision</th>
+								<th>AS400 Bulk Number</th>
+								<th>Oracle Bulk Number</th>
+								<th>Bulk Description</th>
+								<th>Packaging Site</th> 
+								<th>Manufacturing Site</th>
+								<th>Expiration Date</th>
+								<th>Label Number</th>
+								<th>Label Revision</th>
+								
+							</tr>
+								<tr>
+									<td> <apex:outputField value="{!a.prdDetail.Vendor_Lot__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Item_Number__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Formula_Revision__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Bulk_Number__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Oracle_Bulk_Number__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Bulk_Description__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Packaging_Site__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Manufacturing_Site__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Expiration_Date__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Label_Number__c}"/></td>
+									<td> <apex:outputField value="{!a.prdDetail.Label_Revision_Code__c}"/></td>
+								</tr>
+						
+						</table>
+					
+					</td></tr> 
+					</apex:variable>
+				</table>
+			</apex:repeat>
+			
+			<a style="cursor: pointer;" onClick="addRecordJs();"><img src="/img/feeds/follow12.png" />Add Affected Item</a>
+			
+			<apex:actionFunction name="lotNumberJs" action="{!lotDetail}" reRender="thPB" onComplete="hideProgressBar();">
+				<apex:param name="affectedItemIndex" value="" />
+			</apex:actionFunction>
+			<apex:actionFunction name="addRecordJs" action="{!addRecord}" reRender="thPB" immediate="true"/>
+			<apex:actionFunction name="removeRecordJs" action="{!removeRecord}" reRender="thPB" immediate="true">
+				<apex:param name="RecAffectedItemId" value="" />
+			</apex:actionFunction>
+		</apex:outputPanel>
+		
+		</apex:pageBlockSection>
+		
+		<apex:outputPanel styleClass="" >
+			<apex:pageBlockSection columns="2" showHeader="true" collapsible="false">
+				<apex:inputField value="{!Case.Unidentified_Product__c}"/>
+				<apex:inputField value="{!Case.Unidentified_Product_Description__c}"/>
+				<apex:inputField value="{!Case.Point_of_Purchase__c}"/>
+			</apex:pageBlockSection>
+			
+		</apex:outputPanel>
+		
+		<apex:outputPanel styleClass="">
+			<apex:pageBlockSection id="techQuestions" title="Tech Questions" columns="2" collapsible="true">
+				<apex:inputField style="width: 100%" value="{!Case.Tech_Questions__c}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Tech_Response__c}"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="productHistory" styleClass="">
+				<apex:pageBlockSection title="Product History" columns="2" collapsible="true" rendered="{!isClassII || isClassIII}">	
+					<apex:inputField value="{!Case.Product_Intended_For__c}" rendered="{!isClassIII}"/> 
+					<apex:inputField value="{!Case.How_Much_Ingested_or_Applied__c}" rendered="{!isClassIII}"/>
+					<apex:inputField value="{!Case.Date_Started_Product__c}" /> 
+					<apex:inputField value="{!Case.Date_Ended_Product__c}"/>
+					<apex:inputField value="{!Case.How_often__c}"/>
+					<apex:inputField value="{!Case.How_many__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.When_was_the_product_taken__c}" rendered="{!isClassII}"/>
+					<apex:inputField value="{!Case.Route_of_Administration__c}"/>
+					<apex:inputField value="{!Case.Was_product_taken_with_food_or_beverage__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.What_was_product_taken_with__c}"/>
+				</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="reactionInformation" styleClass="" >
+				<apex:pageBlockSection title="Reaction Information" columns="2" collapsible="true" rendered="{!isClassII || isClassIII}">	
+					<apex:inputField value="{!Case.Current_Reaction_Status__c}"/>
+					<br />
+					<apex:inputField value="{!Case.Date_Reaction_Began__c}"/>
+					<apex:inputField value="{!Case.Date_Reaction_Ended__c}"/>
+					<apex:inputField value="{!Case.Has_the_reaction_subsided__c}" rendered="{!isClassII}"/>
+					<apex:inputField style="width: 100%" value="{!Case.If_no_what_is_the_reaction_status__c}" rendered="{!isClassII}"/>
+					<apex:inputField value="{!Case.Did_Consumer_Discontinue_the_Product__c}" rendered="{!isClassII}"/>
+					<apex:inputField style="width: 100%" value="{!Case.What_was_the_result_of_discontinuing__c}" rendered="{!isClassII}"/> 
+					<apex:inputField value="{!Case.Was_the_product_restarted__c}" rendered="{!isClassII}"/>
+					<apex:inputField value="{!Case.What_was_the_result_of_restarting__c}" rendered="{!isClassII}"/>
+				</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel rendered="{!isClassII}" id="OTCTable">
+			<apex:pageBlockSection columns="1" title="Other Medications/OTCs" showHeader="true" collapsible="false" >
+				<apex:pageBlockTable value="{!OTCTableList}" var="a" border="1" width="100%">
+				
+					<apex:column style="width:50px" rendered="{!(!a.syncedWithPQM)}">
+							<apex:image title="Remove" styleClass="dialogClose"
+									value="/s.gif"
+									onclick="removeOTCJs('{!a.index}')" />
+					</apex:column> 
+					<apex:column headerValue="Name" width="">
+						<apex:inputField value="{!a.thisOTC.Name__c}"/>
+					</apex:column>
+					
+					<apex:column headerValue="Date Used" width="">
+						<apex:inputField value="{!a.thisOTC.Date_Used__c}"/>
+					</apex:column>
+					
+					<apex:column headerValue="Dosage" width="">
+						<apex:inputField value="{!a.thisOTC.Dosage__c}"/>
+					</apex:column>
+					
+					<apex:column headerValue="Indication" width="">
+						<apex:inputField value="{!a.thisOTC.Indication__c}"/>
+					</apex:column>
+				
+			</apex:pageBlockTable>
+			
+			<a style="cursor: pointer;" onClick="addOTCJs();"><img src="/img/feeds/follow12.png" />Add Medication/OTC</a>
+			
+			<apex:actionFunction name="addOTCJs" action="{!addOTC}" reRender="OTCTable"/>
+			 <apex:actionFunction name="removeOTCJs" action="{!removeOTC}" reRender="OTCTable">
+				<apex:param name="RecOTCTableId" value="" />
+			 </apex:actionFunction>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="hcpInformation" styleClass="">
+				<apex:pageBlockSection title="HCP Information" columns="2" collapsible="true" rendered="{!isClassII}">
+					<apex:inputField value="{!Case.Did_consumer_visit_a_HCP_for_this_event__c}"/> 
+					<apex:inputField value="{!Case.Where__c}"/>
+					<apex:inputField value="{!Case.HCP_Full_Name__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.HCP_Address__c}"/>
+					<apex:inputField value="{!Case.HCP_Phone__c}"/>
+					<apex:inputField value="{!Case.HCP_Type__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.HCP_Contact_Info__c}"/>
+					<apex:inputField value="{!Case.Date_Visited_HCP__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.Treatment_for_Event__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.Outcome_of_treatment__c}"/>
+				</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="erInformation" styleClass="">
+				<apex:pageBlockSection title="ER Information" columns="2" collapsible="true" rendered="{!isClassII}">
+					<apex:inputField value="{!Case.Did_consumer_visit_an_Emergency_Room__c}"/> 
+					<apex:inputField value="{!Case.Admitted_to_hospital_for_observation__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.Hospital_Address__c}"/>
+					<apex:inputField value="{!Case.Were_lab_or_diagnostic_tests_performed__c}"/>
+					<apex:inputField style="width: 100%" value="{!Case.Test_Results__c}"/>
+				</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel styleClass="">
+			<apex:pageBlockSection id="actionTaken" title="Action Taken" columns="2" collapsible="true">
+				<apex:inputField value="{!Case.Send_to_Supervisor__c}"/>
+				
+				<apex:inputField value="{!Case.Escalated__c}"/>
+				<apex:inputField value="{!Case.Investigation_Requested__c}"/>
+				<apex:inputField value="{!Case.Regulatory_Agency_Initiated__c}"/>
+				<apex:pageBlockSectionItem />
+				<apex:inputField value="{!Case.Did_Consumer_Make_a_Demand__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Requested_Action__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				
+				<apex:outputText value="" /> 
+				<apex:outputText value="" />
+
+				<apex:inputField value="{!Case.Consumer_Sample_Requested__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Consumer_Sample_Location__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Prepaid_Label_Sent_Date__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Product_Received_Date__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Product_Quantity_Received_Long__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Was_receipt_included__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				
+				<apex:outputText value="" /> 
+				<apex:outputText value="" />
+				
+				<apex:inputField value="{!Case.Consumer_Response_Required__c}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Investigation_for_Consumer_Response__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField style="width: 100%" value="{!Case.if_no_why_is_there_no_consumer_response__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				
+				<apex:outputText value="" />
+				<apex:outputText value="" />
+				<apex:outputText value="" /> 
+
+				<apex:inputField value="{!Case.Complaint_Resolution__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField value="{!Case.Consumer_Satisfied__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField style="width: 100%" value="{!Case.If_no_explain__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				
+				<apex:outputText value="" /> 
+				<apex:outputText value="" />
+				<apex:outputText value="" /> 
+				
+				<!-- <apex:inputField value="{!Case.Product_Complaint_Refund_Type__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/> -->
+				<apex:inputField value="{!Case.Total_Refund_Amount__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				<apex:inputField style="width: 100%" value="{!Case.Refund_Notes__c}" rendered="{! isClassI || isClassIINon || isClassII || isClassIII}"/>
+				
+				<apex:outputText value="" />
+				
+				<apex:inputField value="{!Case.Coupon_Quantity__c}"/>
+				<apex:inputField value="{!Case.Coupon_Amount__c}"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel styleClass="">
+			<apex:pageBlockSection id="indemnificationInformation" title="Indemnification Information" columns="2" collapsible="true">
+				<apex:inputField value="{!Case.Identification_Sent__c}" label="Indemnification Sent?"/>
+				<apex:inputField value="{!Case.Identification_Received__c}" label="Indemnification Received?"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="webToCaseInformation" rendered="{!isWebCase}" styleClass="">
+			<apex:pageBlockSection title="Web to Case Information" columns="2" collapsible="true">
+				<apex:outputField value="{!Case.Web_Form_Comments__c}"/>
+				<apex:outputField value="{!Case.Web_Form_Email__c}"/>
+				<apex:outputField value="{!Case.Web_Form_First_Name__c}"/>
+				<apex:outputField value="{!Case.Web_Form_Last_Name__c}"/>
+				<apex:outputField value="{!Case.Web_Form_Subject_Formula__c}"/>
+				<apex:outputField value="{!Case.Web_Form_Subject__c}"/>
+				<apex:outputField value="{!Case.Web_Product_Name__c}"/>
+				<apex:outputField value="{!Case.Web_Product_Number__c}"/>
+				<apex:outputField value="{!Case.Web_Product_Location__c}"/>
+				<apex:outputField value="{!Case.Web_Retailer_Name__c}"/>
+				<apex:outputField value="{!Case.Web_Job_Title__c}"/>
+				<apex:outputField value="{!Case.Web_Retailer_Name__c}"/> 
+				<apex:outputField value="{!Case.Web_UPC__c}"/>
+				<apex:outputField value="{!Case.Web_Lot_Code__c}"/>  
+				<apex:outputField value="{!Case.Web_Contact_Type__c}"/>
+				<apex:outputField value="{!Case.Web_Product_Location__c}"/>
+				<apex:outputField value="{!Case.Did_a_Consumer_prompt_your_web_case__c}"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="EmailToCaseInformation" rendered="{!isEmailCase}" styleClass="">
+			<apex:pageBlockSection title="Email to Case Information" columns="2" collapsible="true">
+				<apex:outputField value="{!Case.Original_To__c}"/>
+				<apex:outputField value="{!Case.Original_From__c}"/>
+				<apex:outputField value="{!Case.Subject}"/>
+				<apex:outputField value="{!Case.Description}"/>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+
+		<apex:outputPanel styleClass="">
+			<apex:pageBlockSection id="additionalInformation" title="Additional Information" columns="2" collapsible="true">
+				<apex:inputField style="width: 50%" value="{!Case.Internal_Notes__c}"/>
+				<apex:outputpanel layout="inline">
+				<apex:outputText value="Internal Comments" style="padding-right:2cm;padding-right: 1cm;font-size: 91%;font-weight: bold;color: #4a4a56;vertical-align: top;"/> 
+				<apex:inputTextArea id="caseInternalComments" value="{!Comment}" cols="50" rows="6" />
+				</apex:outputpanel>
+				<apex:inputField value="{!Case.Contact}"/>
+				
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		
+				<apex:actionFunction name="addCategory" action="{!compileSelectedCategory}" reRender="multiCategories" immediate="true">
+					<apex:param name="category" value="" />
+					<apex:param name="categoryComplaintType" value=""/>
+				</apex:actionFunction>
+				<apex:actionFunction name="removeCategory" action="{!removeCategory}" reRender="multiCategories" immediate="true">
+					<apex:param name="removeCategory" value="" />
+				</apex:actionFunction>
+				<apex:actionFunction name="addSubcategory" action="{!compileSelectedSubcategory}" reRender="multiSubcategories" immediate="true">
+					<apex:param name="subcategory" value="" />
+					<apex:param name="complaintType" value="" />
+				</apex:actionFunction>
+				<apex:actionFunction name="removeSubcategory" action="{!removeSubcategory}" reRender="multiSubcategories" immediate="true">
+					<apex:param name="removeSubcategory" value="" />
+				</apex:actionFunction>
+			 </apex:outputPanel>
+		<apex:pageBlockButtons location="both">
+				<apex:commandButton value="Save" action="{!saveICM}"/> 
+				<apex:commandButton value="Cancel" action="{!cancel}" immediate="true"/>  
+			</apex:pageBlockButtons>
+			
+	</apex:pageBlock></apex:form>
+</apex:page>

@@ -1,0 +1,59 @@
+<apex:component >
+<style>
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid; 
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+<apex:attribute access="public" name="loyaltyController" description="Loyalty Controller" type="LoyaltySnippetController" required="true" />
+<apex:pageBlock id="theBlock" >
+			<apex:outputPanel id="parentPanel">
+				<apex:outputPanel id="tablePanel" rendered="{!loyaltyController.showLoyalty}">
+				<apex:outputPanel id="responsePanel" rendered="{!loyaltyController.response!=null}">
+					<table class="gridtable">
+						<tr><td>Billing Info</td><td>{!loyaltyController.formattedAddressLine1}</td></tr>
+						<tr><td>Points to Date</td><td>{!loyaltyController.currPoints}</td></tr>
+						<tr><td>Address Line 2</td><td>{!loyaltyController.formattedAddressLine2}</td></tr>
+						<tr><td>Address Line 3</td><td>{!loyaltyController.formattedAddressLine3}</td></tr>
+					
+					</table>
+					<br/>
+					<table class="gridtable">
+						<tr><th>Coupon Code</th><th>Status</th><th>Value</th><th>Expiration Date</th></tr>
+						<apex:repeat value="{!loyaltyController.coupons}" var="cpn">
+						<tr> 
+						<td>{!cpn.cpnDetail.code}</td>
+						<td>{!cpn.cpnDetail.status}</td>
+						<td>{!cpn.cpnDetail.amount}</td>
+						<td><apex:outputText value="{0,date,MM/dd/yyyy}"><apex:param value="{!cpn.expDate}" /> </apex:outputText></td>
+						</tr>
+						</apex:repeat>
+					</table>
+				
+				
+				</apex:outputPanel>
+				</apex:outputPanel>
+				<apex:outputPanel id="msgPanel" rendered="{!!loyaltyController.showLoyalty}">
+					<apex:outputText value="{!loyaltyController.msg}" />
+				</apex:outputPanel>
+			</apex:outputPanel>
+		</apex:pageBlock>
+</apex:component>

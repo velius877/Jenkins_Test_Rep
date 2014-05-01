@@ -1,0 +1,6 @@
+<apex:page showHeader="false" sidebar="false" controller="OrdersHistoryController" tabStyle="Case" action="{!retrieveOrdersDetails}">
+   
+    <apex:form >
+      
+    </apex:form>
+</apex:page>

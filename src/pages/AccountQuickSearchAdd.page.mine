@@ -1,0 +1,119 @@
+<apex:page standardController="Account"
+	extensions="AccountSearchAddController" title="Search and Add">
+    <apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+	<c:RecommendationComponent />
+
+	<script type="text/javascript">
+		function setFocusOnLoad() {
+		}
+
+
+		$(document).ready(function() {
+			// get the focused sub-tab object id and populate who/what    
+				sforce.console.setTabTitle('Account Search and Add');
+		});
+		// end of doc ready
+	</script>
+
+
+	<apex:form >
+		<div class="new-account">
+			<div class="new-account-search">
+				<h1>Quick Search and Add</h1>
+				<apex:pageMessages escape="false"/>
+				<apex:pageBlock mode="maindetail" id="criteria" rendered="{!showSearch}">
+					<apex:pageBlockButtons location="bottom" rendered="{!showSearch}">
+						<apex:commandButton value="Search" id="searchButton" styleclass="btn-primary"
+							action="{!doSearch}" />
+					</apex:pageBlockButtons>
+					
+				
+
+						<apex:pageBlockSection title="Search" columns="2"
+							collapsible="false" rendered="{!showSearch}">
+							<apex:pageBlockSectionItem >
+								<apex:outputLabel value="First Name" for="txtLastName" />
+								<apex:inputText value="{!inputFirstName}" id="txtFirstName" />
+							</apex:pageBlockSectionItem>
+							<apex:pageBlockSectionItem >
+								<apex:outputLabel value="Last Name" for="txtLastName" />
+								<apex:inputText value="{!inputLastName}" id="txtLastName" />
+							</apex:pageBlockSectionItem>
+							<apex:pageBlockSectionItem >
+								<apex:outputLabel value="Email" for="txtEmail" />
+								<apex:inputText value="{!inputEmail}" id="txtEmail" />
+							</apex:pageBlockSectionItem>
+							<apex:pageBlockSectionItem >
+								<apex:outputLabel value="Phone" for="txtPhone" />
+								<apex:inputText value="{!inputPhone}" label="Phone"
+									id="txtPhone" />
+							</apex:pageBlockSectionItem>
+							<apex:pageBlockSectionItem >
+								<apex:outputLabel value="Brand" for="accountRecTypeSearch" />
+								<apex:selectList styleClass="select-lg" id="accountRecTypeSearch" value="{!RecordTypeID}" size="1" label="Customer Type">
+								<apex:selectOption itemValue="" itemLabel="--All--"/>
+									<apex:selectOptions value="{!RecordTypeOptions}" />
+								</apex:selectList>
+							</apex:pageBlockSectionItem>
+						</apex:pageBlockSection>
+				</apex:pageBlock>
+				
+				<apex:outputPanel id="PanelResults" layout="block">
+					<apex:pageBlock mode="maindetail" rendered="{!showResults}">
+						<apex:pageBlockButtons location="bottom">
+							<apex:commandButton action="{!doAdd}" value="Add New" id="addButton" styleclass="btn-primary" />
+						</apex:pageBlockButtons>
+
+
+						<apex:pageBlockSection id="SearchResultSec" title="Results"
+							collapsible="false" columns="1">
+							<apex:pageBlockTable var="result"
+								value="{!searchResult}">
+								<apex:column style="max-width:200px">
+									<apex:facet name="header">Name</apex:facet>
+									<apex:commandLink value="{!result.Name}" action="{!doRedirect}" reRender="dummy">
+										<apex:param name="selectedAccount" value="{!result.Id}"
+											assignTo="{!selectedAccount}" />
+									</apex:commandLink>
+								</apex:column>
+
+								<apex:column headerValue="Phone" value="{!result.Phone}" />
+								<apex:column headerValue="Email" value="{!result.PersonEmail}" />
+								<apex:column headerValue="Brand" value="{!result.RecordType.Name}" />
+							</apex:pageBlockTable>
+						</apex:pageBlockSection>
+					</apex:pageBlock>
+					</apex:outputpanel> 
+					<apex:outputpanel id="PanelAdd" layout="block">
+						<apex:pageBlock mode="maindetail"  rendered="{!showAdd}" >
+							<apex:pageBlockButtons location="bottom">
+							<apex:commandButton action="{!doCancel}" value="cancel" styleclass="btn-secondary disabled" immediate="true" />
+								<apex:commandButton action="{!dosave}" value="Save" styleclass="btn-primary"/>
+								
+							</apex:pageBlockButtons>
+
+							<apex:pageBlockSection id="createAccount" rendered="{!showAdd}" title="Create New" collapsible="false"
+								columns="2">
+								<apex:pageBlockSectionItem ><apex:outputLabel value="Brand" for="txtLastName" />
+									<apex:selectList id="accountRecType" value="{!RecordTypeID}"
+										size="1" required="true" label="Customer Type">
+										<apex:selectOption itemValue="" itemLabel="--Select One--" />
+										<apex:selectOptions value="{!RecordTypeOptions}" />
+									</apex:selectList>
+								</apex:pageBlockSectionItem>
+								<apex:pageBlockSectionItem />
+								<apex:pageBlockSectionItem ><apex:outputLabel value="First Name" for="acctFirstName" /><apex:inputtext id="acctFirstName" value="{!acct.firstName}" />
+								</apex:pageBlockSectionItem>
+								<apex:pageBlockSectionItem ><apex:outputLabel value="Last Name" for="acctlastName" /><apex:inputtext required="true" id="acctlastName"
+									value="{!acct.lastName}" />
+									</apex:pageBlockSectionItem>
+								<apex:pageBlockSectionItem ><apex:outputLabel value="Email" for="acctEMail" /><apex:inputField id="acctEMail" value="{!acct.PersonEmail}" /></apex:pageBlockSectionItem>
+								<apex:pageBlockSectionItem ><apex:outputLabel value="Phone" for="acctPhone" /><apex:inputField id="acctPhone" value="{!acct.Phone}" /></apex:pageBlockSectionItem>
+							</apex:pageBlockSection>
+						</apex:pageBlock>
+					</apex:outputpanel>
+			</div>
+		</div>
+	</apex:form>
+
+</apex:page>

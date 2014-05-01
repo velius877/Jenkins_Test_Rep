@@ -1,0 +1,20 @@
+<apex:component >
+
+<apex:attribute access="public" name="profileController" description="Controller for Payment Profiles to Display Tokens" type="AccountPaymentProfileController" required="true" />
+	
+			<apex:pageBlock >
+			<apex:pageBlockTable value="{!profileController.lstPaymentTokens}" var="Recpmt">
+			<apex:column >
+					<apex:commandLink value="Delete" onClick="showProgressBar('Deleting Payment.  Please Wait....');" onComplete="hideProgressBar();" action="{!profileController.DeleteToken}" reRender="TokenForm"> 
+							<apex:param name="deltokenid" value="{!Recpmt.TokenId}" />
+					</apex:commandLink>
+			  </apex:column>
+				<apex:column headerValue="Name on Card" value="{!Recpmt.name}"/>
+				<apex:column headerValue="Credit Card Type" value="{!Recpmt.creditcardType}"/>
+				<apex:column headerValue="Expiration Date" value="{!Recpmt.creditcardExpiry}"/>
+				<apex:column headerValue="Payment Token" value="{!Recpmt.TokenId}"/>
+				<apex:column headerValue="Address" value="{!Recpmt.Address}"/>
+			</apex:pageBlockTable>
+			</apex:pageBlock>
+	
+</apex:component>

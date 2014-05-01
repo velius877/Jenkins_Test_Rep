@@ -1,0 +1,56 @@
+<apex:page standardController="Orders__c" extensions="Order_EditOverride" action="{!redirect}">
+
+	<c:jQueryInit />
+	<script>
+
+		var j$ = jQuery.noConflict();
+			var subTabToClose;
+			var objectPrefix;
+			var primaryTabId;
+			var showTabId = function showTabId(result) {
+				//alert ('TabToClose ID: ' + result.id);
+				subTabToClose = result.id;
+				sforce.console.openSubtab(primaryTabId , '{!redirectStr}', true, '{!orderName}' , subTabToClose , openSuccess);
+			}; 
+			
+			var openSuccess = function openSuccess(result) {
+				//Report whether we succeeded in opening the subtab
+				//sforce.console.closeTab(subTabToClose);
+			};
+			
+			var closeOriginal = function closeOriginal(result) {
+				sforce.console.closeTab(subTabToClose);
+			}
+			
+			var openSubtab2 = function openSubtab2(result) {
+				//alert('primaryId ' + result.id);
+				if(objectPrefix != null && objectPrefix == 0){
+					//alert('1 ' + objectPrefix);
+					sforce.console.getFocusedSubtabId(showTabId);
+					primaryTabId = result.id;
+					//sforce.console.openSubtab(primaryTabId , '{!redirectStr}', true, '{!orderObj.name}' , null , openSuccess);
+				} else {
+					//alert('2 ' + objectPrefix);
+					subTabToClose = result.id;
+					sforce.console.openPrimaryTab(null, '{!redirectStr}', true, '{!orderObj.name}', closeOriginal, '{!orderName}');
+				}
+			};
+				
+			var showObjectId = function showObjectId(result) {
+				// Display the object ID
+				//alert ('Object ID: ' + result.id);
+				objectPrefix = result.id.search('001');
+			};
+
+		j$(document).ready(function() {
+			sforce.console.getEnclosingPrimaryTabObjectId(showObjectId);
+			sforce.console.getEnclosingPrimaryTabId(openSubtab2);
+		});
+	</script>
+	
+	<apex:outputPanel id="PanelError" layout="block">
+				<apex:pageMessages escape="false"/>
+	</apex:outputPanel>
+	
+		
+</apex:page>

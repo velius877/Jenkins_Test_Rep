@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Child object of Order Line Items, contains status updates from AS400</description>
+    <enableActivities>false</enableActivities>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Credit_Rejected__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Credit Rejected?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Current_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Current Item</label>
+        <referenceTo>Item__c</referenceTo>
+        <relationshipLabel>Order Line Item Status Details (Current Item)</relationshipLabel>
+        <relationshipName>Order_Line_Item_Status_Details1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Current_Quantity__c</fullName>
+        <description>Current Quantity</description>
+        <externalId>false</externalId>
+        <label>Current Quantity</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Sku__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Sku</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Status_Code__c</fullName>
+        <description>2 Digit AS400 status code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>2 Digit AS400 status code</inlineHelpText>
+        <label>Current Status Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Status__c</fullName>
+        <description>SFDC Status Value</description>
+        <externalId>false</externalId>
+        <label>Current Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>IN PROGRESS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PENDING MERCHANT ACTION</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SHIPPED</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CANCELLED</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Disposition_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Disposition Number</label>
+        <length>250</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Free_Item__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Free Item?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>IsLineSplit__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Signifies if the update was part of a line split.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Signifies if the update was part of a line split.</inlineHelpText>
+        <label>Is Line Split</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Order_Line_Item__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Order Line Item</label>
+        <referenceTo>Order_Line_Items__c</referenceTo>
+        <relationshipLabel>Order Line Item Status Details</relationshipLabel>
+        <relationshipName>Order_Line_Item_Status_Details</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Order_Status_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Status Code</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Status_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Status Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Status</label>
+        <length>200</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <referenceTo>Orders__c</referenceTo>
+        <relationshipLabel>Order Line Item Status Details</relationshipLabel>
+        <relationshipName>Order_Line_Item_Status_Details</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Previous_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Previous Item</label>
+        <referenceTo>Item__c</referenceTo>
+        <relationshipLabel>Order Line Item Status Details</relationshipLabel>
+        <relationshipName>Order_Line_Item_Status_Details</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Previous_Quantity__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous Quantity</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_Sku__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous Sku</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_Status_Code__c</fullName>
+        <description>Previous State of status code</description>
+        <externalId>false</externalId>
+        <label>Previous Status Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Previous Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>IN PROGRESS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PENDING MERCHANT ACTION</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SHIPPED</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CANCELLED</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Shipper__c</fullName>
+        <description>Name of Shipping carrier</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Name of Shipping carrier</inlineHelpText>
+        <label>Shipper</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sync_In_Progress__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Sync In Progress</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Synced__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Synced</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Time_Stamp__c</fullName>
+        <description>Records Time Stamp for each update transaction</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Records Time Stamp for each update transaction</inlineHelpText>
+        <label>Time Stamp</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Tracking_Link__c</fullName>
+        <externalId>false</externalId>
+        <label>Tracking Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Tracking_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Tracking Number</label>
+        <length>30</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Order Line Item Status Detail</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Order__c</columns>
+        <columns>Order_Line_Item__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Status_Code__c</columns>
+        <columns>Current_Item__c</columns>
+        <columns>Current_Status__c</columns>
+        <columns>Current_Sku__c</columns>
+        <columns>Current_Status_Code__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>0{0000000000}</displayFormat>
+        <label>Status Detail Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Order Line Item Status Details</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Order_Status__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Order_Status_Code__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Order_Line_Item__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Shipper__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Tracking_Number__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>Order_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Order_Status_Code__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Order_Line_Item__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Shipper__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Tracking_Number__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

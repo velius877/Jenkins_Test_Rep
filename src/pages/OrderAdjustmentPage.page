@@ -1,0 +1,165 @@
+<apex:page standardController="Order_Adjustment__c" showHeader="false" sidebar="false" extensions="OrderAdjustmentController" tabStyle="Order_Adjustment__c">
+	<c:jQueryInit bLoadingPanel="true"/>
+		<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}" />
+	<style>
+		 .scrollable_section {  
+			min-height: 0px;
+			max-height: 400px;
+			overflow:auto;
+			width:100%;
+		  }
+		  body .bPageBlock .pbBody .labelCol {
+		  	white-space: nowrap;
+		  }
+	</style>
+	<apex:includeScript value="/support/console/27.0/integration.js"/>
+	<script type="text/javascript">
+	   
+		var j$ = jQuery.noConflict();
+		
+		j$(document).ready(function() {
+			setTabTitle('{!Order_Adjustment__c.name}');
+			sforce.console.getEnclosingPrimaryTabId(enclosingPrimaryTabId);
+		});
+		
+		function enclosingPrimaryTabId(result)
+		{
+			primaryTabId = result.id;
+		}
+		
+		//Set the current tab title
+		function setTabTitle(title) {
+			if(title.length > 0)
+			   sforce.console.setTabTitle(title);
+			else
+			   sforce.console.setTabTitle('New Order Adjustment'); 
+		}
+	   
+		function redirectTo(pageLink,adjId,adjName,hasErrors)
+		{
+			if(adjId.length > 0 && hasErrors == false) // To redirect only when record saved successfully.
+			{
+				//setTabTitle(adjName);
+				window.location.href = pageLink;
+			}
+		}
+	 
+		//close Subtab
+		function closeTab() {
+			sforce.console.getEnclosingTabId(closeSubtab);
+		}
+		
+		var closeSubtab = function closeSubtab(result) {
+			var tabId = result.id;
+			sforce.console.closeTab(tabId);
+		};
+		
+		//Open sub tab
+		function openSubTab(url) {
+			urlString = url;
+			sforce.console.openSubtab(primaryTabId ,urlString ,false);
+		}
+	   
+	</script>
+	 
+	 <apex:form >
+	   
+		<apex:actionFunction action="{!renderComponents}" name="renderMainPanelFn" reRender="mainPanel" status="processingStatus" />
+			<apex:outputpanel id="mainPanel">
+				<apex:pageMessages />
+				<table width="100%" valign="top">
+					<tr valign="top">
+						<td valign="top" > 
+							 <apex:pageBlock rendered="{!renderOrderAdjFrom}" title="Order Adjustment Details" id="mainPgBlock">
+								 <apex:pageBlockButtons >
+									 
+											<apex:outputPanel >
+												<apex:commandButton styleClass=" btn btn-primary" action="{!createOrderAdjustment}" value="Save" reRender="mainPanel" 
+																	disabled="{!if(orderAdj.Status__c = 'Processed',true,false)}" />
+												<apex:commandButton styleClass=" btn btn-secondary disabled" value="Cancel" onclick="closeTab();" reRender="dummy"/>
+											</apex:outputPanel>
+									
+								</apex:pageBlockButtons>
+					
+								<apex:pageBlockSection columns="1">
+									<apex:outputpanel rendered="{!if(relatedOrder.Id != null,true,false)}">
+										 Related Order:&nbsp;&nbsp;&nbsp;<apex:outputLink id="relOrderLink" value="javascript:void(0);" onclick="openSubTab('/{!relatedOrder.Id}');" >{!relatedOrder.Name}</apex:outputLink>
+									</apex:outputpanel>
+									<apex:outputpanel rendered="{!if(relatedOrder.Id != null,false,true)}">
+										 Related Order Number:&nbsp;&nbsp;&nbsp;<apex:outputtext id="relOrderName" value="{!orderAdj.Salesforce_Order_Number__c}"/>
+									</apex:outputpanel>
+									<apex:outputpanel >
+										 Related Customer:&nbsp;&nbsp;&nbsp;<apex:outputLink id="relCustLink" value="javascript:void(0);" onclick="openSubTab('/{!customer.Id}');" >{!customer.Name}</apex:outputLink>
+									</apex:outputpanel>
+									<apex:selectList value="{!orderAdj.RecordTypeId}" disabled="{!existingAdj}" styleClass="select-lg" multiselect="false" label="Select Type of Adjustment:" size="1" onchange="renderMainPanelFn();" >
+										 <apex:selectOptions value="{!AdjRecTypes}" />
+									</apex:selectList>
+									
+									<apex:pageBlockSection columns="1" rendered="{!showRefundFields}">
+										<apex:inputField styleClass="select-lg" value="{!orderAdj.Refund_Type__c}"  id="refundType" onchange="renderMainPanelFn();"/> 
+										<apex:inputfield label="Refund Amount" value="{!orderAdj.Refund_or_Misc_Amount__c}" id="refundAmt" rendered="{!IF(orderAdj.Status__c=='Error'||orderAdj.Status__c=='Approved',false, true)}"/>
+										<apex:outputfield label="Refund Amount" value="{!orderAdj.Refund_or_Misc_Amount__c}" id="refundAmtRo" rendered="{!IF(orderAdj.Status__c=='Error'||orderAdj.Status__c=='Approved',true, false)}"/>
+										<apex:selectList value="{!orderAdj.Payment_Method__c}" styleClass="select-lg" multiselect="false" id="refundmethod" label="REFUND METHOD:" size="1">
+											<apex:selectOptions value="{!RefundMethods}" />
+										</apex:selectList>
+										<apex:inputField styleClass="select-lg" value="{!orderAdj.Product_Return__c}" id="prReturn"/>
+										<!--   <apex:outputField styleClass="select-lg" value="{!orderAdj.Status__c}"  id="adjStatus"/> -->
+										<apex:inputField value="{!orderAdj.Return_Received__c}"  id="rtnRecieved"/>
+										<apex:inputField value="{!orderAdj.Return_Received_Date__c}"  id="recievedDate"/>
+									 </apex:pageBlockSection> 
+									 
+									 <apex:pageBlockSection columns="1" rendered="{!showMiscFields}" collapsible="false">
+										 <apex:selectList value="{!orderAdj.Payment_Method__c}" styleClass="select-lg" multiselect="false" id="miscMethod" label="MISC CHARGE METHOD" size="1" onchange="renderMainPanelFn();">
+											<apex:selectOptions value="{!MiscChargeMethods}" />
+										 </apex:selectList>
+										 <apex:inputField label="Miscellaneous Charge Amount" value="{!orderAdj.Refund_or_Misc_Amount__c}" id="miscAmt"/>
+										 <apex:variable value="{!if(orderAdj.Payment_Method__c = 'Credit Card',true,false) }" var="showccDetails"/>
+										 <apex:inputField styleClass="select-lg" value="{!orderAdj.Credit_Card_Type__c}" id="newccType" rendered="{!showccDetails}"/> 
+										 <apex:inputField value="{!orderAdj.Credit_Card_Number__c}" id="newccNum" style="width:275px;" rendered="{!showccDetails}"/> 
+										 <apex:inputField value="{!orderAdj.Credit_Card_Name__c}" id="newccName" style="width:275px;" rendered="{!showccDetails}"/> 
+										 <apex:inputField label="EXPIRATION DATE (YYYYMM)" value="{!orderAdj.Credit_Card_Expiration_Date__c}" id="newccExp" rendered="{!showccDetails}"/> 
+										 <apex:selectList value="{!orderAdj.Status__c}" rendered="{!OR(orderAdj.Payment_Method__c = 'Cash', orderAdj.Payment_Method__c = 'Check')}" styleClass="select-lg" multiselect="false" id="miscstatus" label="MISC CHARGE STATUS:" size="1">
+											<apex:selectOptions value="{!MiscChargeStatus}" />
+										 </apex:selectList>
+										 
+									 </apex:pageBlockSection> 
+								   
+									 <apex:pageBlockSection rendered="{!showLineItems}" columns="1" title="Choose the Order Line Items by checking them." collapsible="false">
+										 <apex:outputpanel >
+											 <br/>
+											 <div class="scrollable_section">
+												 <apex:pageMessage summary="No Line items found to Refund." severity="warning"  strength="2" rendered="{!adjlineItemsList.size<=0}"/>
+												 <apex:pageBlockTable width="50%" value="{!adjlineItemsList}" var="li"  rendered="{!adjlineItemsList.size>0}">
+														 <apex:column headerValue="Name" value=" {!li.Item_Name__c}"/> 
+														 <apex:column headerValue="SKU Number" value=" {!li.SKU_Number__c}"/>
+														 <apex:column headerValue="Quantity" value=" {!li.Quantity__c}"/> 
+														 <apex:column headerValue="Final Price" value=" {!li.Amount__c}"/> 
+														 <apex:column headerValue="Action"> 
+															 <apex:inputField value="{!li.isChecked__c}" id="ischeckedLi" /> 
+														 </apex:column>  
+												 </apex:pageBlockTable>
+											 </div>
+										 </apex:outputpanel>
+									 </apex:pageBlockSection>
+								 </apex:pageBlockSection>	
+							</apex:pageBlock>
+						</td>
+						<td valign="top"  >
+							<apex:pageBlock title="Order Details">
+								<apex:pageBlockSection columns="1" collapsible="false">
+									<apex:outputfield value="{!orderAdj.Related_Order_Payment_Type__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_Payment_Amount__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_SubTotal__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_Discount_Amount__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_Shipping_Amount__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_Tax_Amount__c}"/>
+									<apex:outputfield value="{!orderAdj.Related_Order_Amount__c}"/>
+								</apex:pageBlockSection>
+						   </apex:pageBlock>
+						</td>
+					</tr>
+				</table>
+			   
+			</apex:outputpanel>
+		</apex:form>
+</apex:page>

@@ -1,0 +1,57 @@
+<apex:page standardController="Case" showHeader="false" sidebar="false" extensions="NewCaseController" action="{!init}" tabStyle="Case" >
+<c:jQueryInit />
+<apex:includeScript value="/support/console/27.0/integration.js"/>
+	<script type="text/javascript">
+		var j$ = jQuery.noConflict();
+		
+		j$(document).ready(function() {
+			testSetTabTitle();
+		});
+		
+		function testSetTabTitle() {
+			//Set the current tab's title
+			sforce.console.setTabTitle('Case');
+		}
+		
+		function closeTab(){
+			sforce.console.getEnclosingTabId(closeSubtab);
+		}			
+		var closeSubtab = function closeSubtab(result) {
+			//Now that we have the tab ID, we can close it
+			var tabId = result.id;
+			sforce.console.closeTab(tabId);
+		};
+		
+	</script>
+	
+	<apex:form >
+		<apex:outputPanel id="parentPanel">
+			
+			<apex:sectionHeader title="Set Case Record Type" subTitle="New Case" />
+			<apex:outputText value="Use this page to change the record type for this case. " />
+			<br />
+			<br />
+			<apex:outputText value="When changing the record type for a record, existing picklist values do not change automatically. We recommend updating existing picklist values on the record where appropriate." />
+			<br />
+			<br />
+			<apex:pageBlock id="theBlock" mode="edit">
+				<apex:pageBlockButtons location="bottom">
+					<apex:commandButton action="{!createNewCase}" value="Continue" id="saveButton" />
+					<apex:commandButton value="Cancel" id="cancelButton" onClick="closeTab();return false"/>
+				</apex:pageBlockButtons>
+				<apex:pageBlockSection columns="1" title="Select New Record Type" collapsible="false">
+					<!-- <apex:outputText value="{!Case.CaseNumber}" /> -->
+					<!-- <apex:outputText value="{!Case.RecordType.Name}" /> -->
+					<apex:selectList value="{!selectedrecType}" multiselect="false" label="New Record Type" size="1">
+						<apex:selectOptions value="{!RecTypes}" />
+					</apex:selectList>
+				</apex:pageBlockSection>
+			</apex:pageBlock>
+			<apex:outputPanel id="closeTabPanel" rendered="{!closeTab}" >
+				<script type="text/javascript">
+					
+				</script>
+			</apex:outputPanel>
+		</apex:outputPanel>
+	</apex:form>
+</apex:page>

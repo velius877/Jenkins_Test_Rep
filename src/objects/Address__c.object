@@ -1,0 +1,1506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>APO_Zip_Code__c</fullName>
+        <description>Army Post Office Zip Code for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Army Post Office Zip Code for the Customer&apos;s Address</inlineHelpText>
+        <label>APO Zip Code</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Address_Line_1__c</fullName>
+        <description>First Line of Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>First Line of the Address for the Customer&apos;s Address</inlineHelpText>
+        <label>Address Line 1</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Line_2__c</fullName>
+        <description>The second line of the Customer&apos;s address</description>
+        <externalId>false</externalId>
+        <label>Address Line 2</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Line_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Address Line 3</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Line_4__c</fullName>
+        <externalId>false</externalId>
+        <label>Address Line 4</label>
+        <length>200</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Nickname__c</fullName>
+        <description>The nickname for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field can be used to distinguish a Customer&apos;s various addresses by nickname.</inlineHelpText>
+        <label>Address Nickname</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address_Type__c</fullName>
+        <description>Type of address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field can be used to designate a Customer&apos;s address as either Billing or Shipping</inlineHelpText>
+        <label>Address Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Billing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Shipping</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>City__c</fullName>
+        <description>City for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>City for the Customer&apos;s Address</inlineHelpText>
+        <label>City</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Company__c</fullName>
+        <externalId>false</externalId>
+        <label>Company</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Country_Picklist__c</fullName>
+        <externalId>false</externalId>
+        <label>Country</label>
+        <picklist>
+            <picklistValues>
+                <fullName>UNITED STATES</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AFGHANISTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ALBANIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ALGERIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AMERICAN SAMOA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ANDORRA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ANGOLA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ANGUILLA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ANTIGUA &amp; BARBUDA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ARGENTINA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ARMENIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ARUBA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ASCENSION</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AUSTRALIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AUSTRIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AZERBAIJAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AZORES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BAHAMAS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BAHRAIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BANGLADESH</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BARBADOS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BELARUS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BELGIUM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BELIZE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BENIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BERMUDA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BHUTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BOLIVIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BONAIRE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BOSNIA AND HERZEGOVINA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BOTSWANA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BRAZIL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BRITISH VIRGIN ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BRUNEI DARUSSALAM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BULGARIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BURKINA FASO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BURMA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>BURUNDI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAMBODIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAMEROON</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CANADA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAPE VERDE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAYMAN ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CHAD</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CHANNEL ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CHILE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CHINA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COLOMBIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COMOROS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CONGO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COOK ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CORSICA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>COSTA RICA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CROATIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CUBA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CURACAO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CYPRUS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CZECH REPUBLIC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DENMARK</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DJIBOUTI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DOMINICA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>DOMINICAN REPUBLIC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EAST TIMOR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ECUADOR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EGYPT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EL SALVADOR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ENGLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EQUATORIAL GUINEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ERITREA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ESTONIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ETHIOPIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FALKLAND ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FAROE ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FED. STATES OF MICRONESIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FIJI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FINLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FRANCE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FRENCH GUIANA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>FRENCH POLYNESIA (TAHITI)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GABON</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GAMBIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GEORGIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GERMANY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GHANA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GIBRALTAR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GREECE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GREENLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GRENADA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUADELOUPE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUAM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUATEMALA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUINEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUINEA-BISSAU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>GUYANA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>HAITI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>HONDURAS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>HONG KONG</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>HUNGARY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ICELAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>INDIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>INDONESIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>IRAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ISRAEL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ITALY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>IVORY COAST (COTE D&apos;IVOIRE)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JAMAICA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JAPAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JORDAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KAMPUCHEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KAZAKHSTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KENYA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KIRIBATI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KOSOVO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KOSRAE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KUWAIT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>KYRGYZSTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LAOS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LATVIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LEBANON</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LESOTHO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LIBERIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LIECHTENSTEIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LITHUANIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LUXEMBOURG</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MACAU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MACEDONIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MADAGASCAR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MADEIRA ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALAWI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALAYSIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALDIVES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALI</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MALTA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MARSHALL ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MARTINIQUE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MAURITANIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MAURITIUS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MEXICO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MONACO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MONGOLIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MONTSERRAT</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MOROCCO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MOZAMBIQUE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NAMIBIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NAURU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NEPAL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NETHERLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NETHERLANDS ANTILLES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NEW CALEDONIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NEW ZEALAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NICARAGUA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NIGER</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NIGERIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NORFOLK ISLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NORTH KOREA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NORTHERN IRELAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NORTHERN MARIANA ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NORWAY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>OMAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PAKISTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PALAU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PANAMA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PAPUA NEW GUINEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PARAGUAY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PERU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PHILIPPINES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PITCAIRN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>POLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PONAPE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PORTUGAL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>QATAR</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REP. OF SINGAPORE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REPUBLIC OF IRELAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REPUBLIC OF MOLDOVA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>REUNION</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ROMANIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ROTA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>RUSSIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>RWANDA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAINT CROIX (U.S. TERR.)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAINT HELENA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAINT LUCIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAINT PIERRE AND MIQUELON</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAINT VINCENT &amp; THE GRENADINES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAIPAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAMOA (INDEPENDENT)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAN MARINO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAO TOME AND PRINCIPE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SAUDI ARABIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SCOTLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SENEGAL</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SERBIA-MONTENEGRO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SEYCHELLES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SIERRA LEONE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SLOVAK REPUBLIC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SLOVENIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SOLOMON ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SOMALIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SOUTH AFRICA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SOUTH KOREA (ROK)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SPAIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SRI LANKA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST  EUSTATIUS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST BARTHELEMY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST KITTS &amp; NEVIS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST MAARTEN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST MARTIN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ST THOMAS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SUDAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SURINAME</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SWAZILAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SWEDEN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SWITZERLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>SYRIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TAIWAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TAJIKISTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TANZANIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>THAILAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TINIAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TOGO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TONGA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TRINIDAD AND TOBAGO</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TRUK</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TUNISIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TURKEY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TURKMENISTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TURKS &amp; CAICOS ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TUVALU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UGANDA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UKRAINE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UNION ISLAND</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UNITED ARAB EMIRATES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>URUGUAY</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UZBEKISTAN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VANUATU</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VATICAN CITY STATE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VENEZUELA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>VIETNAM</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>WALES</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>WALLIS &amp; FUTUNA ISLANDS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>YEMEN</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>YUGOSLAVIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ZAIRE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ZAMBIA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>ZIMBABWE</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Country__c</fullName>
+        <description>Country for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Country for the Customer&apos;s Address</inlineHelpText>
+        <label>Country</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Addresses</relationshipLabel>
+        <relationshipName>Addresses</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Delivery_Instructions__c</fullName>
+        <externalId>false</externalId>
+        <label>Delivery Instructions</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Foreign_Country_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Foreign Country Code</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Foreign_Postal_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Foreign Postal Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>International_Address__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This field denotes an international (Non-US) address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field denotes an international (Non-US) address</inlineHelpText>
+        <label>International Address?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>PO_Box__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This field denotes the address as a PO Box</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field denotes the address as a PO Box</inlineHelpText>
+        <label>PO Box?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Pending_Avalara_Response__c</fullName>
+        <defaultValue>true</defaultValue>
+        <externalId>false</externalId>
+        <label>Pending Avalara Response</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <externalId>false</externalId>
+        <label>Phone</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Bill_To_Address__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This designates the primary Billing address for the Customer.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box to designate that this address is the primary Billing address for the Customer.</inlineHelpText>
+        <label>Primary Bill To Address?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Ship_to_Address__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This designates the primary Shipping address for the Customer.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box to designate that this address is the primary Shipping address for the Customer.</inlineHelpText>
+        <label>Primary Ship To Address?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Residential_Commercial__c</fullName>
+        <externalId>false</externalId>
+        <label>Residential / Commercial</label>
+        <picklist>
+            <picklistValues>
+                <fullName>C-Commercial</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>R-Residential</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Standardized_Address__c</fullName>
+        <description>Customer ID + Address Line 1 + Address Line 2 + City + State + Postal Code + Country</description>
+        <externalId>true</externalId>
+        <label>Standardized Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>State_Providence__c</fullName>
+        <description>State or Province for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>State or Province for the Customer&apos;s Address</inlineHelpText>
+        <label>State/Province</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Validated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Validated?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Validation_Error_Reason__c</fullName>
+        <description>Stores validation error description from Avalara Address Validation service.</description>
+        <externalId>false</externalId>
+        <label>Validation Error Reason</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Validation_Override__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If this box is checked, validation service will not overwrite the address data</description>
+        <externalId>false</externalId>
+        <label>Validation Override</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Zip_Code_4__c</fullName>
+        <externalId>false</externalId>
+        <label>Zip Code 4</label>
+        <length>4</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Zip_Code__c</fullName>
+        <description>Zip Code for the Customer&apos;s Address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Zip Code for the Customer&apos;s Address</inlineHelpText>
+        <label>Zip Code</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Address</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Customer__c</columns>
+        <columns>Address_Line_1__c</columns>
+        <columns>State_Providence__c</columns>
+        <columns>City__c</columns>
+        <columns>Country__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>A-{0000}</displayFormat>
+        <label>Address Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Addresses</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Address_Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Address_Line_1__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>City__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>State_Providence__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Country_Picklist__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Zip_Code__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>Customer__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Address_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Address_Line_1__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>City__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>State_Providence__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Country_Picklist__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Zip_Code__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Address_Lines_NULL</fullName>
+        <active>true</active>
+        <description>The address lines 1-3 cannot all be blank.</description>
+        <errorConditionFormula>AND(
+ Address_Line_1__c = NULL,
+ Address_Line_2__c = NULL,
+ Address_Line_3__c = NULL
+)</errorConditionFormula>
+        <errorDisplayField>Address_Line_1__c</errorDisplayField>
+        <errorMessage>The address must have a value on lines 1, 2, or 3.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Canada_State_Code</fullName>
+        <active>true</active>
+        <description>Validates the Province Code for Canadian Addresses</description>
+        <errorConditionFormula>IF( 
+(AND(
+Country__c = &quot;CA&quot;, Country__c = &quot;CAN&quot;, Country__c = &quot;CANADA&quot;) ),
+( NOT (OR (State_Providence__c = &quot;AB&quot;,State_Providence__c = &quot;BC&quot;, State_Providence__c = &quot;MB&quot;, State_Providence__c = &quot;NB&quot;, State_Providence__c = &quot;NL&quot;, State_Providence__c = &quot;NT&quot;, State_Providence__c = &quot;NS&quot;, State_Providence__c = &quot;NU&quot;, State_Providence__c = &quot;ON&quot;, State_Providence__c = &quot;PE&quot;, State_Providence__c = &quot;QC&quot;, State_Providence__c = &quot;SK&quot;, State_Providence__c = &quot;YT&quot;))), NULL)</errorConditionFormula>
+        <errorDisplayField>State_Providence__c</errorDisplayField>
+        <errorMessage>For Canadian Addresses, there needs to be a valid 2 digit Province</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>City_NULL</fullName>
+        <active>true</active>
+        <description>The City cannot be blank for USA address.</description>
+        <errorConditionFormula>AND(City__c = NULL,
+    OR (Country__c = NULL, Country__c = &quot;US&quot;, Country__c = &quot;USA&quot;, Country__c = &quot;United States&quot;, Country__c = &quot;UNITED STATES,UNITES STATES OF AMERICA&quot;))</errorConditionFormula>
+        <errorDisplayField>City__c</errorDisplayField>
+        <errorMessage>The City cannot be blank for USA address.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Country_NULL</fullName>
+        <active>false</active>
+        <description>The Address must have a country.</description>
+        <errorConditionFormula>Country__c = NULL</errorConditionFormula>
+        <errorDisplayField>Country__c</errorDisplayField>
+        <errorMessage>The Address must include a Country</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Primary_Billing</fullName>
+        <active>true</active>
+        <description>If an address is designated &quot;Primary Billing&quot; Billing must be selected as address type.</description>
+        <errorConditionFormula>AND(
+Primary_Bill_To_Address__c = TRUE, 
+NOT( INCLUDES( Address_Type__c , &quot;Billing&quot;) ) )</errorConditionFormula>
+        <errorDisplayField>Address_Type__c</errorDisplayField>
+        <errorMessage>If a address has been designated &quot;Primary Bill To Address&quot; it must also be a &quot;Billing&quot; Address Type</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Primary_Shipping</fullName>
+        <active>true</active>
+        <description>If an address is designated &quot;Primary Ship To&quot;, Shipping must be selected as address type.</description>
+        <errorConditionFormula>AND(
+ Primary_Ship_to_Address__c  = TRUE, 
+NOT( INCLUDES( Address_Type__c , &quot;Shipping&quot;) ) )</errorConditionFormula>
+        <errorDisplayField>Address_Type__c</errorDisplayField>
+        <errorMessage>If a address has been designated &quot;Primary Ship To Address&quot; it must also be a &quot;Shipping&quot; Address Type</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>US_State_Code</fullName>
+        <active>true</active>
+        <description>If the Country is &quot;US&quot;, the Address must have a valid 2-digit State Code.</description>
+        <errorConditionFormula>IF( 
+AND(Country__c = &quot;US&quot;, Country__c = &quot;USA&quot;, Country__c = &quot;United States&quot;), NOT(OR(State_Providence__c = &quot;AK&quot;, State_Providence__c = &quot;AL&quot;, State_Providence__c = &quot;AR&quot;,State_Providence__c = &quot;AZ&quot;,State_Providence__c = &quot;CA&quot;,State_Providence__c = &quot;CO&quot;, State_Providence__c = &quot;CT&quot;, State_Providence__c = &quot;DC&quot;, State_Providence__c = &quot;DE&quot;, State_Providence__c = &quot;MO&quot;, State_Providence__c = &quot;MS&quot;, State_Providence__c = &quot;MT&quot;, State_Providence__c = &quot;NC&quot;,State_Providence__c = &quot;ND&quot;, State_Providence__c = &quot;NE&quot;, State_Providence__c = &quot;NH&quot;, State_Providence__c = &quot;NJ&quot;, State_Providence__c = &quot;NM&quot;, State_Providence__c = &quot;FL&quot;, State_Providence__c = &quot;GA&quot;, State_Providence__c = &quot;HI&quot;, State_Providence__c = &quot;IA&quot;, State_Providence__c = &quot;ID&quot;, State_Providence__c = &quot;IL&quot;, State_Providence__c = &quot;IO&quot;, State_Providence__c = &quot;NV&quot;, State_Providence__c = &quot;NY&quot;, State_Providence__c = &quot;OH&quot;, State_Providence__c = &quot;OK&quot;, State_Providence__c = &quot;OR&quot;, State_Providence__c = &quot;PA&quot;, State_Providence__c = &quot;PR&quot;, State_Providence__c = &quot;IN&quot;, State_Providence__c = &quot;KS&quot;,State_Providence__c = &quot;KY&quot;,State_Providence__c = &quot;LA&quot;, State_Providence__c = &quot;MA&quot;,State_Providence__c = &quot;MD&quot;,State_Providence__c = &quot;ME&quot;, State_Providence__c = &quot;MI&quot;, State_Providence__c = &quot;MN&quot;, State_Providence__c = &quot;RI&quot;,State_Providence__c = &quot;SC&quot;, State_Providence__c = &quot;SD&quot;, State_Providence__c = &quot;TN&quot;, State_Providence__c = &quot;TX&quot;, State_Providence__c = &quot;UT&quot;, State_Providence__c = &quot;VA&quot;, State_Providence__c = &quot;VI&quot;, State_Providence__c = &quot;WA&quot;, State_Providence__c = &quot;WV&quot;, State_Providence__c = &quot;WI&quot;, State_Providence__c = &quot;WY&quot;) ), NULL)</errorConditionFormula>
+        <errorDisplayField>State_Providence__c</errorDisplayField>
+        <errorMessage>If the Country is &quot;US&quot;, the Address must have a valid 2-digit State Code.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Zip_Code_NULL</fullName>
+        <active>true</active>
+        <description>The Zip Code cannot be blank for US address.</description>
+        <errorConditionFormula>AND(Zip_Code__c = NULL,
+    OR (Country__c = NULL, Country__c = &quot;US&quot;, Country__c = &quot;USA&quot;, Country__c = &quot;United States&quot;, Country__c = &quot;UNITED STATES,UNITES STATES OF AMERICA&quot;))</errorConditionFormula>
+        <errorDisplayField>Zip_Code__c</errorDisplayField>
+        <errorMessage>The Zip Code cannot be blank for USA address.</errorMessage>
+    </validationRules>
+</CustomObject>

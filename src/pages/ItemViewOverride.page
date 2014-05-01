@@ -1,0 +1,34 @@
+<apex:page standardController="Item__c" extensions="ItemViewController">
+	<c:jQueryInit bLoadingPanel="true"/> 
+	<apex:includeScript value="/support/console/22.0/integration.js"/>
+	<script type="text/javascript" src="{!URLFOR($Resource.orderWizard,'js/orderWizardScripts.js')}"></script>
+	<script>
+		var j$ = jQuery.noConflict();
+		
+		j$(document).ready(function() {
+			
+		});
+		
+		function dispAdminCancelConfirm() {
+			var r=confirm('Are you sure you want to cancel all orders for this SKU in AS400?');
+			if (r==true) {
+				showProgressBar('Attempting to Cancel Order... Please wait.');
+			
+			} else {
+				var a = 10;
+			}
+		}
+	</script>
+	
+	<apex:form id="ItemDetail">
+		<apex:outputPanel id="ButtonsPanel">
+		<apex:pageMessages id="error-msg" />
+			<center>
+				Effective Date:
+				<apex:inputText value="{!EffectiveDate}" id="theTextInput"/>
+				<apex:commandButton rendered="{!showCancel}" value="Bulk Cancel" id="CancelReasonBtn_Admin" action="{!BulkCancel}"/> 
+			</center>
+			</apex:outputPanel>
+			<apex:actionFunction name="editShippingBillingJs" rerender="ButtonsPanel,error-msg" action="{!BulkCancel}"   onComplete="hideProgressBar();" />
+	</apex:form>
+</apex:page>

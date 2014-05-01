@@ -1,0 +1,26 @@
+<apex:page standardController="Item__c" extensions="ProductP2PController" action="{!ShowP2PProducts}">
+<apex:includeScript value="/support/console/22.0/integration.js"/>
+<script type="text/javascript">
+	 var prodId;
+	
+	 function openOrderWizard(productId, custId)
+     {
+     	   prodId = productId;
+     	   alert('Cannot add to cart from here.');
+     	   //testOpenSubtab();    	    	
+     }
+     
+     function testOpenSubtab() {     		
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtabNew);						
+		}
+		
+		var openSubtabNew = function openSubtabNew(result) {		
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;			
+			sforce.console.openSubtab(primaryTabId , '/apex/orderwizard?prodId={!Id}&custid='+prodId, true, 'New Order');
+			 
+		};
+</script>
+<c:RecommendationComponent productList="{!productList}"/>
+</apex:page>

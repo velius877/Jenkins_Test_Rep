@@ -1,0 +1,271 @@
+<apex:page StandardController="Account" extensions="CILController" id="CILPage" > 
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+<style>
+	.clear_fix { clear:both; } body .bPageBlock .pbBody {
+		padding: 5px;
+	}
+	.customText{
+		font-size: 10px;
+	}
+</style>
+<c:jQueryInit />
+<apex:includeScript value="/support/console/26.0/integration.js"/>
+	
+	<script type="text/javascript">
+		
+		function setFocusOnLoad() {}
+		var j$ = jQuery.noConflict();
+		function resetTabs(){
+			j$(".tabs").tabs();
+		}
+	
+		j$(document).ready(function(){
+			resetTabs();
+			
+			// Prevent backspaces..
+            document.addEventListener('keydown', function(event) {
+			     var keycode = event.keyCode || event.charCode;
+			     var curElement = document.activeElement;
+			     var focusId = document.activeElement.id;
+		         if((focusId == null || focusId == '') && keycode == 8)
+			     {
+				    var choice = confirm("Do you really want to leave this page?  Your work will not be saved. Click Cancel to return to same page");
+					if(choice)
+				    {
+				 		
+				  	}
+					else
+				    {
+					    event.preventDefault();
+					}
+				 }
+				 
+			}, false);
+			
+			
+		});
+		
+		function setFocusOnLoad() {}
+		var j$ = jQuery.noConflict();
+		j$(function(){
+			var eventHandler = function (result){
+					window.setTimeout(function(){
+						sforce.console.getFocusedSubtabObjectId(function(result1){
+							//alert('1' + result1.id);
+							if (result1.id != 'null'){
+								setRecIdJS(result1.id);
+							}else{
+								window.setTimeout(function(){
+									sforce.console.getFocusedSubtabObjectId(function(result2){
+										//alert('2' + result2.id);
+										if (result2.id != 'null'){
+											setRecIdJS(result2.id);
+										}else{
+											window.setTimeout(function(){
+												sforce.console.getFocusedSubtabObjectId(function(result3){
+													//alert('3' + result3.id);
+													if (result3.id != 'null'){
+														setRecIdJS(result3.id);
+													}else{
+														window.setTimeout(function(){
+															sforce.console.getFocusedSubtabObjectId(function(result4){
+																//alert('4' + result4.id);
+																if (result4.id != 'null'){
+																	setRecIdJS(result4.id);
+																}else{
+																	window.setTimeout(function(){
+																		sforce.console.getFocusedSubtabObjectId(function(result5){
+																			if (result5.id != 'null'){
+																				setRecIdJS(result5.id);
+																			}
+																		});
+																	}, 1000);
+																}
+															});
+														}, 1000);
+													}
+												});
+											}, 800);
+										}
+									});
+								}, 800);
+							}
+						});
+					},500);				  
+				};
+				sforce.console.onFocusedSubtab(eventHandler);
+				
+				// get the focused sub-tab object id and populate who/what	
+				window.setTimeout(function(){					  
+				sforce.console.getFocusedSubtabObjectId(function(result){		
+					 if (result.id != 'null'){
+						 setRecIdJS(result.id);
+					 } 
+				});
+				}, 500);
+			 });
+	 var orderId;
+	 function cloneOrder(lastOrderId)
+	 {
+	 	   orderId = lastOrderId;
+	 	   testOpenSubtab();				
+	 }
+	 
+	 function testOpenSubtab() {	 		
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtabNew);						
+		}
+		
+		var openSubtabNew = function openSubtabNew(result) {		
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;			
+			sforce.console.openSubtab(primaryTabId , '/apex/order_editOverride?Id='+orderId+'&clone=1',true, 'New Order');
+			 
+		};
+		
+		
+	</script>
+
+	<apex:form >
+		 <div class="sidebar-wrapper">
+			<div class="sidebar">
+			
+				<div class="sidebar-orders">
+					<div class="tabs">
+					<ul>
+					   <li class="tab active"> <a href="#last-order" >Last Order</a></li>
+						<li class="tab"><a href="#order-history" >Order History </a></li>
+						<!-- <li class="tab"><a href="#order-status-update" >Order Status </a></li> -->
+						<span class="icon-refresh" onClick="refreshJs();"></span>
+						</ul>
+						
+						<div id="last-order" class="sidebar-last-order">
+						<apex:variable rendered="{!!bHasOrders}" value="{!lastOrder}" var="lo">
+							Customer has no orders
+						</apex:variable>
+							<apex:variable rendered="{!bHasOrders}" value="{!lastOrder}" var="lo">
+							<table>
+								<tr>
+									<td class="label"><apex:outputLabel value="Order Number: " for="name"/></td>
+									<td  style="vertical-align:bottom;" class="order-number"><apex:outputField value="{!lastOrder.Name}" id="name"/></td>
+								</tr>
+								<tr>
+									<td><apex:outputLabel value="Order Placed: " for="date"/></td>
+									<td style="vertical-align:bottom;" class="order-placed"><apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+							       <apex:param value="{!lastorder.Order_Date__c}" />
+							   </apex:outputText></td>
+								</tr>
+								<tr>
+									<td class="label"><apex:outputLabel value="Status: " for="status"/></td>
+									<td style="vertical-align:bottom;" class="order-status"><apex:outputField value="{!lastOrder.Order_Status__c}" id="status"/></td>
+								</tr>
+								<tr>
+									<td class="label"><apex:outputLabel value="Order Total: " for="total"/></td>
+									<td style="vertical-align:bottom;" class="order-total"><apex:outputField value="{!lastOrder.Order_Total__c}" id="total"/></td>
+								</tr>
+							</table>
+							<div class="sidebar-last-order-item-list">
+								<ul>
+									<apex:repeat value="{!lastOrderItems}" var="items" >
+									<li>
+										<strong><apex:outputField value="{!items.Product_Name__r.Name}"/></strong><br />
+										<strong class="order-number">{!items.Product_Name__r.Product_Number__c}</strong>
+										<span><span class="price">Price:</span><apex:outputField value="{!items.Final_Price__c}" /></span>
+										<span><span class="quantity">Qty:</span><apex:outputField value="{!items.Product_Quantity__c}" /></span>
+									</li>
+									</apex:repeat>
+								</ul>
+								  <center>
+								  	<apex:variable value="{!isLastOrderCancellable}" var="bcan" rendered="{!isLastOrderCancellable}"><input type="button" class="btn btn-secondary rocker-last" value="Cancel" style="width:80px;" onClick="cancelOrderJs()" /></apex:variable>
+								  <input type="button"  style="width:80px;" class="btn btn-secondary rocker-last " value="Clone" onClick="cloneOrder('{!lastOrder.id}');" />
+								  </center>
+							</div> <!-- END sidebar-last-order-item-list -->
+							<apex:actionFunction name="cancelOrderJs" action="{!cancelOrder}" />
+							</apex:variable>
+							<div class="clear_fix"></div>
+							<hr />
+							
+						</div> <!-- END sidebar-last-order -->
+						
+						<div id="order-history" class="sidebar-order-history">
+							<apex:dataTable value="{!orderHistory}" var="ord" >
+							<apex:column >
+								<apex:facet name="header">Number</apex:facet>
+								<apex:outputField value="{!ord.Name}"/>
+							</apex:column>
+							<apex:column headerValue="Date" >
+
+							<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+							       <apex:param value="{!ord.Order_Date__c}" />
+							   </apex:outputText>
+						   </apex:column>
+							
+							<apex:column >
+								<apex:facet name="header">Status</apex:facet>
+								<apex:outputField value="{!ord.Order_Status__c}"/>
+							</apex:column>
+							<apex:column >
+								<apex:facet name="header">Total</apex:facet>
+								<apex:outputField value="{!ord.Order_Total__c}"/>
+							</apex:column>
+						</apex:dataTable>
+						</div> <!-- END sidebar-order-history -->
+						
+					</div> <!-- END Tabs -->
+				</div> <!-- END sidebar-orders -->
+				<br/>
+		<apex:pageBlock id="thePageBlock" mode="maindetail"> 
+			<apex:pageMessages />
+
+			<h2>Call Log</h2>
+			<apex:actionFunction action="{!setRecId}" name="setRecIdJS" reRender="whoField,whatField">
+				<apex:param name="selectedRecId" assignTo="{!selectedRecId}" value=""/> 
+			</apex:actionFunction>
+			
+			<apex:actionFunction action="{!saveWhoWhatId}" name="setWhoId" >
+				<apex:param name="whoId" assignTo="{!whoId}" value="whoField"/>
+			</apex:actionFunction>
+			
+			<apex:variable var="t" value="{!task}" />
+			<apex:outputPanel id="updateable">
+				<apex:outputLabel >Task</apex:outputLabel>
+				<span style="font-size:10px">{!t.CNX2__UniqueCallId__c}</span>
+				<!-- <apex:outputField style="font-size:10px" value="{!t.CNX2__UniqueCallId__c}" id="taskId"/> -->
+				<hr />
+				<apex:outputLabel >Subject</apex:outputLabel>
+				<!-- <apex:outputField style="font-size:10px"  value="{!t.Subject}" id="subject"/> -->
+				<span style="font-size:10px">{!t.Subject}</span>
+				<hr />
+				<apex:outputLabel >Customer</apex:outputLabel>
+				<apex:selectList value="{!whoId}" multiselect="false" size="1" 	id="whoField" onchange="setWhoId" styleClass="select-lg">
+					<apex:selectOptions value="{!whoList}"/>
+				</apex:selectList>
+				<hr />
+				<apex:outputLabel >Related To</apex:outputLabel>
+				<apex:selectList value="{!whatId}" multiselect="false" size="1" id="whatField" styleClass="select-lg">
+					<apex:selectOptions value="{!whatList}"/>
+				</apex:selectList>
+				<hr />
+				<apex:outputLabel >Call Driver</apex:outputLabel>
+				<apex:selectList value="{!callDriver}"  multiselect="false" size="1" id="callDriverField" styleClass="select-lg">
+					<apex:selectOptions value="{!callDriverList}"/>
+				</apex:selectList>
+				<hr/>
+				<label class="logLabel" for="desc">Notes</label><br/>
+				<apex:inputtextarea styleclass="description" id="desc" value="{!t.Description}" cols="70" rows="7" />
+				<hr/>
+				<apex:outputText value="{!statusMessage}" />
+			</apex:outputPanel>
+	
+		</apex:pageBlock>
+		
+		<center>
+			<apex:commandbutton action="{!callBothWhoWhat}" styleClass="btn btn-primary rocker-first" value="Update Call" rerender="updateable"/>
+			<apex:commandbutton action="{!save}" value="Complete Call"  styleClass="btn btn-secondary rocker-last" rerender="updateable" />
+		</center>
+		</div>
+		</div>
+		<apex:actionFunction name="refreshJs" action="{!dummyRefresh}"/>
+	</apex:form>
+
+</apex:page>

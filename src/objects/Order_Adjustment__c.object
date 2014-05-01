@@ -1,0 +1,1134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <content>OrderAdjustmentPage</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <content>OrderAdjustmentPage</content>
+        <skipRecordTypeSelect>true</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Use an Order Adjustment to process refunds on an order or add an additional miscellaneous charge to a customer order.</description>
+    <enableActivities>true</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>AS400_Order_Number__c</fullName>
+        <description>AS400 Order Number</description>
+        <externalId>false</externalId>
+        <label>AS400 Order Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_CVV__c</fullName>
+        <externalId>false</externalId>
+        <label>CVV</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Expiration_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Expiration Date</label>
+        <length>6</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Name on Card</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Number__c</fullName>
+        <description>Encrypted Credit Card Number for re-authorization.</description>
+        <externalId>false</externalId>
+        <label>Credit Card Number</label>
+        <length>50</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>creditCard</maskType>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Token__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Token</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>American Express</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Discover</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JCB</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MasterCard</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Customer__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Customer</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Order Adjustments</relationshipLabel>
+        <relationshipName>Order_Adjustments</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Error_Reason__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Error Reason for error-state orders sent from AS/400</inlineHelpText>
+        <label>Error Reason</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Origin__c</fullName>
+        <externalId>false</externalId>
+        <label>Origin</label>
+        <picklist>
+            <picklistValues>
+                <fullName>From Case</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>From Order</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>From Order History</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>PayPal_Reference_ID__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>System reference only</inlineHelpText>
+        <label>PayPal Reference ID</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Method__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Method</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Credit Card</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Existing Card</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PayPal</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Credit</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Product_Return__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Products worth $25 or more must be returned before issuing a refund.</inlineHelpText>
+        <label>Product Return</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Waiting for Product Return</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Product Return Received</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Refund_Type__c</fullName>
+        <description>A Full Refund totals the value of all Order Line Items to calculate the total refund amount. A Partial Refund totals the value only of the Order Line Items that the user selects.</description>
+        <externalId>false</externalId>
+        <label>Refund Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Full Refund</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Partial Refund</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Refund_or_Misc_Amount__c</fullName>
+        <description>Stores Amount that needed to be refund or any Miscellaneous charges.</description>
+        <externalId>false</externalId>
+        <label>Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Order Adjustment is related to this Case.</description>
+        <externalId>false</externalId>
+        <label>Related Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Order Adjustments</relationshipLabel>
+        <relationshipName>Order_Adjustments</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Discount_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Discount Amount</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Line_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Order Adjustment is being applied for these Order Line Items.</description>
+        <externalId>false</externalId>
+        <label>Related Order Line Item</label>
+        <referenceTo>Order_Line_Items__c</referenceTo>
+        <relationshipLabel>Order Adjustments</relationshipLabel>
+        <relationshipName>Order_Adjustments</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Payment_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Payment Amount</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Payment_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Payment Type</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Paypal_Transaction_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Paypal Transaction ID</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Shipping_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Shipping Amount</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_SubTotal__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order SubTotal</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Tax_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Tax Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Transaction_Ref_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Order Transaction Ref Number</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Order__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Select the Order that this Order Adjustment affects.</description>
+        <externalId>false</externalId>
+        <label>Related Order</label>
+        <referenceTo>Orders__c</referenceTo>
+        <relationshipLabel>Order Adjustments</relationshipLabel>
+        <relationshipName>Order_Adjustments</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Return_Received_Date__c</fullName>
+        <description>Date that the refunded product was received at NBTY.</description>
+        <externalId>false</externalId>
+        <label>Return Received Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Return_Received__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if the return has been received. If not, leave unchecked. (Only applicable for refunds of $25 or more) .</inlineHelpText>
+        <label>Return Received?</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Salesforce_Order_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Salesforce Order Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Awaiting Approval</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Waiting for Payment</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Waiting to Process</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Paid</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Reference_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Reference Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Stores the record type, even when record is process and flipped to Read Only</description>
+        <externalId>false</externalId>
+        <label>Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Misc. Charge</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Refund</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Web_Order_Number__c</fullName>
+        <description>Order Number from Web</description>
+        <externalId>false</externalId>
+        <label>Web Order Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Order Adjustment</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Error_OAs_Due_to_Order_Not_in_AS400</fullName>
+        <columns>NAME</columns>
+        <columns>Type__c</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>Error_Reason__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Error</value>
+        </filters>
+        <filters>
+            <field>Error_Reason__c</field>
+            <operation>equals</operation>
+            <value>Order is not in AS400</value>
+        </filters>
+        <label>Error OAs Due to Order Not in AS400</label>
+    </listViews>
+    <listViews>
+        <fullName>Error_state_Order_Adjustments</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Error_Reason__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Error</value>
+        </filters>
+        <label>Error-state Order Adjustments</label>
+    </listViews>
+    <listViews>
+        <fullName>Misc_Charges</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Order_Adjustment__c.Misc_Charge</value>
+        </filters>
+        <label>Misc. Charges</label>
+    </listViews>
+    <listViews>
+        <fullName>Misc_Charges_Awaiting_Payment</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Waiting for Payment</value>
+        </filters>
+        <label>Misc Charges Waiting for Payment</label>
+    </listViews>
+    <listViews>
+        <fullName>Refunds</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Order_Adjustment__c.Refund</value>
+        </filters>
+        <label>Refunds</label>
+    </listViews>
+    <listViews>
+        <fullName>Refunds_200</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Refund_or_Misc_Amount__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>USD 200</value>
+        </filters>
+        <filters>
+            <field>Refund_or_Misc_Amount__c</field>
+            <operation>lessThan</operation>
+            <value>USD 500</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Awaiting Approval</value>
+        </filters>
+        <label>Refunds $200+</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Supervisors_Refunds_200</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Refunds_500</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Refund_or_Misc_Amount__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>USD 500</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Awaiting Approval</value>
+        </filters>
+        <label>Refunds $500+</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Managers_Refunds_500</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Rejected_Refunds</fullName>
+        <columns>NAME</columns>
+        <columns>Refund_or_Misc_Amount__c</columns>
+        <columns>Payment_Method__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Related_Case__c</columns>
+        <columns>Related_Order__c</columns>
+        <columns>AS400_Order_Number__c</columns>
+        <columns>Salesforce_Order_Number__c</columns>
+        <columns>Web_Order_Number__c</columns>
+        <columns>Error_Reason__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Order_Adjustment__c.Refund</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Rejected</value>
+        </filters>
+        <label>Rejected Refunds</label>
+    </listViews>
+    <nameField>
+        <displayFormat>OA-{000000}</displayFormat>
+        <label>Order Adjustment Number</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Order Adjustments</pluralLabel>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Misc_Charge</fullName>
+        <active>true</active>
+        <description>Use this record type to add charges to a customer&apos;s credit card to complete payment for an existing order</description>
+        <label>Misc. Charge</label>
+        <picklistValues>
+            <picklist>Credit_Card_Type__c</picklist>
+            <values>
+                <fullName>American Express</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Discover</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>JCB</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MasterCard</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Origin__c</picklist>
+            <values>
+                <fullName>From Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order History</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Payment_Method__c</picklist>
+            <values>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Existing Card</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Product_Return__c</picklist>
+            <values>
+                <fullName>Product Return Received</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waiting for Product Return</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Refund_Type__c</picklist>
+            <values>
+                <fullName>Full Refund</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partial Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Customer Paid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waiting for Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waiting to Process</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Misc%2E Charge</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Read_Only</fullName>
+        <active>true</active>
+        <description>Read Only</description>
+        <label>Read Only</label>
+        <picklistValues>
+            <picklist>Credit_Card_Type__c</picklist>
+            <values>
+                <fullName>American Express</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Discover</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>JCB</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MasterCard</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Origin__c</picklist>
+            <values>
+                <fullName>From Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order History</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Payment_Method__c</picklist>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Customer Credit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PayPal</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Product_Return__c</picklist>
+            <values>
+                <fullName>Product Return Received</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waiting for Product Return</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Refund_Type__c</picklist>
+            <values>
+                <fullName>Full Refund</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partial Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Awaiting Approval</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Misc%2E Charge</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Refund</fullName>
+        <active>true</active>
+        <label>Refund</label>
+        <picklistValues>
+            <picklist>Credit_Card_Type__c</picklist>
+            <values>
+                <fullName>American Express</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Discover</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>JCB</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MasterCard</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Origin__c</picklist>
+            <values>
+                <fullName>From Case</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>From Order History</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Payment_Method__c</picklist>
+            <values>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Customer Credit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PayPal</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Product_Return__c</picklist>
+            <values>
+                <fullName>Product Return Received</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waiting for Product Return</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Refund_Type__c</picklist>
+            <values>
+                <fullName>Full Refund</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partial Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Awaiting Approval</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Misc%2E Charge</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Refund</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <excludedStandardButtons>New</excludedStandardButtons>
+        <searchResultsAdditionalFields>Related_Order__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>AS400_Order_Number__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Refund_or_Misc_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Customer__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATEDBY_USER</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>Require_Refund_Type</fullName>
+        <active>true</active>
+        <errorConditionFormula>IF(AND(RecordType.Name = &apos;Refund&apos;,ISPICKVAL( Refund_Type__c , &apos;&apos;)) , true,false)</errorConditionFormula>
+        <errorMessage>You must select Refund Type (Full or Partial) before creating a Refund.</errorMessage>
+    </validationRules>
+</CustomObject>

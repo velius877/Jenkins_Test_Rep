@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+		<members>CaseBatchProcess_Test</members>
+		<members>CaseBatchProcessOldPreCases</members>
+		<members>CaseBatchProcessOldPreCasesScheduler</members>
+		<members>CaseBatchProcessOldPreCasesSchedulerTest</members>
+		<members>CaseReadOnlyBatchProcess</members>
+		<members>OrderBatchProcessSchedule</members>
+		<members>OrdersBatchArchiveShipComplete</members>
+		<members>OrdersBatchArchiveShipCompleteSchedule</members>
+		<members>OrdersBatchProcess</members>
+		<members>OrdersBatchProcess_test</members>
+		<members>OrdersBatchProcessOldOpenOrders</members>
+		<members>OrdersBatchProcessOldOpenOrders_test</members>
+		<members>OrderStatusUpdates_WS</members>
+		<members>OrderStatusUpdates_ComplexTypes</members>
+		<members>OrderStatusUpdatesBatch</members>
+		<members>OrderStatusUpdatesScheduler</members>
+		<members>OrdersToCancelBatch</members>
+		<members>OrdersToCancelBatchSchedule</members>
+		<members>TestBatchsAndSchedulers</members>
+		<members>TestOrderStatusUpdates</members>
+		<members>OrdersBatch_UndeleteOrders</members>
+		<members>z_AddressCountryCodeBatch</members>
+		<members>z_Address_CorrectUSCountryBatch</members>
+		<members>z_Address_CorrectUSIntlBatch</members>
+		<members>z_OrderStatusLinesSFDCBatch</members>
+		<members>z_OrderStatusSFDCBatch</members>
+		<members>z_Order_MarkSubmitted</members>
+		<members>z_Order_UpdateOrderNumberBatch</members>
+		<members>z_RemoveDupAddresses</members>
+        <name>ApexClass</name>
+    </types>
+	<version>29.0</version>
+</Package>

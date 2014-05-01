@@ -1,0 +1,12 @@
+<apex:page standardController="Orders__c" extensions="OrderLineItemArchiveSnippet" >
+<apex:pageBlock >
+<apex:pageBlockTable value="{!oliList}" var="oli">
+<apex:column value="{!oli.Line_Number__c}"/>
+<apex:column value="{!oli.Product_Name__c}"/>
+<apex:column value="{!oli.Quantity_Shipped__c}"/>
+<apex:column value="{!oli.Final_Price__c}"/>
+<apex:column value="{!oli.Shipped_Date__c}"/>
+<apex:column value="{!oli.Shipment_Tracking_Number__c}"/>
+</apex:pageBlockTable>
+</apex:pageBlock>
+</apex:page>

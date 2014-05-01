@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>*</members>
+        <name>AccountCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>AccountOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>AccountCommentsController</members>
+        <members>AccountSearchAddController</members> 
+        <members>AccountSearchandAddControllerTest</members>
+        <members>AccountSyncAddresses_Helper</members>
+         <members>AccountSyncAddresses_HelperTest</members>
+        <members>AccountTriggerHelper</members>
+        <members>AccountU2PController</members>
+        <members>AddressSvc</members>
+        <members>AddressTriggerHelper</members>
+        <members>AddressTriggerHelperTest</members>
+        <members>AddressValidationBatchProcess</members>
+        <members>AddressValidationBatchProcessSchedule</members>
+        <members>AddressValidator</members>
+        <members>AddressValidatorTest</members>
+        <members>AvalaraTaxCalc</members>
+        <members>BatchJobHelper</members>
+        <members>BatchUtilities</members>
+        <members>BundleTriggerHelper</members>
+        <members>BundleTriggerHelperTest</members>
+        <members>CILController</members>
+        <members>CiscoIVR_ComplexTypes</members>
+        <members>CiscoIVR_WS</members>
+        <members>CnxCustomerEnhancements</members>
+        <members>CreditCardValidator</members>
+        <members>EmailToCaseProcessor</members>
+        <members>InboundCallController</members>
+        <members>ItemRestrictionHelper</members>
+        <members>ItemTriggerHelper</members>
+        <members>ItemTriggerTest</members>
+        <members>NBTYAddressService</members>
+        <members>NBTYException</members>
+        <members>NBTYUtils</members>
+        <members>NBTYWSUtil</members>
+        <members>NBTYWSUtilTest</members>
+        <members>NewCaseController</members>
+        <members>OasisOpenOrgWssSecuritySecext</members>
+        <members>OrdersBatchArchiveShipComplete</members>
+        <members>OrdersBatchArchiveShipCompleteSchedule</members>
+        <members>OrderBatchProcessSchedule</members>
+        <members>OrderLineItemArchiveSnippet</members>
+        <members>OrderLineItemArchiveTest</members>
+        <members>OrderLineItemArchiveUtilities</members>
+        <members>OrderLineItemTriggerHelper</members>
+        <members>OrderLineItemTriggerHelperTest</members>
+        <members>OrderStatusUpdatesBatch</members>
+        <members>OrderStatusUpdatesScheduler</members>
+        <members>OrderStatusUpdates_ComplexTypes</members>
+        <members>OrderStatusUpdates_WS</members>
+        <members>OrderSummaryTriggerHelper</members>
+        <members>OrderSummaryTriggerHelperTest</members>
+        <members>OrderSummaryTriggerTest</members>
+        <members>OrderSummaryTriggerUtilities</members>
+        <members>OrderSummaryTriggerUtilitiesTest</members>
+        <members>OrderTriggerHelper</members>
+        <members>OrderTriggerHelperTest</members>
+        <members>OrderUtilities</members>
+        <members>OrderUtilities_Test</members>
+        <members>OrderWizard_NewOrder</members>
+        <members>OrderWizard_Test</members>
+        <members>OrderWizard_Wrapper</members>
+        <members>OrderWizard_WrapperTest</members>
+        <members>Order_DetailsExtension</members>
+        <members>Order_EditOverride</members>
+        <members>Order_EditOverrideTest</members>
+        <members>OrdersBatchProcess</members>
+        <members>OrdersToCancelBatch</members>
+        <members>OrdersToCancelBatchSchedule</members>
+        <members>OrdersToFulfillmentBatch</members>
+        <members>OrdersToFulfillmentBatchSchedule</members>
+        <members>ProductP2PController</members>
+        <members>ProductRank</members>
+        <members>RecommendationsWrapper</members>
+        <members>TaskTriggerHelper</members>
+        <members>TaxSvc</members>
+        <members>TestBatchsAndSchedulers</members>
+        <members>TestCILController</members>
+        <members>TestCiscoIVR</members>
+        <members>TestDataSetupUtil</members>
+        <members>TestEmailToCase</members>
+        <members>TestInboundCallController</members>
+        <members>TestOrderStatusUpdates</members>
+        <members>TestNewCaseController</members>
+        <members>WS_soa_AuthorizePaymentService</members>
+        <members>WS_soa_CancelOrderService</members>
+        <members>WS_soa_SendOrderService_v2</members>
+        <members>WS_soa_SendOrderService_v2_Utils</members>
+        <members>WS_webstack_PromotionObjects_v2</members>
+        <members>WS_webstack_PromotionObjects_v2_Test</members>
+        <members>soa_WebservicesClientUtil</members>
+        <members>soa_WebservicesClientUtil_Test</members>
+        <members>AccountSearchandAddControllerTest</members>
+        <members>AccountSyncAddresses_HelperTest</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>AccountComments</members>
+        <members>AccountConsoleHeader</members>
+        <members>AccountQuickSearchAdd</members>
+        <members>AccountU2P</members>
+        <members>CIL_v2</members>
+        <members>InboundCall</members>
+        <members>NewCase</members>
+        <members>OrderLineItemArchiveSnippet</members>
+        <members>OrderWizard</members>
+        <members>Order_Detail</members>
+        <members>Order_EditOverride</members>
+        <members>PreChatForm</members>
+        <members>ProductP2P</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CampaignCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CampaignOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CaseCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CaseOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ContactCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ContactOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomPageWebLink</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomSite</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>DataCategoryGroup</name>
+    </types>
+    <types>
+        <members>AR_Email_Templates</members>
+        <members>AR_Email_Templates/Default_AR_Template</members>
+        <members>AR_Email_Templates/Puritan_s_Pride_E2C_AR</members>
+        <members>AR_Email_Templates/Puritan_s_Pride_Phone_Order_Confirmation</members>
+        <members>AR_Email_Templates/Puritan_s_Pride_W2C_AR</members>
+        <members>AR_Email_Templates/VItamin_World_Phone_Order_Confirmation</members>
+        <members>AR_Email_Templates/Vitamin_World_E2C_AR</members>
+        <members>AR_Email_Templates/Vitamin_World_W2C_AR</members>
+        <members>Case_Email_Templates</members>
+        <members>Case_Email_Templates/Case_Email_Adding_Items_to_an_Order</members>
+        <members>Case_Email_Templates/Case_Email_Cancelling_an_Order</members>
+        <members>Case_Email_Templates/Case_Email_Change_Shipping_Address</members>
+        <members>Case_Email_Templates/Case_Email_Coupon_Applied_to_Order</members>
+        <members>Case_Email_Templates/Case_Email_PayPal_Account_Refund</members>
+        <members>Case_Email_Templates/Missing_Order</members>
+        <members>Customer_Email_Templates</members>
+        <members>Customer_Email_Templates/Customer_Email_Adding_Items_to_an_Order</members>
+        <members>Customer_Email_Templates/Customer_Email_Cancelling_an_Order</members>
+        <members>Customer_Email_Templates/Customer_Email_Change_Shipping_Address</members>
+        <members>Customer_Email_Templates/Customer_Email_Coupon_Applied_to_Order</members>
+        <members>Customer_Email_Templates/Customer_Email_PayPal_Account_Refund</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Group</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>HomePageComponent</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>HomePageLayout</name>
+    </types>
+    <types>
+        <members>Address__c-Address Layout</members>
+        <members>Bundle_Product__c-Bundle Products Layout</members>
+        <members>Bundle__c-Bundles Layout</members>
+        <members>Case-Case Layout</members>
+        <members>Case-Follow Up</members>
+        <members>Case-Follow Up - ACC</members>
+        <members>Case-Pre-Case</members>
+        <members>Case-Pre-Case - ACC</members>
+        <members>Case-Product Complaint</members>
+        <members>Case-Product Complaint - ACC</members>
+        <members>CaseClose-Close Case Layout</members>
+        <members>CaseClose-Product Complaint Close Case</members>
+        <members>Contact-Contact Layout</members>
+        <members>Credit__c-Credit Layout</members>
+        <members>Error_Log__c-Error Log Layout</members>
+        <members>Item__c-Product Layout</members>
+        <members>Order_Line_Items__c-Order Line Item Layout</members>
+        <members>Order_Summary__c-Order Summary Layout</members>
+        <members>Orders__c-Order Layout</members>
+        <members>PersonAccount-Person Account Layout</members>
+        <members>Promotion__c-Promotions Layout</members>
+        <members>Task-Task Layout</members>
+        <members>User-User Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>LeadCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>LeadOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Letterhead</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>OpportunityCriteriaBasedSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>OpportunityOwnerSharingRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>ACC CSR</members>
+        <members>Back-Office Team</members>
+        <members>CSR</members>
+        <members>Call Center Management</members>
+        <members>Data Integration</members>
+        <members>SOA Integration</members>
+        <members>WebStack Integration</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Queue</name>
+    </types>
+    <types>
+        <members>AgileOne</members>
+        <members>avalara</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ReportType</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Role</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Scontrol</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Address__c</members>
+        <members>Bundle_Product__c</members>
+        <members>Bundle__c</members>
+        <members>Contact</members>
+        <members>Inbound_Order_Mapping__c</members>
+        <members>Item__c</members>
+        <members>OrderStatusMap__c</members>
+        <members>Order_Line_Items__c</members>
+        <members>Order_Summary__c</members>
+        <members>Orders__c</members>
+        <members>Promotion__c</members>
+        <members>WS_Integration__c</members>
+        <members>WebStoresData__c</members>
+        <name>Workflow</name>
+    </types>
+    <version>27.0</version>
+</Package>
+

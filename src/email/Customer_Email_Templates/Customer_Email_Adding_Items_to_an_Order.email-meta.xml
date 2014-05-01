@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification of unable to add items to order</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Adding Items to an Order</name>
+    <style>none</style>
+    <subject>Adding Items to Your Order</subject>
+    <type>text</type>
+</EmailTemplate>

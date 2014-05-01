@@ -1,0 +1,31 @@
+<apex:page standardController="Account" extensions="AccountU2PController" standardStylesheets="false" showHeader="false" sidebar="false">
+<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+<apex:includeScript value="/support/console/22.0/integration.js"/>
+<script type="text/javascript">
+	 var prodId;
+	
+	 function openOrderWizard(productId, custId)
+     {
+     	   prodId = productId;
+     	   testOpenSubtab();    	    	
+     }
+     
+     function testOpenSubtab() {     		
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtabNew);						
+		}
+		
+		var openSubtabNew = function openSubtabNew(result) {		
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;			
+			sforce.console.openSubtab(primaryTabId , '/apex/order_editOverride?CustId={!Id}&prodId='+prodId, true, 'New Order');
+			 
+		};
+</script>
+<apex:outputpanel rendered="{!recWrap.hasRecs}" >
+	<c:RecommendationComponent productList="{!recWrap.productList}"/>
+</apex:outputpanel>
+<apex:outputpanel rendered="{!!recWrap.hasRecs}">
+	<h3>{!recWrap.errorMessage}</h3>
+</apex:outputpanel>
+</apex:page>

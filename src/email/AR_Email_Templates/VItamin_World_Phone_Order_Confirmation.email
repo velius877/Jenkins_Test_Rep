@@ -1,0 +1,33 @@
+Dear {!Contact.FirstName} {!Contact.LastName},
+
+Thank you for ordering from Vitamin World. A summary of your purchase is shown below. Please print this receipt for your records.
+
+Your order number: {!Orders__c.Name}
+
+If you need further assistance, please contact us at custserv@vitaminworld.com
+
+Thanks again for shopping at Vitamin World!
+
+Sincerely,
+Vitaminworld.com
+Customer Care Team
+
+-------------------------------------
+
+Phone Order # : {!Orders__c.Name}
+
+Bill to:
+{!Orders__c.Bill_To_Address__c}
+
+Ship to:
+{!Order_Summary__c.Ship_To__c}
+
+Subtotal: {!Orders__c.Order_Sub_Total__c}
+Discount: {!Orders__c.Allowance_Amount__c}
+Shipping & Handling: {!Orders__c.Shipping_Total__c}
+Tax: {!Orders__c.Tax__c}
+Grand Total: {!Orders__c.Order_Total__c}
+
+Vitamin World
+1-866-667-8977
+custserv@vitaminworld.com

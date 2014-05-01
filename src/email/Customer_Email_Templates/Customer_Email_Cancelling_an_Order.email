@@ -1,0 +1,12 @@
+Dear {!Account.Name}, 
+
+Thank you for your recent order with {!Account.RecordType}. We received your notification that you would like to cancel your order. Your order has already shipped and will be delivered within the next few days. You will have an opportunity to refuse this order with the delivery service. If you aren’t able to refuse your order, please call our specialists at 1-800-645-1030 and press option 2. We’re here for you – 24 hours a day!
+
+Please let us know if we can be of any further assistance. We truly appreciate your business and want you to continue to consider {!Account.RecordType} as the source for your health and wellness needs. 
+
+
+Sincerely, 
+
+The {!Account.RecordType} Customer Care Team
+
+ref:{!Account.Id}:ref

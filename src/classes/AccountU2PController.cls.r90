@@ -1,0 +1,60 @@
+/********************************************************************************
+ ********************************************************************************    
+ *	Class            : AccountU2PController
+ *	Author		     : Acumen Solutions: Rahul Badal
+ *	Version History  : 1.0
+ *	Creation         : 03/22/13
+ *	Description      : Controller for AccountU2P Page
+ *						
+ ********************************************************************************
+ ********************************************************************************/
+public with sharing class AccountU2PController {
+private ApexPages.StandardController ctrl;
+  public Account acct {get;set;}
+  public boolean isProduct {get;set;}
+  public List <Item__c> productList {get;set;}
+  public List<Bundles__c> bundleList {get;set;}
+  public AccountU2PController(ApexPages.StandardController stdController){
+      ctrl = stdController;
+      Account tempacct  = (Account) ctrl.getRecord();
+      acct = [Select PersonEmail, AS_400_Customer_Number__c,RecordType.Name From Account where Id =: tempacct.Id ];
+      
+      list<Item__c> U2PProducts = new list<Item__c>();
+      isProduct = false;
+  }
+  public PageReference ShowU2Products(){
+     
+   
+   try{
+            if(string.isNotBlank(acct.AS_400_Customer_Number__c))
+            {
+             	string accRecordType = acct.RecordType.Name;
+             	system.debug('**** ' + accRecordType);
+             	
+             	string tenantID = '24';
+             	if(accRecordType.equalsIgnoreCase('Vitamin_World_Customer')) 
+             	   tenantID = '43';         	
+                productList = NBTYWSUtil.getU2PAgileOneProductsByAccountID(acct.AS_400_Customer_Number__c,tenantID);
+            }
+            
+                //productList=[Select Product_Number__c, Product_Image_URL__c, Name, Brand_Name__c, Available_Inventory__c, Description__c from item__c  where product_image_url__c !=null limit 10];
+            /*else if(string.isNotBlank(acct.PersonEmail))
+                productList = NBTYWSUtil.getU2PAgileOneProductsByEmailID(acct.PersonEmail); */
+                bundleList = NBTYWSUtil.getActiveBundles();
+            
+            if(productList.size() > 0)
+                isProduct = True;
+
+            }
+            Catch(NBTYException e){
+                ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,e.getMessage()));
+            }
+            Catch(Exception e){
+                ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Error in getting U2P recommendations.'));
+                system.debug(e.getMessage());
+            }
+
+  return null; 
+  }
+ 
+}

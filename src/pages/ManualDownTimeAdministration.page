@@ -1,0 +1,79 @@
+<apex:page controller="ManualDownTimeController" docType="html-5.0">
+	<c:jQueryInit />
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+	<apex:form >
+		<apex:sectionHeader title="Manual Down Time Administration" subtitle="Welcome {!uName}!" />
+		<apex:pageBlock id="pageBlock" tabStyle="Account" >
+			<apex:pageBlockButtons location="top" >
+				<apex:commandButton value="Schedule Batch" styleClass="btn btn-primary" action="{!setReplay}" rerender="pageBlock" rendered="{!!schedNewBatch}"/>
+				<apex:commandButton value="Schedule Down Time" styleClass="btn btn-primary" action="{!setDownTime}" rerender="pageBlock" rendered="{!!schedNewDownTime}"/>
+				<apex:commandButton value="Cancel Scheduling" styleClass="btn btn-primary" rendered="{!IF(schedNewBatch || schedNewDownTime, true, false)}" action="{!doCancel}" rerender="pageBlock"/>
+				<apex:commandButton styleClass="btn btn-secondary" action="{!refresh}" rerender="pageBlock" value="refresh"/>
+			</apex:pageBlockButtons>
+			
+			<apex:outputPanel id="panel1" rendered="{!IF(!schedNewBatch && !schedNewDownTime, true, false)}">
+				<apex:pageBlockSection collapsible="true" columns="3" title="Current System Status">
+					<apex:outputText value="Current System Status: {!sysStatus}" style="font-size:14px"/>
+					<apex:commandButton value="Change System Status" styleClass="btn btn-secondary" action="{!changeStatus}" rerender="pageBlock"/>
+					<apex:inputHidden />
+				<!-- </apex:pageBlockSection> -->
+				<!-- <apex:pageBlockSection collapsible="true" columns="4" title="Current Record Counts"> -->
+					<apex:outputText value="Awaiting Authorization: {!awaitingAuth}" style="font-size:14px" />
+					<apex:outputText value="Payment Authorization Failed: {!authFailed}" style="font-size:14px" />
+					<apex:inputHidden />
+					<apex:outputText value="Payment Declined: {!ccDeclined}" style="font-size:14px" />
+					<apex:outputText value="Pending Submission: {!subFailed}" style="font-size:14px" />
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			<apex:outputPanel id="schedNewDownTime" rendered="{!schedNewDownTime}">
+				<apex:pageMessages />
+				<apex:pageBlockSection collapsible="false" columns="1" title="Schedule or Start Down Time Mode">
+					<apex:pageBlockSectionItem >
+						<apex:outputLabel value="Downtime Start" style="Margin:0px 0 5px; font-size:12px;text-transform:none;color:black;font-weight:normal"/>
+						<apex:input type="datetime-local" value="{!downTimeStart}" label="Downtime Start"/>
+					</apex:pageBlockSectionItem>
+					<apex:pageBlockSectionItem >
+						<apex:outputLabel value="Downtime End" style="Margin:0px 0 5px; font-size:12px;text-transform:none;color:black;font-weight:normal"/>
+						<apex:input type="datetime-local" value="{!downTimeEnd}" label="Downtime End"/>
+					</apex:pageBlockSectionItem>
+					<!-- <apex:inputHidden /> -->
+					<!-- <apex:outputText value="Current System Status: {!sysStatus}" style="font-size:12px"/> -->
+					<apex:pageBlockSectionItem >
+						<apex:inputHidden />
+						<apex:commandButton value="Set Schedule" styleClass="btn btn-secondary" action="{!scheduleSysDownTime}" rerender="pageBlock"/>
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			<apex:outputPanel id="schedNewBatch" rendered="{!schedNewBatch}">
+				<apex:pageMessages />
+				<apex:pageBlockSection collapsible="false" columns="2" title="Schedule or Start Replay Batch">
+					<apex:input type="datetime-local" value="{!replayStart}" />
+					<apex:inputHidden />
+					<apex:commandButton value="Set Schedule" action="{!scheduleReplay}" styleClass="btn btn-secondary" rerender="pageBlock"/>
+					<apex:commandButton value="Start Replay Batch Now!" action="{!startReplay}" styleClass="btn btn-secondary" rerender="pageBlock"/>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			<apex:outputPanel id="scedDownTime" >
+				<apex:pageBlockSection collapsible="true" columns="1" title="Scheduled Down Times" >
+					<apex:pageBlockTable value="{!downTimeJobs}" var="dt" rendered="{!showDownTimeTable}">
+						<apex:column value="{!dt.CronJobDetail.Name}" />
+						<apex:column value="{!dt.CreatedDate}" />
+						<apex:column value="{!dt.NextFireTime}" headervalue="Scheduled Run Time"/>
+					</apex:pageBlockTable>
+					<apex:outputText value="{!noSchedDownTime}" style="font-size:11px" rendered="{!!showDownTimeTable}"/>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			<apex:outputPanel id="scedBatch" >
+				<apex:pageBlockSection collapsible="true" columns="1" title="Scheduled Replay(s)" >
+					<apex:pageBlockTable value="{!replayBatches}" var="rp" rendered="{!showReplayTable}">
+						<apex:column value="{!rp.CronJobDetail.Name}" />
+						<apex:column value="{!rp.CreatedDate}" />
+						<apex:column value="{!rp.NextFireTime}" headervalue="Scheduled Run Time"/>
+					</apex:pageBlockTable>
+					<apex:outputText value="{!noSchedReplay}" style="font-size:11px" rendered="{!!showReplayTable}"/>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

@@ -1,0 +1,7 @@
+{!Case.OwnerFirstName},
+
+An Adverse Event Review has been set to "Complete" for a Case which you own, number {!Case.CaseNumber}.
+
+Please review the Adverse Event Review and take appropriate action to resolve their inquiry.
+
+Please be sure to update the case status or close the case as appropriate.

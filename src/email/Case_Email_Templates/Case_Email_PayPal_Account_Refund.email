@@ -1,0 +1,14 @@
+Dear {!Case.Account}, 
+
+Thank you for your recent order with {!Case.Brand__c}. We received your email notification in regard to a coupon deduction not being applied. We apologize for the oversight. A refund will be applied to your PayPal account. 
+
+Again, please accept our apology. We truly appreciate your business and want you to continue to consider {!Case.Brand__c} as the source for your health and wellness needs. 
+
+If you need any further assistance, please call our specialists at 1-800-645-1030, press option 2, and for speedier service, reference your case number: {!Case.CaseNumber}. We’re here for you – 24 hours a day!
+
+
+Sincerely, 
+
+The {!Case.Brand__c} Customer Care Team
+
+ref:{!Case.Id}:ref

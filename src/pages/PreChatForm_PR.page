@@ -1,0 +1,53 @@
+<apex:page sidebar="false" showHeader="false">
+<!-- This script takes the endpoint URL parameter passed from the deployment page and makes it the action for the form -->
+<script type="text/javascript">
+(function() 
+{
+	function handlePageLoad() 
+	{
+		var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+		document.getElementById('prechatForm').setAttribute('action',
+		decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+	} 
+	
+	if (window.addEventListener) 
+	{
+		window.addEventListener('load', handlePageLoad, false);
+	} 
+	else 
+	{ 
+		window.attachEvent('onload', handlePageLoad, false);
+	}
+})();
+</script>
+
+<style type="text/css">
+	p {font-weight: bolder } 
+</style>
+<img src="{!$Resource.PerfectlyPureChatLogo}" />
+<br />
+<h1> Perfectly Pure Pre-chat Form</h1>
+<form method='post' id='prechatForm'>
+	<table>
+	<tr><td>First Name* : </td><td><input type='text' name='liveagent.prechat:FirstName' id='firstName_field' required='true'/></td></tr>
+	<tr><td>Last Name* : </td><td><input type='text' name='liveagent.prechat:LastName' id='lastName_field' required='true' /></td></tr>
+	<!-- <tr><td>Student ID: </td><td><input type='text' name='liveagent.prechat:EmpId' /></td></tr> -->
+	<tr><td>Email Address* : </td><td><input type='text' name='liveagent.prechat:Email' required='true' /></td></tr>
+	<tr><td>Phone Number : </td><td><input type='text' name='liveagent.prechat:Phone' /></td></tr>
+	<tr><td>Customer Number: </td><td><input type='text' name='liveagent.prechat:AS400CustomerNumber' /> 
+	(if available) </td></tr>	
+	<tr><td>Notes* : </td><td><textarea name='liveagent.prechat:Notes' rows="4" cols="50" required='true' /></td></tr>
+	<tr><td colspan="2" align="center"><input type='submit' value='Request Chat' id='prechat_submit'/></td></tr>
+	</table>
+	
+	<!-- Creates an auto-query for a matching Contact record’s Email field based on the	value of the liveagent.prechat:Email field -->
+	<!-- <input type="hidden" name="liveagent.prechat.query:EmpId" value="Contact,Contact.EmplID__c" /> -->
+	<input type="hidden" name="liveagent.prechat.query:Email" value="Account,Account.PersonEmail" />
+	<input type="hidden" name="liveagent.prechat.query:Phone" value="Account,Account.Phone" />
+	<input type="hidden" name="liveagent.prechat.query:AS400CustomerNumber" value="Account,Account.AS_400_Customer_Number__c" />
+	
+	<input type="hidden" name="liveagent.prechat.save:Email" value="Email__c" />
+	
+	
+</form>
+</apex:page>

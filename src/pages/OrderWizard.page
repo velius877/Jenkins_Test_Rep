@@ -1,0 +1,1642 @@
+<apex:page standardController="Orders__c"
+	extensions="OrderWizard_NewOrder" sidebar="false" action="{!init}">
+	<apex:variable var="myOrder" value="{!stdContOrder}" />
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}" />
+	<c:jQueryInit bDataTables="true" bLoadingPanel="true"  bClueTip="true"/>
+	<script type="text/javascript"
+		src="{!URLFOR($Resource.orderWizard,'js/orderWizardScripts.js')}"></script>
+	<script>
+/*
+function showSaveShipAddressButton(){
+	j$(document).find('.CreateShipAddrbtn').show();
+}*/
+
+var lineItemSearchVal;
+
+
+function checkTokenValue(){
+
+}
+function resetCluetip(){
+	j$('.tips').cluetip({
+		local:true,
+		cursor: 'pointer', 
+		closeText:'Close',
+		mouseOutClose : true,
+		sticky: false,
+		showTitle: false,
+		width: 200,
+		activation:'hover',
+		positionBy: 'topBottom',
+		
+	});
+			
+ 
+};
+
+function showSaveBillAddressButton(){
+	j$(document).find('.CreateBillAddrbtn').show();
+}
+var searchedRecordId;
+
+function openmodal(dividname)
+{
+	j$(dividname).dialog({ autoOpen: true, modal: true, show: 'blind', width: 600,position:'center'});
+}
+
+function closemodal(dividname)
+{
+	j$(dividname).dialog('destroy');
+}
+
+function validateAddSubsOrOrig(ReceivedValue)
+{	
+	if(ReceivedValue)
+	{			
+		hideProgressBar();
+		ChoiceForSubstitute();  
+	}
+	else
+	{			
+		AddOriginalToOrder(searchedRecordId);
+	}	
+}
+
+function resetScreenHeight(offset){ 
+	 var mainPanelHeight =j$(window).height()-offset;
+		 j$('.new-order-right').css('height',mainPanelHeight);  
+}
+		j$(document).ready(function() {
+			resetScreenHeight(0);
+	 
+			j$("input").keypress(function (evt) {
+				//Deterime where our character code is coming from within the event
+				var charCode = evt.charCode || evt.keyCode;
+				if (charCode  == 13) { //Enter key's keycode
+				return false;
+				}
+			});
+			// Prevent backspaces..
+			document.addEventListener('keydown', function(event) {
+				 var keycode = event.keyCode || event.charCode;
+				 var curElement = document.activeElement;
+				 var is_input_element = (j$(curElement).is("input") || j$(curElement).is("textarea")); //capture focus on input elements
+				 if(!(is_input_element) && keycode == 8)
+				 {
+					var choice = confirm("Do you really want to leave this page?  Your work will not be saved. Click Cancel to return to same page");
+					if(choice)
+					{
+						
+					}
+					else
+					{
+						event.preventDefault();
+					}
+				 }
+				 
+			}, false);
+			
+			if ({!isAuthReversal}){
+				showProgressBar('Attempting Authorization Reversal, please wait...');
+				processAuthReversal();
+			}
+		});
+		
+		function updateAfterAdd(){
+			UpdateOrder(); 
+		}
+		function createCredit(amtId,reasonId)
+		{
+			var amt = document.getElementById(amtId).value;
+			var reason = document.getElementById(reasonId).value;
+			if(amt.length == 0 ||amt == 0.00)
+			  {alert('Credit Amount cannot be 0'); return; }
+			if(reason.length == 0)
+				{ alert('Credit reason cannot be empty'); return; }
+			ApplyCreditJs(amt,reason);
+		}
+
+</script>
+	<style>
+	
+<!--
+Changed  6/7 -->
+.cluetip-default #cluetip-outer {
+  position: relative;
+  margin: 0;
+  padding:3px;
+  background-color:#58ACFA;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  border:1px solid #999;
+}
+
+
+.new-order-right {
+	height: 80%;
+}
+
+.new-order-modal {
+	width: 100%;
+	background: #eee;
+}
+
+.new-order-shipping-info,.new-order-billing-info {
+	display: block;
+	float: left;
+	height: 100%;
+}
+
+.checkout-panel h1 {
+	padding-left: 2.2em;
+	padding-top: 5px;
+}
+
+.odd {
+	background-color: white
+}
+
+.even {
+	background-color: #c6e1ff
+}
+
+.ui-autocomplete-loading {
+	background: white url("{!$Resource.ajaxLoad}") right center no-repeat;
+}
+
+.autocomplete {
+	height: 30px !important;
+	width: 150px !important;
+	display: inline-block;
+}
+
+.ui-state-hover,.ui-autocomplete li:hover {
+	color: White;
+	background: #e0f2f5;
+	outline: none;
+}
+
+.multiSelectPicklistTable td{
+	width: auto;
+	padding: 10px;
+}
+
+.multiSelectPicklistTable {
+	width: 75%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: LightGray;
+	border-collapse: separate;
+	padding: 0;
+	margin: 0;
+}
+
+.multiSelectPicklistCell {
+	padding: 10px;
+}
+.dataTables_filter {
+	 display: none;
+}
+
+.itemDesc img {
+  display:none;
+}
+ 
+.itemDesc:hover img {
+  display:inline;
+}
+.order-items-list td {
+	font-size: 12px;
+}
+</style>
+
+	<apex:form id="NewOrderForm">
+		<apex:pageMessages id="error-msg" />
+		<apex:outputPanel id="FirstPanel" layout="block"
+			styleClass="new-order-modal"
+			rendered="{!AND(NOT(wrap.CreateOrderSelected), NOT(wrap.CheckoutSelected))}">
+			<div class="new-order-shipping-info">
+				<h1>Shipping Information</h1>
+				<br /> <br />
+				<table>
+
+					<tr VALIGN="TOP">
+						<td><label for="select-shipping-address">EXISTING
+								ADDRESSES: <apex:outputPanel id="selectedShip">
+									<apex:selectList value="{!wrap.selectedShippingAddress}"
+										id="select-shipping-address" styleClass="select-lg"
+										multiselect="false" size="1" onchange="ShipAddrSelect();">
+										<apex:selectOptions value="{!wrap.shippingAddressList}" />
+									</apex:selectList>
+								</apex:outputPanel> <a style="cursor: pointer;" onClick="clearShipAddressJs();"><img
+									src="/img/feeds/follow12.png" />Add Address</a>
+						</label> <label for="shipping-street1">Street</label> <apex:inputField value="{!wrap.shippingAddress.Address_Line_1__c}"
+								id="shipping-street1" styleClass="input-lg"
+								onchange="showSaveShipAddressButton();"></apex:inputField> <br />
+							<apex:inputField value="{!wrap.shippingAddress.Address_Line_2__c}"
+								id="shipping-street2" styleClass="input-lg"
+								onchange="showSaveShipAddressButton();"></apex:inputField> <br />
+							<apex:inputField value="{!wrap.shippingAddress.Address_Line_3__c}"
+								id="shipping-street3" styleClass="input-lg"
+								onchange="showSaveShipAddressButton();"></apex:inputField> <br />
+							<apex:inputField value="{!wrap.shippingAddress.Address_Line_4__c}"
+								id="shipping-street4" styleClass="input-lg"
+								onchange="showSaveShipAddressButton();"></apex:inputField> <br />
+							<label for="shipping-city">City</label> <apex:inputField value="{!wrap.shippingAddress.City__c}" id="shipping-city"
+								styleClass="input-lg" onchange="showSaveShipAddressButton();"></apex:inputField>
+							<label for="shipping-state">State/Province</label> <apex:inputField value="{!wrap.shippingAddress.State_Providence__c}"
+								id="shipping-state" styleClass="input-lg"
+								onchange="showSaveShipAddressButton();"></apex:inputField> <apex:outputPanel id="ShipZipCodePanel">
+								<label for="shipping-zip"> <apex:outputText value="Zip/Postal Code"
+										rendered="{!IF(OR(ISBLANK(wrap.shippingAddress.Country_Picklist__c ),wrap.shippingAddress.Country_Picklist__c == 'UNITED STATES'), true, false)}" />
+								</label>
+								<apex:inputField value="{!wrap.shippingAddress.Zip_Code__c}"
+									rendered="{!IF(OR(ISBLANK(wrap.shippingAddress.Country_Picklist__c ),wrap.shippingAddress.Country_Picklist__c == 'UNITED STATES') , true, false)}"
+									id="shipping-zip" styleClass="input-lg"
+									onchange="showSaveShipAddressButton();"></apex:inputField>
+
+								<label for="shipping-Foreign"> <apex:outputText value="Foreign Postal Code"
+										rendered="{!IF(AND( NOT(ISBLANK(wrap.shippingAddress.Country_Picklist__c )), wrap.shippingAddress.Country_Picklist__c != 'UNITED STATES'), true, false)}" />
+								</label>
+
+								<apex:inputField value="{!wrap.shippingAddress.Foreign_Postal_Code__c}"
+									rendered="{!IF(AND( NOT(ISBLANK(wrap.shippingAddress.Country_Picklist__c )), wrap.shippingAddress.Country_Picklist__c != 'UNITED STATES') , true, false)}"
+									id="shipping-Foreign" styleClass="input-lg"
+									onchange="showSaveShipAddressButton();"></apex:inputField>
+							</apex:outputPanel> <label for="shipping-country">Country</label> <apex:selectList value="{!wrap.shippingAddress.Country_Picklist__c}"
+								id="shipping-country" styleClass="select-lg" multiselect="false"
+								size="1" onchange="showSaveShipAddressButton();checkPOBox();">
+								<apex:selectOptions value="{!wrap.ShippingCountryList}" />
+							</apex:selectList> <label for="shipping-adr-validated"> <apex:inputCheckbox onchange="showSaveShipAddressButton();"
+									id="shipping-adr-validated"
+									value="{!wrap.shippingAddress.Validated__c}"
+									selected="{!wrap.shippingAddress.Validated__c}" disabled="true" />
+								Validated? </label> <label for="override-shipping"> <apex:inputCheckbox id="override-shipping"
+									value="{!wrap.shippingAddress.Validation_Override__c}"
+									selected="{!wrap.shippingAddress.Validation_Override__c}"
+									onchange="enableSave();" /> Validation Override </label> <apex:outputPanel id="create-ship-addr">
+								<apex:commandButton style="{!IF(showSaveShipAddrBtn,'','display:none')}"
+									styleClass="CreateShipAddrbtn btn btn-primary disabled"
+									id="CreateShipAddr" value="Save" action="{!createShipAddress}"
+									reRender="selectedShip,FirstPanel,error-msg" />
+							</apex:outputPanel></td>
+						<td><label for="address-type">Address Type</label> <apex:selectList value="{!wrap.shippingAddress.Residential_Commercial__c}"
+								id="address-type" styleClass="select-lg" multiselect="false"
+								size="1">
+								<apex:selectOptions value="{!wrap.AddressTypeList}" />
+							</apex:selectList> <label for="shipping-method">Shipping Method</label> <apex:selectList value="{!wrap.newOrder.Shipping_Method__c}" id="shipping-method"
+								styleClass="select-lg" multiselect="false" size="1"
+								disabled="{!disableShipMethod}">
+								<apex:selectOptions value="{!wrap.MethodList}" />
+							</apex:selectList> <label for="SalesChannel">Sales Channel</label> <apex:inputField value="{!wrap.newOrder.Sales_Channel__c}" id="SalesChannel"
+								styleClass="select-lg" /> <br /> <label for="ShipToName">Ship
+								To First Name</label> <apex:inputField value="{!wrap.newOrder.Ship_to_First_Name__c}" id="ShipTofName" />
+							<br /> <label for="ShipToName">Ship To Last Name</label> <apex:inputField value="{!wrap.newOrder.Ship_to_Last_Name__c}" id="ShipTolName" />
+							<br /></td>
+					</tr>
+				</table>
+				<apex:actionFunction name="showSaveShipAddressButton"
+					action="{!showSaveShipAddr}" rerender="create-ship-addr,error-msg" />
+				<apex:actionFunction name="checkPOBox"
+					action="{!processSelectedShipMethod}"
+					rerender="shipping-street1, shipping-street2, shipping-street3, shipping-street4, shipping-method,address-type, ShipZipCodePanel" />
+				<apex:actionFunction name="ShipAddrSelect"
+					action="{!processSelectedShipAddr}" rerender="FirstPanel" />
+			</div>
+			<!-- END new-order-shipping-info -->
+
+			<div class="new-order-billing-info">
+				<h1>Billing Information</h1>
+				<label for="billing-same-shipping"> <apex:inputCheckbox id="billing-same-shipping" value="{!wrap.UseShipAsBill}"
+						onchange="BillSameAsShip();" selected="{!wrap.UseShipAsBill}" />
+					Billing address same as shipping address</label> <label
+					for="select-billing-address">EXISTING ADDRESSES: <apex:selectList value="{!wrap.selectedBillingAddress}" id="select-billing-address"
+						styleClass="select-lg" multiselect="false" size="1"
+						onchange="BillAddrSelect();">
+						<apex:selectOptions value="{!wrap.billingAddressList}" />
+					</apex:selectList> <a style="cursor: pointer;" onClick="clearBillAddressJs();"><img
+						src="/img/feeds/follow12.png" />Add Address</a> </label>
+
+
+				<apex:actionFunction name="BillAddrSelect"
+					action="{!processSelectedBillAddr}" rerender="FirstPanel" />
+
+				<apex:actionFunction name="BillSameAsShip"
+					action="{!processBillSameAsShip}" rerender="FirstPanel" />
+
+				<div class="billing-left">
+					<apex:outputPanel id="billing-info">
+						<label for="billing-street1">Street</label>
+						<apex:inputField value="{!wrap.billingAddress.Address_Line_1__c}"
+							id="billing-street1" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+						<apex:inputField value="{!wrap.billingAddress.Address_Line_2__c}"
+							id="billing-street2" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+						<apex:inputField value="{!wrap.billingAddress.Address_Line_3__c}"
+							id="billing-street3" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+						<apex:inputField value="{!wrap.billingAddress.Address_Line_4__c}"
+							id="billing-street4" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+						<label for="billing-city">City</label>
+						<apex:inputField value="{!wrap.billingAddress.City__c}"
+							id="billing-city" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+						<label for="billing-state">State/Province</label>
+						<apex:inputField value="{!wrap.billingAddress.State_Providence__c}"
+							id="billing-state" styleClass="input-lg"
+							onchange="showSaveBillAddressButton();"></apex:inputField>
+
+						<apex:outputPanel id="BillZipCodePanel">
+							<label for="billing-zip"> <apex:outputText value="Zip/Postal Code"
+									rendered="{!IF(OR(ISBLANK(wrap.billingAddress.Country_Picklist__c), wrap.billingAddress.Country_Picklist__c == 'UNITED STATES'), true, false)}" />
+							</label>
+							<apex:inputField value="{!wrap.billingAddress.Zip_Code__c}"
+								rendered="{!IF(OR(ISBLANK(wrap.billingAddress.Country_Picklist__c), wrap.billingAddress.Country_Picklist__c == 'UNITED STATES'), true, false)}"
+								id="billing-zip" styleClass="input-lg"
+								onchange="showSaveBillAddressButton();"></apex:inputField>
+							<label for="billing-Foreign"> <apex:outputText value="Foreign Postal Code"
+									rendered="{!IF(AND( NOT(ISBLANK(wrap.billingAddress.Country_Picklist__c)), wrap.billingAddress.Country_Picklist__c != 'UNITED STATES'), true, false)}" />
+							</label>
+							<apex:inputField value="{!wrap.billingAddress.Foreign_Postal_Code__c}"
+								rendered="{!IF(AND( NOT(ISBLANK(wrap.billingAddress.Country_Picklist__c)), wrap.billingAddress.Country_Picklist__c != 'UNITED STATES') , true, false)}"
+								id="billing-Foreign" styleClass="input-lg"
+								onchange="showSaveBillAddressButton();"></apex:inputField>
+						</apex:outputPanel>
+						<label for="billing-country">Country</label>
+						<apex:selectList value="{!wrap.billingAddress.Country_Picklist__c}"
+							id="billing-country" styleClass="select-lg" multiselect="false"
+							size="1" onchange="RefereshZipCodePanel();">
+							<apex:selectOptions value="{!wrap.BillingCountryList}" />
+						</apex:selectList>
+						<label for="billing-adr-validated"> <apex:inputCheckbox onchange="showSaveBillAddressButton();"
+								id="billing-adr-validated"
+								value="{!wrap.billingAddress.Validated__c}"
+								selected="{!wrap.billingAddress.Validated__c}" disabled="true" />
+							Validated? </label>
+						<label for="override-billing"> <apex:inputCheckbox id="override-billing"
+								value="{!wrap.billingAddress.Validation_Override__c}"
+								selected="{!wrap.billingAddress.Validation_Override__c}" />
+							Validation Override </label>
+						<apex:outputPanel id="create-bill-addr">
+							<apex:commandButton style="{!IF(showSaveBillAddrBtn,'','display:none')}"
+								styleClass="CreateBillAddrbtn btn btn-primary disabled"
+								id="CreateBillAddr" value="Save" action="{!createBillAddress}"
+								reRender="NewOrderForm" />
+						</apex:outputPanel>
+						<apex:actionFunction name="showSaveBillAddressButton"
+							action="{!showSaveBillAddr}"
+							rerender="create-bill-addr,error-msg" />
+						<apex:actionFunction name="RefereshZipCodePanel"
+							reRender="BillZipCodePanel" />
+					</apex:outputPanel>
+				</div>
+
+			</div>
+
+
+
+			<div class="order-summary clearfix"
+				style="display: inline-block; height: 20px;">
+				<div class="new-order-actions">
+					<apex:commandButton styleClass="btn btn-secondary disabled"
+						id="Cancel" value="Cancel" onClick="CloseOrderWizard(true)" />
+					<apex:commandButton styleClass="btn btn-primary new-order-header-action"
+						rendered="{!AND(OLIWrapperList.size>0, NOT(HasErrorMessages), NOT(bNoPullOrderReason))}"
+						id="Checkout-Address" value="Checkout"
+						action="{!CheckoutFromAddress}"
+						onClick="showProgressBar('Moving to Checkout Screen');"
+						onComplete="hideProgressBar();" reRender="NewOrderForm" />
+
+					<apex:commandButton styleClass="btn btn-primary disabled"
+						id="CreateOrder" value="Add Items" action="{!CreateOrder}"
+						onClick="j$('#lineItemSearchVal').val(''); showProgressBar('Moving to Cart Screen');"
+						onComplete="hideProgressBar();" reRender="NewOrderForm" />
+
+				</div>
+			</div>
+			<apex:actionFunction name="clearBillAddressJs"
+				action="{!clearBillAddress}" rerender="NewOrderForm" />
+			<apex:actionFunction name="clearShipAddressJs"
+				action="{!clearShipAddress}" rerender="NewOrderForm" />
+			<apex:actionFunction name="processAuthReversal"
+				action="{!reverseAuth}" onComplete="hideProgressBar();"
+				rerender="NewOrderForm" />
+
+		</apex:outputPanel>
+		<!-- END new-order-modal -->
+
+		<apex:outputPanel id="SecondPanel" layout="block" style="display:none"
+			styleClass="new-order-modal checkout-panel"
+			rendered="{!AND(wrap.CreateOrderSelected, NOT(wrap.CheckoutSelected))}">
+						
+			<div class="new-order-right" style="overflow-y: auto;">
+				<script>
+					
+					initAccordion();
+					var pull = "{!wrap.newOrder.Pull_Order__c}";
+					var gift = "{!wrap.newOrder.Gift_Order__c}";
+					var future = "{!wrap.newOrder.Future_Order__c}";
+					var shipped = "{!wrap.newOrder.Ship_Complete__c}";
+					var notes = "{!wrap.newOrder.Comments__c}";
+					var othern = "{!wrap.newOrder.Pull_Order_Reason_Other__c}";
+					var header = j$("#ui-accordion-accordion-header-0");
+					
+					if (pull == "true" || gift == "true" || future == "true" || shipped == "true" ||
+						(notes != null && notes != '') || (othern != null && othern != '')){
+						header.css("color", "red");
+					}
+					
+					resetScreenHeight(150);  
+					j$(document).ready(function() {
+						addItemsTable =j$('.order-items-list').dataTable( {
+								 "sScrollY": "260px",
+								 "bPaginate": false, 
+								"bScrollCollapse": true,
+								"bFilter": true,
+								"bInfo": false
+						});
+						j$('#itemsSearchFilter').keyup(function(){
+								addItemsTable.fnFilter(j$(this).val());
+								lineItemSearchVal=j$(this).val();
+						})
+						j$('#itemsSearchFilter').val(lineItemSearchVal);
+						if (lineItemSearchVal!=null) addItemsTable.fnFilter(lineItemSearchVal);
+					});
+					resetCluetip();
+					
+				</script>
+				
+				<div class="clearfix"></div>
+
+				<div id="accordion">
+
+					<h1 class="accord-header">Customer/Order Details</h1>
+
+					<div>
+						<apex:outputPanel id="OrderDetailPanel">
+							<apex:pageMessage summary="{!PullOrderErrorMessage}"
+								severity="error" strength="2" rendered="{!bNoPullOrderReason}" />
+							<table style="width: 100%">
+								<tbody>
+									<tr>
+										<td colspan="2"><hr /></td>
+									</tr>
+
+									<tr class="new-order-options">
+										<td><apex:inputCheckbox id="PullOrder"
+												value="{!wrap.newOrder.Pull_Order__c}"
+												onchange="VerifyPullOrderCheck();"/>
+											<h3>Pull order</h3>
+										</td>
+									</tr>
+									<tr class="new-order-options">
+										<td>
+											<apex:outputLabel value="Pull Order Reasons -- Please Choose One or More"
+												rendered="{!bShowPullReasonList}"/>
+											
+											<apex:inputField id="PullOrderReason"
+												label="Pull Order Reasons -- Please Choose One or More"
+												value="{!wrap.newOrder.Pull_Order_Reason_Multi__c}"
+												style="select-lg; width: auto;"
+												onchange="VerifyPullOrderCheck();"
+												rendered="{!bShowPullReasonList}" />
+											</td>
+										<td>
+											<apex:outputLabel value="Other Reason Notes" rendered="{!bPullReasonOther}" />
+											<apex:inputTextarea id="OtherN" cols="30" rows="5"
+												value="{!wrap.newOrder.Pull_Order_Reason_Other__c}"
+												rendered="{!bPullReasonOther}" onblur="VerifyPullOrderCheck();"/>
+										</td>
+										<!-- <td><apex:inputCheckbox id="NoCatalogsc"
+												value="{!wrap.newOrder.No_Catalogs__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>No Catalog?</h3>
+										</td>-->
+									</tr>
+
+									<tr class="new-order-options">
+										<!-- <td><apex:inputCheckbox id="NoInvoice"
+												value="{!wrap.newOrder.No_Invoice__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>No invoice</h3>
+										</td>-->
+										<td><apex:inputCheckbox id="ShipComplete"
+												value="{!wrap.newOrder.Ship_Complete__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>Ship complete</h3>
+										</td>
+									<!--</tr>
+
+									<tr class="new-order-options">-->
+										<!-- <td><apex:inputCheckbox id="NoPeanuts"
+												value="{!wrap.newOrder.No_Peanuts__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>No peanuts?</h3>
+										</td>-->
+										<!--<td><apex:inputCheckbox id="NoSubstitutes"
+												value="{!wrap.newOrder.No_Substitutes__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>No substitutes?</h3>
+										</td>
+									</tr>
+
+									<tr class="new-order-options">-->
+										<!-- <td><apex:inputCheckbox value="{!wrap.newOrder.Rush_Order__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>Rush Order?</h3></td>-->
+										<td><apex:inputCheckbox id="GiftOrder"
+												value="{!wrap.newOrder.Gift_Order__c}"
+												onchange="VerifyPullOrderCheck();" />
+											<h3>Gift order</h3>
+										</td>
+									</tr>
+
+									<tr class="new-order-options">
+										<td><apex:inputCheckbox id="FutureOrder"
+												value="{!wrap.newOrder.Future_Order__c}"
+												onchange="FutureOrder()" />
+											<h3>Future order</h3></td>
+										<td><apex:outputPanel id="FutOrdPanel">
+												<h3>
+													<apex:outputText value="Future Order Date"
+														rendered="{!wrap.newOrder.Future_Order__c}" />
+												</h3>
+												<apex:inputField value="{!wrap.newOrder.Future_Order_Date__c}"
+													rendered="{!wrap.newOrder.Future_Order__c}" />
+											</apex:outputPanel></td>
+									</tr>
+
+									<tr>
+										<td colspan="2"><hr /></td>
+									</tr>
+									<!-- de516
+								<tr class="new-order-options">
+									<td colspan="2"><apex:inputCheckbox id="MailOrder"
+											value="{!wrap.newOrder.Mail_Order__c}" />
+										<h3>Mail Order</h3></td>
+								</tr>
+ -->
+									<tr>
+										<td colspan="2"><hr /></td>
+									</tr>
+
+									<tr class="new-order-options">
+										<td colspan="1">
+											<h3>Notes:</h3>
+										</td>
+										<td colspan="1">
+											<h3>Customer Notes:</h3></td>
+									</tr>
+
+									<tr>
+										<td colspan="1"><apex:inputTextarea id="Notes"
+										onblur="VerifyPullOrderCheck();"
+												value="{!wrap.newOrder.Comments__c}" />
+										</td>
+										<td colspan="1"><apex:outputField id="CustomerNotes"
+												value="{!customer.Customer_Notes__c}" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</apex:outputPanel>
+					</div>
+				</div>
+
+				<h1>Order Items</h1>
+
+				<div class="order-items">
+					<table valign="top">
+						<tr>
+							<td>
+								<table>
+									<tr>
+									<!-- DE572
+										<td valign="top" style="white-space: nowrap"><label>Catalog
+										</label> &nbsp; <apex:selectList style="display:inline"
+												value="{!wrap.selectedCatalog}"
+												onChange="showProgressBar('Recalculating Pricing..Please Wait'); CalcPromotions();"
+												id="catalog-select" styleClass="select-lg"
+												multiselect="false" size="1">
+												<apex:selectOptions value="{!wrap.catalogCodeList}" />
+											</apex:selectList> <apex:inputText id="sourceCode" value="{!wrap.newOrder.Catalog_Source_Code__c}"
+												styleClass="autocomplete"  onChange=" autoComplete_SorceCode(); "  onkeydown=" autoComplete_SourceCode(); " /> <a href="#"  onclick=" autoComplete_SourceCode();" 
+											class="btn-search append" /> </td>--> 
+										<td valign="top"><label>Item Search: </label> &nbsp; <apex:inputText id="autocomplete_textbox" styleClass="autocomplete"
+												onChange=" autoComplete_Product(); "
+												onkeydown=" autoComplete_Product(); " /> <a
+											onclick="autoComplete_Product();" href="#"
+											class="btn-search append" /> <apex:inputhidden value="{!searchedRecordId}" id="searchId" /> <apex:inputHidden value="{!wrap.newOrder.Id}" id="OrderId" /></td>
+										<td style="text-align: left;">
+											<table style="width: 100%">
+												<tr>
+
+													<td valign="top" style="white-space: nowrap"><label>Coupon/Catalog
+															Code: </label> &nbsp; <apex:inputText id="couponCode"
+															value="{!wrap.newOrder.promotions__r.name}"
+															styleClass="autocomplete couponCode"
+															onChange=" autoComplete_Coupon(); "
+															onkeydown=" autoComplete_Coupon(); " /> <a href="#"
+														onclick=" autoComplete_Coupon();"
+														class="btn-search append" /></td>
+
+													<td>{!wrap.promoResponse.statusMessage}
+														<div id="promoDescDiv">
+															<label>Source Code:</label>
+															<div id="PromotionsName">{!wrap.newOrder.Source_Code__c}</div>
+															<label>Offer Description:</label>
+															<div id="PromotionsDesc">{!wrap.newOrder.promotions__r.Offers__c}</div>
+
+															<apex:inputHidden id="PromotionsNameOut"
+																value="{!wrap.sourceCode}" />
+															<apex:inputHidden id="CouponNameOut"
+																value="{!wrap.couponCode}" />
+
+														</div>
+													</td>
+
+												</tr>
+											</table>
+										</td>
+										<td valign="top" style="padding-left:10em;">
+											<div class="quickSearchBox"> 
+												<label>Line Item Search: </label>
+												<input type="text" id="itemsSearchFilter" styleClass="autocomplete" placeholder="Type sku or item name"/>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td></td>
+						</tr>
+
+					
+						<tr valign="top">
+							<td>
+								<div>
+									<apex:dataTable value="{!OLIWrapperList}" var="Rec"
+										id="OLITable" styleClass="order-items-list"
+										rowClasses="odd,even"
+										rendered="{!(IF(OLIWrapperList.size > 0, true, false))}">
+										<apex:column style="width:50px">
+											<apex:image title="Remove" styleClass="dialogClose"
+												value="/s.gif"
+												onclick="RemoveItemFromOrder('{!Rec.OrdrLineItem.Id}')" />
+										</apex:column>
+										<!-- <apex:column >
+											<apex:image value="{!Rec.ProductImageURL}" width="45"
+												height="80"
+												onclick="testOpenSubtab('{!Rec.OrdrLineItem.Product_Name__c}', '{!Rec.ProductName}')" />
+										</apex:column>
+										-->
+										
+										<apex:column style="width:40%">
+											
+											<a class="tips" href="#" rel="#{!Rec.OrdrLineItem.Id}" onclick="testOpenSubtab('{!Rec.OrdrLineItem.Product_Name__c}','{!Rec.ProductName}')">
+											{!Rec.ProductName} (Item # {!Rec.ProductNumber})</a>
+											 <div style="display:none;" id="{!Rec.OrdrLineItem.Id}"><img src="{!Rec.ProductImageURL}" height="100" width="42"/> </div>
+											
+											<p />
+											<apex:inputCheckbox id="onlyOneItem"
+												value="{!Rec.onlyOneItem}"
+												onclick="QuantityAsOne('{!Rec.OrdrLineItem.Id}')" /> Only 1 item
+											<p />
+											<apex:dataTable value="{!Rec.Features}" var="FeatureRec"
+												style="width:50%">
+												<apex:column >
+													<table>
+														<tr>
+															<td>Price-Override?</td>
+															<td><apex:inputCheckbox value="{!Rec.priceOverrideItem}"
+																	onclick="PriceOverride('{!Rec.OrdrLineItem.Id}');" />
+															</td>
+														</tr>
+													</table>
+
+
+												</apex:column>
+												<!-- <apex:column >  
+										<table><tr>
+											<td> P-OR	</td>
+											<td>			<apex:inputCheckbox value="{!Rec.priceOverrideItem}" onclick="j$(this).parent().parent().find('#overrideDetails').toggle();"/> </td>
+									</tr>
+									<div id="overrideDetails" class="overrideDetails" style="display:none;">
+										<tr>
+											<td><apex:inputField value="{!Rec.OrdrLineItem.Price_Override__c}" onchange="OrderQuantChange('{!Rec.OrdrLineItem.Id}')" style="width:40px"/></td>
+											<td>											
+											
+											<apex:inputField value="{!Rec.OrdrLineItem.Override_Reason__c}" styleClass="select-lg" style="width:150px"/></td>
+											</tr>
+											</div>
+											</table>
+								 
+														
+									</apex:column> -->
+												<apex:column rendered="{!Rec.priceOverrideItem}">
+													<br />
+													<div style="white-space: nowrap">
+														<table>
+															<tr>
+																<td>Override Price</td>
+																<td>Override Reason</td>
+															</tr>
+															<tr>
+																<td><apex:inputField value="{!Rec.OrdrLineItem.Price_Override__c}"
+																		onchange="showProgressBar('Updating cart');OrderQuantChange('{!Rec.OrdrLineItem.Id}')"
+																		style="width:40px" /></td>
+																<td><apex:inputField value="{!Rec.OrdrLineItem.Override_Reason__c}"
+																		style="width:275px;height:30px;border:1px solid #cccccc;"
+																		onchange="showProgressBar('Updating cart');OrderQuantChange('{!Rec.OrdrLineItem.Id}')" />
+																</td>
+															</tr>
+														</table>
+													</div>
+												</apex:column>
+
+											</apex:dataTable>
+										</apex:column>
+										<apex:column style="width:100px">
+											<apex:facet name="header">Available</apex:facet>
+											<apex:outputText value="{!Rec.ProductAvaliability}" />
+										</apex:column>
+										<apex:column style="width:100px">
+											<apex:facet name="header">Quantity</apex:facet>
+											
+											<input type="number" min="1" style="width: 40px;"
+												value="{!Rec.OrdrLineItem.Original_Quantity__c}"
+												onchange="showProgressBar('Updating Pricing'); j$(this).parent().parent().find('.itemQuantity').val(j$(this).val()); searchedRecordId='{!Rec.OrdrLineItem.Product_Name__c}'; OrdQuantValidate('{!Rec.OrdrLineItem.Product_Name__c}', j$(this).val()); " />
+											<apex:inputfield style="display:none;"
+												styleClass="itemQuantity"
+												value="{!Rec.OrdrLineItem.Original_Quantity__c}"
+												id="itemQuantity" />
+												
+										</apex:column>
+										<apex:column style="width:100px">
+											<apex:facet name="header">Free</apex:facet>
+											<apex:outputText value="{!IF((Rec.OrdrLineItem.Product_Quantity__c - Rec.OrdrLineItem.Original_Quantity__c) >= 0 , Rec.OrdrLineItem.Product_Quantity__c - Rec.OrdrLineItem.Original_Quantity__c ,0)}" />
+										</apex:column>
+										<apex:column style="width:100px">
+											<apex:facet name="header">Final Quantity</apex:facet>
+											<apex:outputText value="{!Rec.OrdrLineItem.Product_Quantity__c}" />
+										</apex:column>
+										<apex:column style="width:100px">
+											<apex:facet name="header">Unit Price</apex:facet>
+											<apex:outputText value="{!Rec.OrdrLineItem.Unit_Price__c}" />
+										</apex:column>
+
+										<apex:column id="FinalPrice" style="width:100px"
+											headerValue="Final Price">
+											<apex:facet name="header">Final Price</apex:facet>
+											<apex:outputText value="{!Rec.OrdrLineItem.Final_Price__c}" />
+										</apex:column>
+										<apex:column id="OLIComments" style="width:100px"
+											headerValue="Comments">
+											<apex:inputField value="{!Rec.OrdrLineItem.Comments__c}" />
+										</apex:column>
+
+									</apex:dataTable>
+
+									<apex:actionFunction name="PriceOverride"
+										action="{!ResetPriceOverride}" reRender="NewOrderForm">
+										<apex:param name="RecOLItemId" value="" />
+									</apex:actionFunction>
+
+
+									<apex:actionFunction name="QuantityAsOne"
+										action="{!OnlyOneItem}" reRender="NewOrderForm"
+										oncomplete="showProgressBar('Updating cart'); UpdateOrder();">
+										<apex:param name="RecOLItemOneQuantity" value="" />
+									</apex:actionFunction>
+
+									<apex:actionFunction name="OrderQuantChange"
+										action="{!updateTotalItems}"
+										rerender="NewOrderForm, SummaryInfoPanel"
+										onComplete="hideProgressBar();">
+										<apex:param name="RecOLItemOneQuantity" value="" />
+									</apex:actionFunction>
+
+									<apex:actionFunction name="OrdQuantValidate"
+										action="{!ProcessUpdateQuantity}"
+										onComplete="validateAddSubsOrOrig({!bShowChoiceForSubtitute});">
+										<apex:param name="RecOLIProduct" value="" />
+										<apex:param name="RecOLIQuantity" value="" />
+									</apex:actionFunction>
+
+									<apex:actionFunction name="FutureOrder" rerender="FutOrdPanel" />
+									<apex:actionFunction name="VerifyPullOrderCheck"
+										action="{!PullOrderCheck}"
+										rerender="OrderDetailPanel,ButtonsPanel,PullOrderReason" />
+									<apex:actionFunction name="NotifyChecked" action="{!NotifyChecked}"/>
+								</div>
+							</td>
+							<td style="width: 15%; padding: 5px"><apex:outputPanel id="SummaryInfoPanel" rendered="{!OLIWrapperList.size>0}">
+									<table>
+										<tbody>
+											<tr>
+												<td><label>Total Items:</label>
+												</td>
+												<td><apex:outputText id="TotLineItems"
+														value="{!wrap.TotalLineItems}"
+														styleClass="summary-item-amt" /></td>
+											</tr>
+											<tr>
+												<td><label>Order Sub Total</label>
+												</td>
+												<td><apex:outputText id="OrderSubTotal"
+														value="{!wrap.SubTotal}" styleClass="summary-item-amt" />
+												</td>
+											</tr>
+											<tr>
+												<td><label>Discount:</label>
+												</td>
+												<td><apex:outputText id="OrderDiscount"
+														value="{!wrap.Discount}" styleClass="summary-item-amt" />
+												</td>
+											</tr>
+											<tr>
+												<td><label>Shipping Discount:</label>
+												</td>
+												<td><apex:outputText id="OrderShipDiscount"
+														value="{!wrap.ShippingDiscount}"
+														styleClass="summary-item-amt" /></td>
+											</tr>
+											<tr>
+												<td><label>Shipping:</label>
+												</td>
+												<td><apex:outputText id="summary-item-shipping"
+														value="{!wrap.ShippingCharges}"
+														styleClass="summary-item-amt" />
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2"><hr /></td>
+											</tr>
+
+											<tr>
+												<td><label>Pre-Tax Total:</label>
+												</td>
+												<td><apex:outputText id="OrderPreTaxTot"
+														value="{!wrap.PreTaxTotal}" styleClass="summary-item-amt" />
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</apex:outputPanel></td>
+						</tr>
+					</table>
+				</div>
+					<apex:actionFunction name="AddToOrder"
+							action="{!ProcessSelectedItem}" rerender="ModalPanelForBackOrder"
+							oncomplete="hideProgressBar(); searchedRecordId=''; validateAddSubsOrOrig({!bShowChoiceForSubtitute}); " />
+						<apex:actionFunction name="ChoiceForSubstitute"
+							rerender="ModalPanelForBackOrder"
+							oncomplete="openmodal('#Itemdetail');" />
+						<apex:actionFunction name="AddOriginalToOrder"
+							action="{!AddItemToOrder}"
+							rerender="NewOrderForm, recommendationsPanel"
+							oncomplete="updateAfterAdd();">
+							<apex:param name="SelProdId" value="" />
+						</apex:actionFunction>
+				<div class="order-summary clearfix"
+					style="display: inline-block; bottom: 10px;">
+
+					<apex:outputPanel id="ButtonsPanel">
+						<apex:commandButton rendered="{!AND(OLIWrapperList.size>0, NOT(bNoPullOrderReason), NOT(HasErrorMessages))}"
+							styleClass="btn btn-primary new-order-header-action"
+							id="Checkout" value="Checkout" action="{!Checkout}"
+							onClick="showProgressBar('Moving to Checkout Screen');"
+							onComplete="hideProgressBar();" reRender="NewOrderForm" />
+						<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+							value="Save & Exit" oncomplete="CloseOrderWizard(false)" />
+						<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+							value="Cancel" oncomplete="CloseOrderWizard(true)" />
+
+						<apex:commandButton styleClass="btn btn-primary new-order-header-action"
+							value="Edit Addresses"
+							onClick="showProgressBar('Returning to Address Edit Screen');"
+							reRender="NewOrderForm" action="{!backToAddressEdit}"
+							oncomplete="hideProgressBar();"
+							rendered="{!AND(NOT(bNoPullOrderReason), NOT(HasErrorMessages))}" />
+					</apex:outputPanel>
+				</div>
+				<div class="clear_fix"></div>
+				<br />
+
+			</div>
+			<apex:outputPanel style="float:bottom;" id="recommendationsPanel">
+				<apex:outputpanel rendered="{!isProduct&&wrap.CreateOrderSelected}">
+					<c:RecommendationComponent productList="{!recWrap.productList}" />
+					<apex:actionFunction name="AddSelectedProduct"
+						action="{!AddSelectedProduct}" rerender="NewOrderForm"
+						oncomplete="showProgressBar('Updating Order. Please Wait...');UpdateOrder();">
+						<apex:param name="SelProdId" value="" />
+					</apex:actionFunction>
+				</apex:outputpanel>
+
+
+			</apex:outputPanel>
+			<apex:actionFunction name="RemoveItemFromOrder"
+				action="{!removeItem}" rerender="NewOrderForm"
+				oncomplete="showProgressBar('Removing item from cart'); UpdateOrder();">
+				<apex:param name="RecOLItemId" value="" />
+			</apex:actionFunction>
+			<apex:actionFunction name="UpdateOrder" action="{!updateTotalItems}"
+				rerender="NewOrderForm" onComplete="setTimeout(hideProgressBar(),1000); " />
+			<apex:actionFunction name="CalcPromotions"
+				action="{!SourceCodeChange}"
+				rerender="NewOrderForm, SummaryInfoPanel"
+				onComplete="hideProgressBar();" />
+		</apex:outputPanel>
+
+		<apex:outputPanel id="ThirdPanel" layout="block"
+			styleClass="new-order-modal checkout-panel"
+			rendered="{!AND(NOT(wrap.CreateOrderSelected), wrap.CheckoutSelected)}">
+			<script>
+				j$(document).ready(function() {
+						 checkoutItemsTable = j$('.order-items-list').dataTable( {
+												 "sScrollY": "300px",
+												 "bPaginate": false,
+												 "bScrollCollapse": true,
+												 "bFilter": true,
+												 "bInfo": false,
+												 "aaSorting": []
+									
+						 });
+						 j$('#itemsSearchFilter').keyup(function(){
+									checkoutItemsTable.fnFilter(j$(this).val());
+						 })
+						 resetCluetip();
+	
+				});
+			</script>
+			<!-- <h1>Checkout</h1> -->
+			<table valign="top">
+				<tr valign="top">
+					<td valign="top" style="width: 30%">
+						<div class="new-order-shipping-info">
+							<span style="width: 70%;">
+								<h2>Shipping Address</h2> <apex:variable rendered="{!!bOrderSubmitted}" var="bsub"
+									value="{!bOrderSubmitted}">
+									<a href="javascript:void(0);" style="float: right;"
+										onClick="showProgressBar('Moving to Address Screen'); editShippingBillingJs();">Edit</a>
+								</apex:variable> </span>
+
+							<!-- <apex:commandButton style="float:right;"
+									styleClass="btn btn-secondary" id="editShipping" value="Edit"
+									action="{!editShippingBilling}" />-->
+							<br />
+							<apex:variable value="{!AND(wrap.newOrder.Ship_to_First_Name__c != null,wrap.newOrder.Ship_to_Last_Name__c != null)}"
+								var="showShipto"/>
+							<apex:outputField value="{!wrap.newOrder.Ship_to_First_Name__c}" rendered="{!showShipto}"
+								id="shipToFirstName"/> &nbsp;
+							<apex:outputField value="{!wrap.newOrder.Ship_to_Last_Name__c}" rendered="{!showShipto}"
+								id="shipToLastName"/>
+							<apex:outputField value="{!Customer.Name}" rendered="{!!showShipto}"
+								/>
+							<br />
+							<!--	<label for="shipping-street">Street</label> -->
+							<apex:outputField value="{!wrap.shippingAddress.Address_Line_1__c}"
+								id="shipping-street-FINAL"></apex:outputField>
+							<apex:variable value="{!wrap.shippingAddress.Address_Line_2__c}"
+								rendered="{!wrap.shippingAddress.Address_Line_2__c!=null}"
+								var="l2">
+								<br />
+								<apex:outputField value="{!wrap.shippingAddress.Address_Line_2__c}" />
+							</apex:variable>
+							<apex:variable value="{!wrap.shippingAddress.Address_Line_2__c}"
+								rendered="{!wrap.shippingAddress.Address_Line_3__c!=null}"
+								var="l3">
+								<br />
+								<apex:outputField value="{!wrap.shippingAddress.Address_Line_3__c}" />
+							</apex:variable>
+							<apex:variable value="{!wrap.shippingAddress.Address_Line_4__c}"
+								rendered="{!wrap.shippingAddress.Address_Line_4__c!=null}"
+								var="l4">
+								<br />
+								<apex:outputField value="{!wrap.shippingAddress.Address_Line_4__c}" />
+							</apex:variable>
+							<br />
+							<!--	<label for="shipping-city">City</label> -->
+							<apex:outputField value="{!wrap.shippingAddress.City__c}"
+								id="shipping-city-FINAL"></apex:outputField>
+							,&nbsp;
+							<!--  <label for="shipping-state">State/Province</label> -->
+							<apex:outputField value="{!wrap.shippingAddress.State_Providence__c}"
+								id="shipping-state-FINAL"></apex:outputField>
+							<br />
+							<!--  <label for="shipping-zip">Zip/Postal Code</label> -->
+							<apex:outputField value="{!wrap.shippingAddress.Zip_Code__c}"
+								id="shipping-zip-FINAL"
+								rendered="{!wrap.shippingAddress.Country__c=='US'}"></apex:outputField>
+							<apex:outputField value="{!wrap.shippingAddress.Foreign_Postal_Code__c}"
+								rendered="{!wrap.shippingAddress.Country__c!='US'}"></apex:outputField>
+							<br />
+							<apex:outputField rendered="{!wrap.shippingAddress.Country__c!='US'}"
+								value="{!wrap.shippingAddress.Country__c}"
+								id="shipping-Country-FINAL"></apex:outputField>
+							<br />
+
+
+
+							<p />
+
+
+							<span style="width: 70%;">
+								<h2>Billing Address</h2> <apex:variable rendered="{!!bOrderSubmitted}" var="bsub"
+									value="{!bOrderSubmitted}">
+									<a href="javascript:void(0);" style="float: right;"
+										onClick="showProgressBar('Moving to Address Screen'); editShippingBillingJs();">Edit</a>
+								</apex:variable> </span> <br />
+							<!--	<apex:commandButton style="float:right;"
+									styleClass="btn btn-secondary" id="editBilling" value="Edit"
+									action="{!editShippingBilling}" /> -->
+
+							<apex:outputField value="{!Customer.Name}"
+								id="billingName"/> <br />
+							
+							<!--  <label for="billing-street">Street</label> -->
+							<apex:outputField value="{!wrap.billingAddress.Address_Line_1__c}"
+								id="billing-street-FINAL"></apex:outputField>
+							<apex:variable value="{!wrap.billingAddress.Address_Line_2__c}"
+								rendered="{!wrap.billingAddress.Address_Line_2__c!=null}"
+								var="l2">
+								<br />
+								<apex:outputField value="{!wrap.billingAddress.Address_Line_2__c}" />
+							</apex:variable>
+							<apex:variable value="{!wrap.billingAddress.Address_Line_2__c}"
+								rendered="{!wrap.billingAddress.Address_Line_3__c!=null}"
+								var="l3">
+								<br />
+								<apex:outputField value="{!wrap.billingAddress.Address_Line_3__c}" />
+							</apex:variable>
+							<apex:variable value="{!wrap.billingAddress.Address_Line_4__c}"
+								rendered="{!wrap.billingAddress.Address_Line_4__c!=null}"
+								var="l4">
+								<br />
+								<apex:outputField value="{!wrap.billingAddress.Address_Line_4__c}" />
+							</apex:variable>
+							<br />
+
+
+							<!-- <label for="billing-city">City</label> -->
+							<apex:outputField value="{!wrap.billingAddress.City__c}"
+								id="billing-city-FINAL"></apex:outputField>
+							,&nbsp;
+
+
+							<!-- <label for="billing-state">State/Province</label> -->
+							<apex:outputField value="{!wrap.billingAddress.State_Providence__c}"
+								id="billing-state-FINAL"></apex:outputField>
+							<br />
+
+
+							<!-- <label for="billing-zip">Zip/Postal Code</label> -->
+							<apex:outputField value="{!wrap.billingAddress.Zip_Code__c}"
+								rendered="{!wrap.billingAddress.Country__c=='US'}"
+								id="billing-zip-FINAL"></apex:outputField>
+							<apex:outputField value="{!wrap.billingAddress.Foreign_Postal_Code__c}"
+								rendered="{!wrap.billingAddress.Country__c!='US'}"></apex:outputField>
+							<br />
+							<apex:outputField rendered="{!wrap.billingAddress.Country__c!='US'}"
+								value="{!wrap.billingAddress.Country__c}"
+								id="billing-Country-FINAL"></apex:outputField>
+							<br /> <label for="shipping-method">Shipping Method</label>
+							<apex:selectList value="{!wrap.newOrder.Shipping_Method__c}"
+								onChange="showProgressBar('Recalculating Shipping Costs'); recalcShippingJs();"
+								id="shipping-method-checkout" styleClass="select-lg"
+								multiselect="false" size="1" disabled="{!disableShipMethod}">
+								<apex:selectOptions value="{!wrap.MethodList}" />
+							</apex:selectList>
+
+							<p />
+							<apex:outputPanel id="paymentPanel">
+
+								<h2>Payment Information</h2>
+								<label for="cc-type">Payment Type</label>
+								<apex:selectList value="{!wrap.selectedpaymentType}"
+									id="payment-type"
+									disabled="{!OR(bOrderSubmitted, OLIWrapperList.size == 0)}"
+									styleClass="select-lg" multiselect="false" size="1"
+									onChange="rerenderPaymentFields();">
+									<apex:selectOptions value="{!wrap.paymentTypeList}" />
+								</apex:selectList>
+								<script>resetCluetip();</script>
+								<apex:variable rendered="{!AND(bRenderCashFields,wrap.Total != 0.00)}" var="bsub"
+									value="{!bRenderCashFields}">
+									<label for="batch-number">Batch Number</label>
+									<apex:inputText value="{!wrap.newOrder.Batch_Number__c}"
+										id="batch-number" styleclass="input-lg" />
+
+									<label for="batch-number">Batch Sequence Number</label>
+									<apex:inputText value="{!wrap.newOrder.Batch_Sequence_Number__c}"
+										id="batch-seq-number" styleclass="input-lg" />
+
+									<label for="cash-value">Cash Value</label>
+									<apex:inputField value="{!wrap.newOrder.Payment_Value__c}"
+										id="cash-value" styleclass="input-lg" />
+
+								</apex:variable>
+
+								<apex:variable rendered="{!bRenderCheckFields}" var="bsub"
+									value="{!bRenderCheckFields}">
+
+									<label for="batch-number">Batch Number</label>
+									<apex:inputText value="{!wrap.newOrder.Batch_Number__c}"
+										id="batch-number" styleclass="input-lg" />
+
+									<label for="batch-number">Batch Sequence Number</label>
+									<apex:inputText value="{!wrap.newOrder.Batch_Sequence_Number__c}"
+										id="batch-seq-number" styleclass="input-lg" />
+
+									<label for="check-number">Check Number</label>
+									<apex:inputText value="{!wrap.newOrder.Check_Number__c}"
+										id="check-number" styleclass="input-lg" />
+
+									<label for="cash-value">Check Value</label>
+									<apex:inputField value="{!wrap.newOrder.Payment_Value__c}"
+										id="cash-value" styleclass="input-lg" />
+
+								</apex:variable>
+
+								
+								<apex:variable rendered="{!IF(bRenderTokenFields||wrap.bRenderExistingCC,true,false)}" var="bsub"
+									value="{!bRenderTokenFields}">
+								<apex:dataTable style="font-size:12px;" rendered="{!wrap.bRenderExistingCC}" value="{!wrap.lstPaymentTokens}" var="Recpmt" id="pmntTokens">
+								
+									 <apex:column headerValue="Credit Card" style="white-space:nowrap;padding-right:2px;">
+													<input type="radio" name="radiotokenName" value="{!Recpmt.TokenId}" />
+													<apex:outputText value="{!Recpmt.creditcardType}" />
+									</apex:column>
+									<!-- apex:column headerValue="Expiry">
+										<apex:outputText value="{!Recpmt.details}" />
+									</apex:column> -->  
+									
+									<apex:column headerValue="">
+										<a class="tips" rel="#{!Recpmt.cardSerial}" href="#{!Recpmt.cardSerial}" >
+											Card Details
+										</a>
+										<div  id="{!Recpmt.cardSerial}"><apex:outputText escape="false" value="{!Recpmt.details}"/></div>
+									</apex:column>
+									<apex:column headerValue="" style="width:10px"></apex:column>
+									<apex:column >
+										<apex:commandLink title="Update billing address" value="Update" onClick="showProgressBar('Updating Information.  Please Wait....');"
+											onComplete="hideProgressBar();" action="{!UpdateToken}" reRender="NewOrderForm"> 
+										<apex:param name="deltokenid" value="{!Recpmt.TokenId}" />
+										</apex:commandLink>
+										 
+									</apex:column>
+									<apex:column headerValue="" style="width:20px"></apex:column>
+									<apex:column >
+										<apex:commandLink title="Delete card" value="Delete" onClick="showProgressBar('Deleting Payment.  Please Wait....');"
+											onComplete="hideProgressBar();" action="{!DeleteToken}" reRender="NewOrderForm"> 
+										<apex:param name="deltokenid" value="{!Recpmt.TokenId}" />
+										</apex:commandLink>
+										
+									</apex:column>
+								</apex:dataTable>
+								<apex:variable rendered="{!(!wrap.bRenderExistingCC)}" var="bsubtok" value="{!bRenderTokenFields}">
+									<label for="token">Payment Token</label>
+								{!wrap.newOrder.Credit_Card_Token__c}
+							<br /></apex:variable>
+									<apex:commandButton styleClass="btn btn-primary"
+										rendered="{!!bOrderSubmitted}" id="AuthorizePayment"
+										value="Authorize Payment"
+										onClick="showProgressBar('Authorizing Payment.  Please Wait....');"
+										onComplete="hideProgressBar();" action="{!authorizePayment}"
+										reRender="NewOrderForm" />
+								</apex:variable>
+
+								<apex:variable rendered="{!!bOrderSubmitted}" var="bsub"
+									value="{!bRenderCCfields}">
+
+
+									<apex:outputPanel id="ccFields">
+										<apex:outputPanel rendered="{!bRenderCCfields}">
+											<label for="cc-type">Credit Card Type</label>
+											<apex:selectList value="{!wrap.selectedccType}" id="cc-type"
+												styleClass="select-lg" multiselect="false" size="1">
+												<apex:selectOptions value="{!wrap.ccTypeList}" />
+											</apex:selectList>
+
+											<label for="cc-number">Credit Card Number</label>
+											<apex:inputText value="{!wrap.paymentInfo.creditCardNumber}"
+												id="cc-number" styleclass="input-lg" />
+
+											<label for="cc-name">Name on Card</label>
+											<apex:inputText value="{!wrap.paymentInfo.nameOnCard}"
+												id="cc-name" styleclass="input-lg" />
+											<!--					
+							<label for="cc-sec">CVV / CVC Code</label> 
+							<input type="text" id="cc-sec" class="input-lg" /> 
+							-->
+											<label for="cc-exp">Expiration Date (YYYYMM)</label>
+											<apex:inputText value="{!wrap.paymentInfo.expiryYYYYMM}"
+												id="cc-exp" styleclass="input-lg"
+												onkeypress="return ValidateExpDate(event);" />
+											<br />
+
+											<apex:commandButton styleClass="btn btn-primary"
+												rendered="{!!bOrderSubmitted}" id="AuthorizePayment"
+												value="Authorize Payment"
+												onClick="showProgressBar('Authorizing Payment.  Please Wait....');"
+												onComplete="hideProgressBar();" action="{!authorizePayment}"
+												reRender="NewOrderForm" />
+
+										</apex:outputPanel>
+									</apex:outputPanel>
+
+
+								</apex:variable>
+							</apex:outputPanel>
+						</div> <!-- END new-order-shipping-info --></td>
+
+					<td style="width: 70%"><apex:variable rendered="{!!bOrderSubmitted}" var="bsubno"
+							value="{!!bOrderSubmitted}">
+							<center>
+								<h1>Checkout</h1>
+							</center>
+						</apex:variable> <apex:variable rendered="{!bOrderSubmitted}" var="bsub"
+							value="{!bOrderSubmitted}">
+							<center>
+								<h1>Order {!wrap.newOrder.name} -
+									{!wrap.newOrder.Order_Status__c}</h1>
+							</center>
+						</apex:variable>
+						<div class="new-order-billing-info" style="width: 100%">
+							<div class="order-summary">
+								<!-- <h1 style="text-transform: capitalize">Order Summary</h1> -->
+								<table style="width: 100%">
+
+									<tr>
+										<td><hr />
+										</td>
+									</tr>
+									<tr>
+										<td valign="top" style="padding-left:20em;">
+											<label>Line Item Search: </label>
+											<input type="text" id="itemsSearchFilter" styleClass="autocomplete" placeholder="Type sku or item name"/>
+										</td>
+									</tr>
+									<tr>
+										  <td>
+											<apex:dataTable value="{!OLIWrapperList}" var="Rec"
+												styleClass="order-items-list" style="width:100%"
+												cellpadding="5px" rowClasses="order-item-list-row">
+
+												<apex:column >
+													<apex:facet name="header">Description</apex:facet>
+													<span style="white-space: nowrap"><!-- <apex:image value="{!Rec.ProductImageURL}" height="55"
+															style="vertical-align:middle; padding-right:4px;" /> --> <apex:outputText value="{!Rec.ProductName} (Item # {!Rec.ProductNumber})" />
+													</span>
+												</apex:column>
+												<apex:column >
+													<apex:facet name="header"> Price</apex:facet>
+													<apex:outputText value="{!Rec.OrdrLineItem.Price_Override__c}"
+														rendered="{!AND(Rec.priceOverrideItem, Rec.OrdrLineItem.Price_Override__c < Rec.OrdrLineItem.Unit_Price__c)}" />
+													<apex:outputText value="{!Rec.OrdrLineItem.Unit_Price__c}"
+														rendered="{!NOT(AND(Rec.priceOverrideItem, Rec.OrdrLineItem.Price_Override__c < Rec.OrdrLineItem.Unit_Price__c))}" />
+												</apex:column>
+												<apex:column >
+													<apex:facet name="header">Order Quantity</apex:facet>
+													<apex:outputField value="{!Rec.OrdrLineItem.Original_Quantity__c}" />
+												</apex:column>
+												<apex:column >
+													<apex:facet name="header">Final Quantity</apex:facet>
+													<apex:outputText value="{!Rec.OrdrLineItem.Product_Quantity__c}" />
+												</apex:column>
+												<apex:column >
+													<apex:facet name="header">Tax</apex:facet>
+													<apex:outputText value="{!Rec.OrdrLineItem.Tax__c}" />
+												</apex:column>
+												<apex:column >
+													<apex:facet name="header">Final Price</apex:facet>
+													<apex:outputText value="{!Rec.OrdrLineItem.Final_Price__c}" />
+												</apex:column>
+											</apex:dataTable></td>
+									</tr>
+									<tr>
+										<td><apex:variable rendered="{!!bOrderSubmitted}"
+												var="bsub" value="{!bOrderSubmitted}">
+												<tr>
+													<td>
+														<table cellpadding="4" cellspacing="6" width="100%">
+														<!-- Loyalty Select Option Start -->
+															<tr>
+																<td align="right">
+																	<!-- <apex:outputPanel id="selectLabel" rendered="{!hasCoupons}" > -->
+																		<label>Loyalty Rewards Available:</label>
+																	<!-- </apex:outputPanel> -->
+																	<!-- <apex:outputPanel id="noSelect" rendered="{!!hasCoupons}" > -->
+																		
+																	<!-- </apex:outputPanel> -->
+																</td>
+																<td width="22%" align="right">
+																	<!-- <apex:outputPanel id="isSelect" rendered="{!hasCoupons}" > -->
+																		<apex:selectList value="{!selectedLoyalty}" multiselect="false" size="1" styleClass="select-lg" rendered="{!hasCoupons}" onchange="showProgressBar('Applying Coupon');addLoyalty()" >
+																			<apex:selectOptions value="{!loyaltySelectOp}" />
+																		</apex:selectList>
+																		<apex:outputText value="{!loyaltyMsg}" rendered="{!!hasCoupons}"/>
+																	<!-- </apex:outputPanel> -->
+																</td>
+															</tr>
+														<!-- Loyalty Select Option End -->
+															<tr>
+																<td align="right"><label>Customer Credit
+																		Available:</label>
+																</td>
+																<td><apex:outputText id="checkout-CustomerCreditAvailable"
+																		value="{!wrap.CustomerCreditAvailable}"
+																		styleClass="summary-item-amt" />
+																</td>
+															</tr>
+															<tr>
+																<td align="right"><label
+																	for="checkout-CreditApplied"> Apply Available
+																		Credit?: </label>
+																</td>
+																<td><apex:inputCheckbox id="checkout-CreditApplied"
+																		value="{!wrap.CreditApplied}"
+																		selected="{!wrap.CreditApplied}"
+																		onchange="calcCreditsApplied();" /></td>
+															</tr>
+														</table></td>
+												</tr>
+											</apex:variable></td>
+										<td>
+											<table width="100%">
+												<tbody>
+													<tr>
+														<td style="white-space: nowrap"><label>Order
+																Sub Total:</label>
+														</td>
+														<td><apex:outputText id="checkout-OrderSubTotal"
+																value="{!wrap.SubTotal}" styleClass="summary-item-amt" />
+														</td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Discount:</label>
+														</td>
+														<td><apex:outputText id="checkout-OrderDiscount"
+																value="{!wrap.Discount}" styleClass="summary-item-amt" />
+														</td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Shipping
+																Discount:</label>
+														</td>
+														<td><apex:outputText id="checkout-OrderShipDiscount"
+																value="{!wrap.ShippingDiscount}"
+																styleClass="summary-item-amt" /></td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Shipping:</label>
+														</td>
+														<td><apex:outputText id="checkout-shipping"
+																value="{!wrap.ShippingCharges}"
+																styleClass="summary-item-amt" />
+														</td>
+													</tr>
+
+
+													<tr>
+														<td colspan="2"><hr /></td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Tax:</label>
+														</td>
+														<td><apex:outputText id="checkout-OrderPreTaxTot"
+																value="{!wrap.Tax}" styleClass="summary-item-amt" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2"><hr /></td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Applied
+																Credit:</label>
+														</td>
+														<td><apex:outputText id="checkout-TotalCreditApplied"
+																value="{!wrap.TotalCreditApplied}"
+																styleClass="summary-item-amt" />
+														</td>
+													</tr>
+													<tr>
+														<td colspan="2"><hr /></td>
+													</tr>
+													<tr>
+														<td style="white-space: nowrap"><label>Order
+																Total:</label>
+														</td>
+														<td><apex:outputText id="checkout-Total"
+																value="{!wrap.Total}" styleClass="summary-item-amt" />
+														</td>
+													</tr>
+												</tbody>
+											</table></td>
+									</tr>
+									<tr>
+										<td><br />
+											<div class="clear_fix">
+												<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+													value="Cancel" oncomplete="CloseOrderWizard(true)"
+													rendered="{!!bOrderSubmitted}" />
+												<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+													value="Save & Exit" oncomplete="CloseOrderWizard(false)"
+													rendered="{!!bOrderSubmitted}" />
+												<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+													id="applyCreditBtn"
+													value="Create Credit" 
+													onClick="openmodal('#creditDetail');" 
+													reRender="dummyPanel"
+													rendered="{!!bOrderSubmitted}" />
+												<apex:commandButton styleClass="btn btn-primary"
+													rendered="{!!bOrderSubmitted}" id="EditCart" onClick="lineItemSearchVal=null;"
+													value="Edit Cart" action="{!createOrder}"
+													reRender="NewOrderForm" />
+												
+												<apex:outputPanel id="submitOrderBtnPanel">
+													<apex:commandButton styleClass="btn btn-primary" onClick="showProgressBar('Submitting Order');"
+														rendered="{!IF(!bOrderSubmitted&&!bRenderCCfields&&!wrap.bRenderExistingCC&&!bRenderTokenFields&&OLIWrapperList.size>0,true,false)}"
+														id="SubmitOrder" value="Submit Order" onComplete="hideProgressBar();"
+														action="{!submitOrder}" reRender="NewOrderForm" />
+												</apex:outputPanel>
+											</div></td>
+									</tr>
+								</table>
+							</div>
+						</div></td>
+				</tr>
+			</table>
+		</apex:outputPanel>
+		<br />
+		<apex:actionFunction name="calcCreditsApplied"
+			action="{!ApplyCredits}"
+			rerender="checkout-CreditAmountApplied,checkout-CreditReasons,checkout-CustomerCreditAvailable,checkout-TotalCreditApplied, checkout-Total,paymentPanel,submitOrderBtnPanel, error-msg" />
+		<apex:actionFunction name="addLoyalty"
+			action="{!addLoyaltyToDiscount}" 
+			rerender="checkout-OrderDiscount,checkout-OrderPreTaxTot,checkout-Total,error-msg,checkout-CreditAmountApplied,checkout-CreditReasons,checkout-CustomerCreditAvailable,checkout-TotalCreditApplied" 
+			onComplete="hideProgressBar();"/>
+
+
+		<apex:actionFunction name="recalcShippingJs" rerender="NewOrderForm"
+			action="{!recalcShipping}"
+			onComplete="showProgressBar('Recalculating Tax'); recalcTaxJs(); " />
+			
+			<!--	DE871 / INC766214	 -->
+			<!--	Christian Coleman	 -->
+			<!--
+					before:
+						onComplete="hideProgressBar()"
+				-->
+		<apex:actionFunction name="recalcTaxJs" rerender="NewOrderForm"
+			action="{!calcTaxOnShipMethodChange}"
+			onComplete="setTime(function() { hideProgressBar() },2000)" />
+		<apex:actionFunction name="rerenderPaymentFields"
+			rerender="paymentPanel, submitOrderBtnPanel"
+			action="{!resetPaymentFields}" 
+			onComplete="checkTokenValue();" />
+		<apex:actionFunction name="editShippingBillingJs"
+			rerender="NewOrderForm" action="{!editShippingBilling}"
+			onComplete="hideProgressBar();" />
+
+		<apex:actionFunction name="cancelOrderJs" action="{!cancelOrder}"
+			rerender="dummyPanel"
+			onComplete="sforce.console.getEnclosingTabId(closeSubtabA);" />
+
+		<apex:actionFunction name="saveOrderJs" action="{!saveOrder}"
+			rerender="dummyPanel"
+			onComplete="sforce.console.getEnclosingTabId(closeSubtabA);" />
+			
+		<apex:actionFunction name="ApplyCreditJs"
+			rerender="ThirdPanel" action="{!createCredit}"
+			onComplete="hideProgressBar();closemodal('#creditDetail')">
+			<apex:param name="newCreditAmt" assignTo="{!tempCredit.Credit_Amount__c}" value="" />
+			<apex:param name="newCreditReason" assignTo="{!tempCredit.Credit_Reason__c}" value="" />
+		</apex:actionFunction>
+		
+		<apex:outputPanel id="dummyPanel" />
+	  
+		<apex:outputPanel id="ModalPanelForBackOrder">
+			<div id="Itemdetail" class="Itemdetail" title=""
+				style="display: none; background: white;">
+				<div id="boItem" style="width: 100%;">
+					<b><label>This item is on back order <apex:outputText value=". There is no substitute item available"
+								rendered="{!OR(ISNULL(ItemSelected.Substitute_Item__c), AND( NOT(ISNULL(ItemSelected.Substitute_Item__c)), NOT(VALUE(ItemSelected.Substitute_Item__r.Available_Inventory__c) > 0)))}" />
+					</label>
+					</b>
+					<table>
+						<tr>
+							<th width="100px" />
+							<th width="150px">Item Name</th>
+							<th width="100px">Item Number</th>
+							<th width="150px">Available Inventory</th>
+							<th width="150px">Inventory Status</th>
+							<th width="200px"><apex:outputText value="Substitute Item"
+									rendered="{!AND(NOT(ISNULL(ItemSelected.Substitute_Item__c)), VALUE(ItemSelected.Substitute_Item__r.Available_Inventory__c) > 0)}" />
+							</th>
+						</tr>
+						<tr>
+							<br />
+						</tr>
+						<tr>
+							<td><apex:image value="{!ItemSelected.Product_Image_URL__c}"
+									width="45" height="80" /></td>
+							<td>{!ItemSelected.Name}</td>
+							<td>{!ItemSelected.Product_Number__c}</td>
+							<td>{!ItemSelected.Available_Inventory__c}</td>
+							<td>{!ItemSelected.Inventory_Status__c}</td>
+							<td><apex:outputText value="{!ItemSelected.Substitute_Item__r.Name} (Item # {!ItemSelected.Substitute_Item_Number__c})"
+									rendered="{!AND(NOT(ISNULL(ItemSelected.Substitute_Item__c)), VALUE(ItemSelected.Substitute_Item__r.Available_Inventory__c) > 0)}" />
+							</td>
+						</tr>
+					</table>
+					<p />
+					<apex:commandButton styleClass="btn btn-primary"
+						value="Add to Order & Close" action="{!AddItemToOrder}"
+						rerender="NewOrderForm, recommendationsPanel"
+						onclick="closemodal('#Itemdetail');"
+						oncomplete="setTimeout(updateAfterAdd(),1000);">
+						<apex:param name="SelProdId" value="{!ItemSelected.Id}" />
+					</apex:commandButton>
+					<apex:commandButton styleClass="btn btn-primary"
+						value="Add Susbtitute Item & Close"
+						action="{!AddSubstituteToOrder}"
+						rendered="{!AND(NOT(ISNULL(ItemSelected.Substitute_Item__c)), VALUE(ItemSelected.Substitute_Item__r.Available_Inventory__c) > 0)}"
+						rerender="NewOrderForm, recommendationsPanel"
+						onclick="closemodal('#Itemdetail');"
+						oncomplete="setTimeout(updateAfterAdd(),1000);">
+						<apex:param name="SelProdId" value="{!ItemSelected.Id}" />
+					</apex:commandButton>
+					<apex:commandButton styleClass="btn btn-secondary new-order-header-action"
+						oncomplete="closemodal('#Itemdetail')" value="Cancel" />
+				</div>
+			</div>
+		</apex:outputPanel>
+		
+		<apex:outputPanel id="ModalPanelToApplyCredit">
+			<div id="creditDetail" class="Itemdetail" title=""
+				style="display: none; background: white;">
+				<div style="width: 100%;">
+					<b><label>Please enter the amount and click submit to apply the credit</label></b>	
+					 <label>Enter the Amount:</label>	
+					 <apex:inputField id="cAmt" value="{!tempCredit.Credit_Amount__c}" styleClass="input-lg" label="Enter the Amount:"/><br/>
+					 <label>Credit Reason:</label>
+					 <apex:inputField id="cReason" value="{!tempCredit.Credit_Reason__c}" styleClass="select-lg" label="Credit Reason:"/>
+					<p />
+					<input type="button" value="Apply" class="btn btn-primary" onClick="showProgressBar('Creating Credit..');createCredit('{!$Component.cAmt}','{!$Component.cReason}');"/>
+					<apex:commandButton styleClass="btn btn-secondary new-order-header-action" value="cancel" onclick="closemodal('#creditDetail');" reRender="dummy"/>
+				</div>
+			</div>
+		</apex:outputPanel>
+
+	</apex:form>
+	<script type="text/javascript">
+		var itemId;
+		var itemName;
+	 
+		function testOpenSubtab(itemIdToSet, itemNameToSet) {
+			//First find the ID of the primary tab to put the new subtab in
+			itemId = itemIdToSet;
+			itemName = itemNameToSet;
+			sforce.console.getEnclosingPrimaryTabId(openSubtabA);
+		}
+
+		var openSubtabA = function openSubtabA(result) {
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;
+			sforce.console.openSubtab(primaryTabId, '/' + itemId, false,
+					itemName);
+
+		};
+
+		function CloseOrderWizard(bCancel) {
+			//First find the ID of the current tab to close it
+			var message ='Are you sure you want to';
+			if (bCancel) message+=' close the order wizard? ';
+			else				 message+=' close the order wizard? Recent changes will be saved.';
+			var r=confirm(message);
+			if (r)	  {
+				if (bCancel) {
+					cancelOrderJs();
+					}
+				else	{
+						saveOrderJs();
+						}
+			}
+		}
+
+		var closeSubtabA = function closeSubtabA(result) {
+			//Now that we've got the tab ID, we can close it
+			var tabId = result.id;
+			sforce.console.closeTab(tabId);
+		};
+
+		function openOrderWizard(productId, custId) {
+			showProgressBar('Adding Item to Cart..');
+			AddSelectedProduct(productId);
+		}
+	</script>
+
+</apex:page>

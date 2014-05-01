@@ -1,0 +1,60 @@
+<apex:page >
+<c:jQueryInit />
+<apex:includeScript value="/support/console/27.0/integration.js"/>
+<script type="text/javascript">
+	var j$ = jQuery.noConflict();
+	
+	j$(document).ready(function(){
+		sforce.console.getFocusedPrimaryTabId(showTabId);
+		testRefreshPrimaryTabByName();
+	});
+	
+	// Logic - Try to refresh primary tab and then focus tab by name.
+	// If the results for those operations are null instead try to open a new tab
+	// If all the above fails - cry!
+	
+	var subTabToClose;
+	var showTabId = function showTabId(result) {
+		// Display the tab ID
+		//alert ('Tab ID: ' + result.id);
+		subTabToClose = result.id;
+	};
+/*----------------------------------------------------------------------------------------------------*/	
+	function testRefreshPrimaryTabByName() {
+		//Set the name of the tab by using the openPrimaryTab method
+		//This value is for example purposes only
+		var primaryTabName = 'InboundCallPage';
+		sforce.console.refreshPrimaryTabByName(primaryTabName, true, refreshSuccess);
+	}
+		
+		var refreshSuccess = function refreshSuccess(result) {
+		//Report whether refreshing the primary tab was successful
+		if (result.success == true) {
+			// Need to close original tab
+			sforce.console.closeTab(subTabToClose);
+		} else {
+			testOpenPrimaryTab();
+		}
+	};
+/*----------------------------------------------------------------------------------------------------*/	
+	function testOpenPrimaryTab() {
+		//Open a new primary tab with the salesforce.com home page in it
+		sforce.console.openPrimaryTab(null, '/apex/InboundCall', true, 
+			'Call/Case Redirect', openSuccess, 'InboundCallPage');
+	}
+		
+	var openSuccess = function openSuccess(result) {
+		//Report whether opening the new tab was successful
+		if (result.success == true) {
+			//alert('Primary tab successfully opened');
+			sforce.console.closeTab(subTabToClose);
+		} else {
+			alert('Primary tab cannot be opened');
+		}
+	};
+	
+	
+	
+</script>
+
+</apex:page>

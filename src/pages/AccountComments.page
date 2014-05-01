@@ -1,0 +1,18 @@
+<apex:page standardController="Account" extensions="AccountCommentsController" >
+<apex:pageBlock rendered="{!IF(commentWrapperList.size>0,true,false)}">
+<apex:pageBlockTable value="{!commentWrapperList}" var="cw">
+<apex:column headerValue="Complaint Date" >
+
+<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+       <apex:param value="{!cw.complaintDate}" />
+   </apex:outputText>
+   </apex:column>
+  <apex:column headerValue="Activity Date" >
+   <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+       <apex:param value="{!cw.activityDate}" />
+   </apex:outputText>
+   </apex:column>
+<apex:column headerValue="Comment Details" value="{!cw.comment}"/>
+</apex:pageBlockTable>
+</apex:pageBlock>
+</apex:page>

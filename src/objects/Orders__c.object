@@ -1,0 +1,2682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <content>Order_EditOverride</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <content>Order_EditOverride</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Follow</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <content>Order_Detail</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>AS400_Cancellation_Details__c</fullName>
+        <externalId>false</externalId>
+        <label>AS400 Cancellation Details</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AS400_Order_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>AS400 Order Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AS_400_Submission_Details__c</fullName>
+        <description>Keeps track of any submission issues to AS400</description>
+        <externalId>false</externalId>
+        <label>AS 400 Submission Details</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Allowance_Discount__c</fullName>
+        <externalId>false</externalId>
+        <label>Allowance Discount</label>
+        <summarizedField>Allowance__c.Allowance_Amount__c</summarizedField>
+        <summaryForeignKey>Allowance__c.Order__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Amazon_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Amazon ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Amazon_Model__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Amazon Model</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Archive_Summary__c</fullName>
+        <externalId>false</externalId>
+        <label>Archive Summary</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Archived__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Archived</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Authorization_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Authorization Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>AvalaraCalloutFailure__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Avalara Callout Failure</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Bank_Response_Date_Time__c</fullName>
+        <externalId>false</externalId>
+        <label>Bank Response Date &amp; Time</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Batch_Number__c</fullName>
+        <externalId>true</externalId>
+        <label>Batch Number</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Batch_Sequence_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Batch Sequence Number</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Bill_To_Address_Details__c</fullName>
+        <externalId>false</externalId>
+        <label>Bill To Address Details</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Bill_To_Address__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Bill To Address</label>
+        <referenceTo>Address__c</referenceTo>
+        <relationshipLabel>Orders (Bill To Address)</relationshipLabel>
+        <relationshipName>Orders1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CCV__c</fullName>
+        <externalId>false</externalId>
+        <label>CCV</label>
+        <length>4</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CTI_Search__c</fullName>
+        <externalId>false</externalId>
+        <label>CTI Search</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Calculated_Discount__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( ISPICKVAL(Payment_Type__c, &apos;Paypal&apos;), Order_Total__c - Order_Sub_Total__c - Tax__c - Calculated_Shipping__c ,
+IF( ISPICKVAL(Sales_Channel__c, &apos;Phone&apos;), -Discount__c ,
+IF( Authorization_Amount__c=0 , 0,
+Authorization_Amount__c -Order_Sub_Total__c - Tax__c - Calculated_Shipping__c) ) )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calculated Discount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Calculated_Order_Total__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( AND(ISPICKVAL(Sales_Channel__c , &apos;Brand Website&apos;), NOT(Authorization_Amount__c==0 )  )  ,  Authorization_Amount__c ,  Order_Total__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calculated Order Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Calculated_Shipping__c</fullName>
+        <externalId>false</externalId>
+        <formula>Misc_Charge_Amount__c +  Shipping_Total__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calculated Shipping</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Cancelled_Reason__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Why is the Order Status set to &quot;Cancelled&quot;?</inlineHelpText>
+        <label>Cancelled Reason</label>
+        <picklist>
+            <controllingField>Order_Status__c</controllingField>
+            <picklistValues>
+                <fullName>Orphan Order Clean-Up</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Payment Declined</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Cancellation</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Back Order Cancellation</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>AS400 Error Exception Clean Up</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Possible Credit Card Fraud</fullName>
+                <controllingFieldValues>Cancelled</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Duplicate Order</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Card_Holder_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Card Holder Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Catalog_Source_Code__c</fullName>
+        <description>Catalog Source Code</description>
+        <externalId>false</externalId>
+        <label>Catalog Source Code</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Check_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Check Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Check_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Check Number</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Comments__c</fullName>
+        <externalId>false</externalId>
+        <label>Comments</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Amount_Applied__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Amount Applied</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Applied__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Credit Applied?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Expiration_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Expiration Date</label>
+        <length>6</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Number__c</fullName>
+        <description>Encrypted Credit Card Number for re-authorization.</description>
+        <externalId>false</externalId>
+        <label>Credit Card Number</label>
+        <length>50</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>creditCard</maskType>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Token__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Token</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Card Type</label>
+        <picklist>
+            <controllingField>Payment_Type__c</controllingField>
+            <picklistValues>
+                <fullName>Visa</fullName>
+                <controllingFieldValues>Credit Card</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>American Express</fullName>
+                <controllingFieldValues>Credit Card</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Discover</fullName>
+                <controllingFieldValues>Credit Card</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>JCB</fullName>
+                <controllingFieldValues>Credit Card</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>MasterCard</fullName>
+                <controllingFieldValues>Credit Card</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Reasons__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Reasons</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Customer Complaint</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Service</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Price Match</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Rejected__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Credit Rejected?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Fraud_Risk__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+ Customer__r.Possible_Fraud__c , &quot;Yes&quot;, &quot;No&quot;
+)</formula>
+        <label>Customer Fraud Risk?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Name__c</fullName>
+        <description>Field Populated with the Customers First and Last Name for use by the email template AR</description>
+        <externalId>false</externalId>
+        <label>Customer Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Customer</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Delivery_Instructions__c</fullName>
+        <externalId>false</externalId>
+        <label>Delivery Instructions</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Discount__c</fullName>
+        <externalId>false</externalId>
+        <label>Discount</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Foreign_Fax_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Foreign Fax Number</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Foreign_Phone_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Foreign Phone Number</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Future_Order_Date__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>What is the date of the Future Order?</inlineHelpText>
+        <label>Future Order Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Future_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if this Order is a Future Order.</inlineHelpText>
+        <label>Future Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Gift_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if this Order is a gift.</inlineHelpText>
+        <label>Gift Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Internal_Review_Reason__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Why is the Order Status set to &quot;Internal Review&quot;?</inlineHelpText>
+        <label>Internal Review Reason</label>
+        <picklist>
+            <controllingField>Order_Status__c</controllingField>
+            <picklistValues>
+                <fullName>Manually Added by Associate</fullName>
+                <controllingFieldValues>Internal Review</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Order Over $5,000</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Over 100 of a Single Item</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Possible Fraud</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pending Payment</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Ship Complete was checked</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>International_Address__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF ( Ship_To_Address__r.International_Address__c , &quot;Yes&quot; , &quot;No&quot; )</formula>
+        <label>International Address?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Status_Update__c</fullName>
+        <externalId>false</externalId>
+        <label>Last Status Update</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Mail_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if this Order is a Mail Order.</inlineHelpText>
+        <label>Mail Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Misc_Charge_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Miscellaneous Charge Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Misc_Charge_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Miscellaneous Charge Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>No_Catalogs__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This check box is used to indicate if a customer does not want to receive catalogs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This check box is used to indicate if a customer does not want to receive catalogs.</inlineHelpText>
+        <label>No Catalogs?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>No_Invoice__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if Customer does not want to receive a printed Invoice of their order with their shipment.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer does not want to receive a printed Invoice of their order with their shipment.</inlineHelpText>
+        <label>No Invoice?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>No_Peanuts__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if Customer does not wish to have packing peanuts used with their shipment.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer does not wish to have packing peanuts used with their shipment.</inlineHelpText>
+        <label>No Peanuts?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>No_Substitutes__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if Customer does not want to receive substitute items or sizes.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer does not want to receive substitute items or sizes.</inlineHelpText>
+        <label>No Substitutes?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Order_Confirm_Brand__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Confirm Brand</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Confirm_Email__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Confirm Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Order_Id__c</fullName>
+        <description>Legacy Order Id</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Legacy Order Id</inlineHelpText>
+        <label>Order Id</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Origin__c</fullName>
+        <description>Flag to differentiate orders</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Flag to differentiate orders</inlineHelpText>
+        <label>Order Origin</label>
+        <picklist>
+            <picklistValues>
+                <fullName>From Order History</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Order_Status_Code__c</fullName>
+        <description>Stores AS400 order status code (PB,PA,SA, etc.)</description>
+        <externalId>false</externalId>
+        <label>Order Status Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Status_Description__c</fullName>
+        <description>Long description of order status</description>
+        <externalId>false</externalId>
+        <label>Order Status Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Open</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Internal Review</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Pending Submission</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Awaiting Physical Payment</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Awaiting Approval</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Order_Sub_Total__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Sub Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Order_Submitted__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Order Submitted?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Order_Total__c</fullName>
+        <externalId>false</externalId>
+        <label>Order Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Authorization_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Authorization Code</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Profile_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Profile ID</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Transaction_Reference_Index__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Transaction Reference Index</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Transaction_Reference_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Transaction Reference Number</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Type__c</fullName>
+        <description>Customer&apos;s method of payment</description>
+        <externalId>false</externalId>
+        <label>Payment Type</label>
+        <picklist>
+            <controllingField>Sales_Channel__c</controllingField>
+            <picklistValues>
+                <fullName>Credit Card</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cash</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Check</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Money Order</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Wire Transfer</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Gift Certificate</fullName>
+                <controllingFieldValues>Mail</controllingFieldValues>
+                <controllingFieldValues>Phone</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Value__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Value</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Paypal_Authorization_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Paypal Authorization Code</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Phone_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Phone Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Potential_Fraud__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Potential Fraud?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Order_Number__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Third_Party_Order_Number__c !=&apos;&apos;, Third_Party_Order_Number__c , IF( Webstack_Order_ID__c !=&apos;&apos; , Webstack_Order_ID__c , Name ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Primary Order Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Promotions__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Promotions</label>
+        <referenceTo>Promotion__c</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Pull_Order_Reason_Multi__c</fullName>
+        <externalId>false</externalId>
+        <label>Pull Order Reason</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Make Sure Caps are Tight</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Special Shipping Traffic</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Please Bubble Wrap</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Ship in More than One Box</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Catalog</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Shipping Document</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Advertisements</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Peanuts</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Invoice on Outside of Box</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Pull_Order_Reason_Other__c</fullName>
+        <externalId>false</externalId>
+        <label>Pull Order Reason Other</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Pull_Order_Reason__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Why is this Order being pulled?</inlineHelpText>
+        <label>Pull Order Reason</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Make Sure Caps are Tight</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Special Shipping Traffic</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Please Bubble Wrap</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Ship in More than One Box</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Catalog</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Shipping Document</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Advertisements</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>No Peanuts</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Invoice On Outside Of Box-Traffic</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Pull_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer wants to pull this Order.</inlineHelpText>
+        <label>Pull Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Re_Authorize__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Re-Authorize?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Related_Bad_Address__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Related Bad Address</label>
+        <referenceTo>Bad_Customer__c</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Bad_Email__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Related Bad Email</label>
+        <referenceTo>Bad_Customer__c</referenceTo>
+        <relationshipLabel>Orders (Related Bad Email)</relationshipLabel>
+        <relationshipName>Orders1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Cases__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Related Cases</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Order_Adjustment__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>This order has an Order Adjustment associated to it.</description>
+        <externalId>false</externalId>
+        <label>Related Order Adjustment</label>
+        <referenceTo>Order_Adjustment__c</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Replacement_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Replacement Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Replay_Existing_CC__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Only for use within code to determine if an existing cc token or a new cc will be used for authorization.</description>
+        <externalId>false</externalId>
+        <label>Replay Existing CC</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Return_Reason__c</fullName>
+        <description>Why is this order being returned?</description>
+        <externalId>false</externalId>
+        <label>Return Reason</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Return_Refund_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Return Refund Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Credit Card</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Check</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>PayPal</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Customer Credit</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Return__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer is returning the Order.</inlineHelpText>
+        <label>Return?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reversal_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Reversal Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Rush_Order__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if this Order is a Rush Order.</inlineHelpText>
+        <label>Rush Order?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SFDC_Customer_Number__c</fullName>
+        <externalId>false</externalId>
+        <formula>Customer__r.Customer_Number__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>SFDC Customer Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Channel__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Channel</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Mail</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Phone</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Same_as_Billing__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if the Ship To Address is the same as the Bill To Address.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if the Ship To Address is the same as the Bill To Address.</inlineHelpText>
+        <label>Same as Billing?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Sequence_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Sequence Number</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_Complete__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if Customer wishes their Order to be shipped only when able to be shipped in its entirety.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check if Customer wishes their Order to be shipped only when able to be shipped in its entirety.</inlineHelpText>
+        <label>Ship Complete?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Ship_To_Address_Details__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship To Address Details</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Ship_To_Address__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Ship To Address</label>
+        <referenceTo>Address__c</referenceTo>
+        <relationshipLabel>Orders</relationshipLabel>
+        <relationshipName>Orders</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Ship_To_PO_BOX__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(  Ship_To_Address__r.PO_Box__c, &quot;YES&quot; , &quot;NO&quot;)</formula>
+        <label>Ship To PO BOX?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_to_Email_Address__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship to Email Address</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_to_First_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship to First Name</label>
+        <length>12</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_to_Last_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship to Last Name</label>
+        <length>15</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_to_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship to Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ship_to_Salutation__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship to Salutation</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Shipment_Value__c</fullName>
+        <description>What the order would cost with the default source code applied.</description>
+        <externalId>false</externalId>
+        <label>Shipment Value</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Shipping_Method__c</fullName>
+        <description>Denotes the shipping method for the order.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Denotes the shipping method for the order.</inlineHelpText>
+        <label>Shipping Method</label>
+        <picklist>
+            <picklistValues>
+                <fullName>UPS</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>TwoDay</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>International</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>NextDay</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>USPS</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Shipping_Tax__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <label>Shipping Tax</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Shipping_Total__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <label>Shipping</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Source_Code__c</fullName>
+        <description>Source code returned by promotions service</description>
+        <externalId>false</externalId>
+        <label>Source Code</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tax__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <label>Tax</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Third_Party_Order_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>3rd Party Order Number</label>
+        <length>40</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Valid_Duplicate__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Signals if the order is a valid duplicate.</description>
+        <externalId>false</externalId>
+        <label>Valid Duplicate?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Web_Order_ID__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Webstack_Order_ID__c), Name, Webstack_Order_ID__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Web Order ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Webstack_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Webstack ID</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Webstack_Order_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Webstack Order ID</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Weight__c</fullName>
+        <externalId>false</externalId>
+        <label>Weight</label>
+        <precision>6</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Order</label>
+    <listViews>
+        <fullName>Amazon_Orders</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Amazon_ID__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Webstack_ID__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Sales_Channel__c</field>
+            <operation>equals</operation>
+            <value>Amazon</value>
+        </filters>
+        <label>Amazon Orders</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Awaiting_Physical_Payment</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Cancelled</value>
+        </filters>
+        <label>Awaiting Physical Payment</label>
+        <queue>Awaiting_Physical_Payment</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>BO_Bad_Orders</fullName>
+        <columns>Order_Date__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>NAME</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Webstack_Order_ID__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status_Code__c</field>
+            <operation>equals</operation>
+            <value>BO</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Cancelled</value>
+        </filters>
+        <label>OLD - BO - Bad Orders</label>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>BO_Bad_Orders2</fullName>
+        <columns>Order_Date__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>NAME</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Status_Description__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status_Code__c</field>
+            <operation>equals</operation>
+            <value>BO</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>contains</operation>
+            <value>Bad Order</value>
+        </filters>
+        <label>BO - Bad Orders</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>WebOps_Team</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>BO_Perfectly_Pure_Order</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Internal_Review_Reason__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Queue</filterScope>
+        <label>BO - Perfectly Pure - Order</label>
+        <queue>BO_Perfectly_Pure_Order</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Mail_Order</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>BO_Puritan_s_Pride_Order_Queue</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Internal_Review_Reason__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>OWNER.ALIAS</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Cancelled</value>
+        </filters>
+        <label>BO - Puritan&apos;s Pride - Order</label>
+        <queue>BO_Puritan_s_Pride_Order</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Mail_Order</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>BO_Vitamin_World_Order</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Internal_Review_Reason__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>OWNER.ALIAS</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Cancelled</value>
+        </filters>
+        <label>BO - Vitamin World - Order</label>
+        <queue>BO_Vitamin_World_Order</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Mail_Order</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Bad_Orders</fullName>
+        <columns>NAME</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Webstack_Order_ID__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>AS_400_Submission_Details__c</columns>
+        <columns>Bill_To_Address__c</columns>
+        <columns>Ship_To_Address__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Order_Submitted__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Queue</filterScope>
+        <label>Bad Orders</label>
+        <queue>Admin_Bad_Orders</queue>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Errors_Perfectly_Pure_Domestic</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Name__c</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Confirm_Email__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Error Screen</value>
+        </filters>
+        <label>Errors - Perfectly Pure - Domestic</label>
+        <queue>Errors_Perfectly_Pure_Domestic</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Errors_Puritan_s_Pride_Domestic</fullName>
+        <columns>Sales_Channel__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Name__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>Source_Code__c</columns>
+        <columns>Order_Confirm_Email__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Error Screen</value>
+        </filters>
+        <label>Errors - Puritan&apos;s Pride - Domestic</label>
+        <queue>Errors_Puritans_Pride_Domestic</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Errors_Puritan_s_Pride_International</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Name__c</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Confirm_Email__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Error Screen</value>
+        </filters>
+        <label>Errors - Puritan&apos;s Pride - International</label>
+        <queue>Errors_Puritans_Pride_International</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Errors_Vitamin_World_Domestic</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Name__c</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Confirm_Email__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Error Screen</value>
+        </filters>
+        <label>Errors - Vitamin World - Domestic</label>
+        <queue>Errors_Vitamin_World_Domestic</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Errors_Vitamin_World_International</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Promotions__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Name__c</columns>
+        <columns>Primary_Order_Number__c</columns>
+        <columns>Order_Confirm_Email__c</columns>
+        <filterScope>Queue</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Error Screen</value>
+        </filters>
+        <label>Errors - Vitamin World - International</label>
+        <queue>Errors_Vitamin_World_International</queue>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Awaiting_Payment</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>&quot;Order Over $5,000&quot;</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - Over $5000</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>E_Support</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Manual</fullName>
+        <columns>NAME</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>Manually Added by Associate</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - Manual</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Missing_Payment_Info</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Internal_Review_Reason__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>Missing payment information</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - Missing Payment Info</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Over_100_of_a_Single</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>Over 100 of a Single Item</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - Over 100 of a Single</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>E_Support</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_PayPal_Potential_Fraud</fullName>
+        <columns>Order_Date__c</columns>
+        <columns>NAME</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Customer__c</columns>
+        <columns>Customer_Fraud_Risk__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Payment_Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Payment_Type__c</field>
+            <operation>equals</operation>
+            <value>Paypal</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - PayPal Potential Fraud</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Pending_Payment</fullName>
+        <columns>NAME</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>Pending Payment</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <label>Internal Review - Pending Payment</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_Possible_Fraud</fullName>
+        <booleanFilter>(1 AND 2) OR 3</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Internal_Review_Reason__c</field>
+            <operation>equals</operation>
+            <value>Possible Fraud</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Possible Fraud</value>
+        </filters>
+        <label>Internal Review - Possible Fraud</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Review_replacement</fullName>
+        <columns>NAME</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Internal_Review_Reason__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>Calculated_Discount__c</columns>
+        <columns>Calculated_Shipping__c</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Batch_Number__c</field>
+            <operation>contains</operation>
+            <value>replace</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Internal Review,Awaiting Physical Payment</value>
+        </filters>
+        <label>BO - Replacement - Order</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>My_Orders</fullName>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <filterScope>Mine</filterScope>
+        <label>My Orders</label>
+    </listViews>
+    <listViews>
+        <fullName>Old_Open_Orders</fullName>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>LAST_ACTIVITY</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </filters>
+        <filters>
+            <field>Order_Date__c</field>
+            <operation>lessOrEqual</operation>
+            <value>N_DAYS_AGO:30</value>
+        </filters>
+        <label>Old Open Orders</label>
+    </listViews>
+    <listViews>
+        <fullName>Orders_Awaiting_Payment_Authorization</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Payment_Authorization_Code__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Re_Authorize__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Orders - Awaiting Payment Authorization</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Orders_Payment_Authorization_Failed</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Payment_Authorization_Code__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Authorization_Amount__c</columns>
+        <columns>Order_Total__c</columns>
+        <filterScope>Queue</filterScope>
+        <label>Orders - Payment Authorization Failed</label>
+        <queue>Orders_Payment_Authorization_Failed</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Orders_Payment_Declined</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Paypal_Authorization_Code__c</columns>
+        <filterScope>Queue</filterScope>
+        <label>Orders - Payment Declined</label>
+        <queue>Orders_Payment_Declined</queue>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Orders_Waiting_on_Full_Payment</fullName>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Waiting on Full Payment</value>
+        </filters>
+        <label>Orders - Waiting on Full Payment</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Orders_with_Status_Code_NF</fullName>
+        <columns>NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Status_Description__c</columns>
+        <columns>Order_Confirm_Brand__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status_Code__c</field>
+            <operation>equals</operation>
+            <value>NF</value>
+        </filters>
+        <label>Orders with Order Status Code NF</label>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Pending_Submission</fullName>
+        <columns>NAME</columns>
+        <columns>Calculated_Order_Total__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Order_Date__c</columns>
+        <columns>LAST_ACTIVITY</columns>
+        <columns>Order_Status__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Pending Submission</value>
+        </filters>
+        <filters>
+            <field>Sales_Channel__c</field>
+            <operation>equals</operation>
+            <value>Phone</value>
+        </filters>
+        <label>Pending Submission</label>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Pending_Submission_Future_Orders</fullName>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Future_Order_Date__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Total__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Pending Submission</value>
+        </filters>
+        <filters>
+            <field>Future_Order__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Pending Submission Future Orders</label>
+    </listViews>
+    <listViews>
+        <fullName>Pending_Submission_Not_Future_Orders</fullName>
+        <columns>NAME</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <columns>Order_Confirm_Brand__c</columns>
+        <columns>Ship_To_Address__c</columns>
+        <columns>Bill_To_Address__c</columns>
+        <columns>Order_Total__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Pending Submission</value>
+        </filters>
+        <filters>
+            <field>Future_Order__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Pending Submission Not Future Orders</label>
+    </listViews>
+    <listViews>
+        <fullName>Rejected_Replacement_Orders</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Shipment_Value__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Replacement_Order__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Rejected</value>
+        </filters>
+        <label>Rejected Replacement Orders</label>
+    </listViews>
+    <listViews>
+        <fullName>Replacement_Orders</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Shipment_Value__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Replacement_Order__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Replacement Orders</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+            <group>Supervisors</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Replacement_Orders_200</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Shipment_Value__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Awaiting Approval</value>
+        </filters>
+        <filters>
+            <field>Replacement_Order__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Shipment_Value__c</field>
+            <operation>lessThan</operation>
+            <value>USD 500</value>
+        </filters>
+        <filters>
+            <field>Shipment_Value__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>USD 200</value>
+        </filters>
+        <label>Replacement Orders $200</label>
+        <sharedTo>
+            <group>Supervisors_Refunds_200</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Replacements_200</fullName>
+        <filterScope>Queue</filterScope>
+        <label>Replacements $200</label>
+        <queue>Replacements_200</queue>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Replacements_500</fullName>
+        <columns>NAME</columns>
+        <columns>Customer__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Shipment_Value__c</columns>
+        <columns>Payment_Type__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Awaiting Approval</value>
+        </filters>
+        <filters>
+            <field>Replacement_Order__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Shipment_Value__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>USD 500</value>
+        </filters>
+        <label>Replacements Orders $500+</label>
+        <sharedTo>
+            <group>Managers_Replacements_500</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Submission_Failed</fullName>
+        <columns>NAME</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>AS_400_Submission_Details__c</columns>
+        <columns>Sales_Channel__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Submission Failed</value>
+        </filters>
+        <label>Submission Failed</label>
+        <sharedTo>
+            <group>Administrators</group>
+            <group>Back_Office</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Submitted_and_Over_5K</fullName>
+        <columns>NAME</columns>
+        <columns>Order_Status__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>Order_Date__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Order_Total__c</field>
+            <operation>greaterThan</operation>
+            <value>USD 4999</value>
+        </filters>
+        <filters>
+            <field>Order_Date__c</field>
+            <operation>greaterThan</operation>
+            <value>8/13/2013 12:00 AM</value>
+        </filters>
+        <filters>
+            <field>Order_Status__c</field>
+            <operation>equals</operation>
+            <value>Shipped/Complete</value>
+        </filters>
+        <label>Submitted and Over 5K</label>
+        <sharedTo>
+            <group>Administrators</group>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Weborders</fullName>
+        <booleanFilter>1 AND 2 AND 3</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Order_Date__c</columns>
+        <columns>Webstack_ID__c</columns>
+        <columns>Order_Status__c</columns>
+        <columns>AS_400_Submission_Details__c</columns>
+        <columns>Bill_To_Address__c</columns>
+        <columns>Ship_To_Address__c</columns>
+        <columns>Order_Total__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Calculated_Discount__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Sales_Channel__c</field>
+            <operation>equals</operation>
+            <value>Brand Website</value>
+        </filters>
+        <filters>
+            <field>Webstack_ID__c</field>
+            <operation>notEqual</operation>
+            <value>null</value>
+        </filters>
+        <filters>
+            <field>Order_Date__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>9/25/2013 12:00 AM</value>
+        </filters>
+        <label>Web Orders</label>
+    </listViews>
+    <nameField>
+        <displayFormat>1{0000000}</displayFormat>
+        <label>Order Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Orders</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Customer__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Sales_Channel__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Order_Status__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Payment_Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Calculated_Order_Total__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Order_Date__c</customTabListAdditionalFields>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>New</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>Customer__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Sales_Channel__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Order_Status__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Order_Date__c</lookupDialogsAdditionalFields>
+        <lookupFilterFields>NAME</lookupFilterFields>
+        <lookupFilterFields>Customer__c</lookupFilterFields>
+        <lookupFilterFields>Sales_Channel__c</lookupFilterFields>
+        <lookupFilterFields>Order_Status__c</lookupFilterFields>
+        <lookupFilterFields>Order_Date__c</lookupFilterFields>
+        <lookupFilterFields>Calculated_Order_Total__c</lookupFilterFields>
+        <lookupPhoneDialogsAdditionalFields>Customer__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Sales_Channel__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Order_Status__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Order_Date__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Customer__c</searchFilterFields>
+        <searchFilterFields>Sales_Channel__c</searchFilterFields>
+        <searchFilterFields>Order_Status__c</searchFilterFields>
+        <searchFilterFields>Order_Date__c</searchFilterFields>
+        <searchFilterFields>Calculated_Order_Total__c</searchFilterFields>
+        <searchResultsAdditionalFields>Customer__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sales_Channel__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Order_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Payment_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Calculated_Order_Total__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Order_Date__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>CC_Token</fullName>
+        <active>false</active>
+        <errorConditionFormula>AND(
+ISPICKVAL(Payment_Type__c, &quot;Credit Card&quot;) ,
+NOT(ISPICKVAL(Order_Status__c, &quot;Internal Review&quot;)),
+ISBLANK( Credit_Card_Token__c ))</errorConditionFormula>
+        <errorDisplayField>Payment_Type__c</errorDisplayField>
+        <errorMessage>If the Payment Type is Credit Card, there must be a valid Credit Card Token present in order to submit an order.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Cancelled_Reason</fullName>
+        <active>true</active>
+        <description>When Order Status is &quot;Cancelled&quot; the system will require a Cancelled Reason to be entered.</description>
+        <errorConditionFormula>AND(
+ISPICKVAL (Order_Status__c , &quot;Cancelled&quot;),
+ISBLANK(TEXT( Cancelled_Reason__c ) ) )</errorConditionFormula>
+        <errorDisplayField>Order_Status__c</errorDisplayField>
+        <errorMessage>When Order Status is &quot;Cancelled&quot; there must be a Cancelled Reason entered.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Internal_Review_Reason</fullName>
+        <active>true</active>
+        <description>When Order Status is &quot;Internal Review&quot; the system will require an Internal Review Reason to be entered.</description>
+        <errorConditionFormula>AND(
+ISPICKVAL (Order_Status__c , &quot;Internal Review&quot;),
+ISBLANK(TEXT( Internal_Review_Reason__c ) ) )</errorConditionFormula>
+        <errorDisplayField>Order_Status__c</errorDisplayField>
+        <errorMessage>When Order Status is &quot;Internal Review&quot; there must be an Internal Review Reason entered.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>International_Shipping</fullName>
+        <active>false</active>
+        <description>If order is being shipped Internationally, shipping method must be 2nd day air or Airmail</description>
+        <errorConditionFormula>AND (
+International_Address__c  = &quot;Yes&quot;,
+ OR ( 
+NOT( ISPICKVAL ( Shipping_Method__c , &quot;2nd Day Air&quot;) ),
+NOT( ISPICKVAL ( Shipping_Method__c , &quot;Air Mail&quot;) ) ) )</errorConditionFormula>
+        <errorDisplayField>Shipping_Method__c</errorDisplayField>
+        <errorMessage>International Orders must be shipped by either 2nd Day Air or Airmail</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PO_Box_Shipping_Method</fullName>
+        <active>true</active>
+        <description>If the order is being shipped to a PO Box the shipping method must be USPS.</description>
+        <errorConditionFormula>AND(
+ ISPICKVAL( Sales_Channel__c , &quot;Phone&quot;) ,
+ ISPICKVAL ( Ship_To_Address__r.Country_Picklist__c , &quot;UNITED STATES&quot;),
+(Ship_To_PO_BOX__c = &quot;YES&quot;),
+NOT(  ISPICKVAL(Shipping_Method__c, &quot;USPS&quot;) ) )</errorConditionFormula>
+        <errorDisplayField>Shipping_Method__c</errorDisplayField>
+        <errorMessage>If an order is being sent to a PO BOX, the shipping method must be USPS</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Return_Reason</fullName>
+        <active>true</active>
+        <description>When Return? is checked the system will require a Return Reason to be entered.</description>
+        <errorConditionFormula>AND(
+(Return__c = TRUE),
+ISBLANK( Return_Reason__c ) )</errorConditionFormula>
+        <errorDisplayField>Return__c</errorDisplayField>
+        <errorMessage>When &quot;Return?&quot; is checked there must be a Return Reason entered.</errorMessage>
+    </validationRules>
+</CustomObject>

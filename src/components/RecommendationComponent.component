@@ -1,0 +1,147 @@
+<apex:component >
+<apex:attribute access="public" name="productList" description="List of recommendations from AgilOne" type="Item__c[]" required="true" />
+<c:jQueryInit bCarousel="true" bClueTip="true"/>
+
+<apex:includeScript value="/support/console/25.0/integration.js"/>
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+$(document).ready(function() {
+  
+    $('#mycarousel').jcarousel({ 
+        visible:5,
+        scroll:1,
+        wrap:'both'
+    });
+        $('.tips').cluetip({local:true,
+        								sticky:false, 
+        								width: 400,
+        								activation:'click',
+        								positionBy: 'topBottom',
+        								mouseOutClose: true,
+        								showTitle: false
+        								});
+		});
+
+
+</script>
+
+<style type="text/css">
+/* global */
+
+.cluetip-default {
+font-family:verdana;
+color:#fff;
+  background-color: #d9d9c2;
+}
+.cluetip-default #cluetip-outer {
+  position: relative;
+  margin: 0;
+  padding:3px;
+  background-color: #333;
+  border-radius:4px;
+  -moz-border-radius:4px;
+  border:1px solid #999;
+}
+.cluetip-default h3#cluetip-title {
+  margin: 0 0 5px;
+  padding: 8px 10px 4px;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: transparent;
+  color: #fff;
+}
+.cluetip-default #cluetip-title a {
+  color: #fff;
+  font-size: 0.95em;
+}  
+.cluetip-default #cluetip-inner {
+  padding: 10px;
+}
+.cluetip-default div#cluetip-close { 
+  text-align: right;
+  margin: 0 5px 5px;
+  color: #fff;
+}
+
+
+/**
+ * Overwrite for having a carousel with dynamic width.
+ */
+.jcarousel-skin-tango .jcarousel-container-horizontal {
+    width: 90%;
+    height:180px;
+}
+
+.jcarousel-skin-tango .jcarousel-clip-horizontal {
+    width: 100%;
+    height: 180px   ;
+}
+
+.jcarousel-list{
+    height:160px;
+}
+
+.jcarousel-skin-tango .jcarousel-prev-horizontal {
+    top:80px;
+    }
+    
+    .jcarousel-skin-tango  .jcarousel-next-horizontal {
+    top:80px;
+    }
+    
+</style>
+<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+
+
+<script>
+		var masterproductId;
+		var productName;
+		var callOpenSubtab=function callOpenSubtab(result) {
+		            sforce.console.openSubtab(result.id, 
+		               '/'+masterproductId, true, productName);
+        };
+        
+        function openSubtab(productId, pn) {
+		productName=pn;
+        masterproductId=productId;
+            sforce.console.getEnclosingPrimaryTabId(callOpenSubtab);
+        }
+            
+
+</script>
+<div class="product-recommendations-wrapper">
+<div class="product-recommendations">
+        
+    <ul id="mycarousel" >
+      <apex:repeat value="{!productList}" var="p">
+        <li>
+        
+            <a class="" id=""  rel="#{!p.id}" href="#{!p.id}" onClick="openSubtab('{!p.Id}','{!p.name}');" >
+                <img src="{!p.Product_Image_URL__c}"  width="80" height="150" alt="{!p.Name}" />
+            </a>
+           
+            <a class="tips" id="tips"  rel="#{!p.id}" href="#{!p.id}" >
+                Help Me Sell It!
+            </a>
+             <span class="icon-add" onclick="openOrderWizard('{!p.id}','{!Id}')" id=""   >
+               &nbsp;&nbsp;
+            </span>
+            <div  id="{!p.id}"><apex:outputText escape="false" value="{!p.Description__c}"/></div>
+            <div class="product-information">
+                <h4>{!p.sale_offer__c}</h4>
+                <p>{!p.brand_name__c}<br />
+                {!p.sale_price__c}<br />
+                {!p.name}<br />
+                {!p.product_number__c}</p>
+            </div>
+        </li>
+       </apex:repeat>
+       
+      </ul>
+     
+     
+     </div>
+    
+  </div>
+
+</apex:component>

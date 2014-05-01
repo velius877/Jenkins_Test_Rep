@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+     <types>
+        <members>*</members>
+        <members>Account</members>
+        <members>Activity</members>
+        <members>Case</members>
+        <members>PersonAccount</members>
+        <members>Task</members>
+        <members>User</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Address__c-Address Layout</members>
+        <members>Bundle_Product__c-Bundle Products Layout</members>
+        <members>Bundle__c-Bundles Layout</members>
+        <members>Case-Case Layout</members>
+        <members>CaseClose-Close Case Layout</members>
+        <members>Contact-Contact Layout</members>
+        <members>Item__c-Product Layout</members>
+        <members>Order_Line_Items__c-Order Line Item Layout</members>
+        <members>Order_Summary__c-Order Summary Layout</members>
+        <members>Orders__c-Order Layout</members>
+        <members>PersonAccount-Person Account Layout</members>
+        <members>Promotion__c-Promotions Layout</members>
+        <members>Task-Task Layout</members>
+        <members>User-User Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Account</members>
+        <members>Address__c</members>
+        <members>Bundle_Product__c</members>
+        <members>Bundle__c</members>
+        <members>Contact</members>
+        <members>Inbound_Order_Mapping__c</members>
+        <members>Item__c</members>
+        <members>OrderStatusMap__c</members>
+        <members>Order_Line_Items__c</members>
+        <members>Order_Summary__c</members>
+        <members>Orders__c</members>
+        <members>Promotion__c</members>
+        <members>WS_Integration__c</members>
+        <members>WebStoresData__c</members>
+        <name>Workflow</name>
+    </types>    
+        <types>
+        <members>*</members>
+        <name>Group</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Queue</name>
+    </types>
+    <version>27.0</version>
+</Package>

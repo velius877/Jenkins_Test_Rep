@@ -1,0 +1,173 @@
+<apex:component allowDML="true">
+	<apex:attribute access="public" name="queryController" description="Status Updates" type="OrderStatusQueryController" required="true" />
+	
+	<div style="height:200px; max-height:200px; overflow-y:auto; padding-top:5px; padding-bottom:5px;">
+	
+	<apex:outputPanel id="parentPanel" >
+		
+		<apex:outputPanel id="newTabPanelForClone" rendered="{!queryController.cancelCloneNewTab}">
+			<script type="text/javascript">
+				sforce.console.openPrimaryTab(null, '{!queryController.newTabStr}', true, 'New Order', openSuccess);
+				
+				var openSuccess = function openSuccess(result) {
+					//Report whether opening the new tab was successful
+					if (result.success == true) {
+						//alert('Primary tab successfully opened');
+					} else {
+						alert('Primary tab cannot be opened');
+					}
+				};
+			</script>
+		</apex:outputPanel>
+		
+		<apex:outputPanel rendered="{!queryController.isStart}">
+			
+			<div id="loadingPanel" style="background:white; height:200px;">
+				<div class="sideBuffer" style="width: 55px; height: 45px;"></div>
+				<div class="middleSpace" style="width: 350px; height: 10; overflow:none;"></div>
+				<div>
+					<center>
+					<!--  <img src="{!URLFOR($Resource.resources_Master, '/custom/images/schoolforceLogo.png')}" alt="" /> -->
+					</center>
+				</div>
+				<div style="display: inline">
+					<center>
+						<div style="display: inline">
+							<img src="{!URLFOR($Resource.resources_Master, '/custom/images/AjaxLoader.gif')}" style='height: 100; vertical-align: middle' alt="" />
+							<p id="messageText1"
+								style="background:white; horizontal-align: center; font-weight: bold; vertical-align: middle; width: 250px; text-align: center; color: black" >
+								Refreshing Order Status Details... Please Wait...
+							</p>
+						</div>
+					</center>
+				</div>
+			</div>
+		</apex:outputPanel>
+		
+		<apex:pageBlock mode="detail" title="Order and Line Item Status Updates" rendered="{!queryController.showSnippet}">
+			<apex:pageBlockButtons location="top">
+				<apex:commandButton action="{!queryController.processOrderCancelBtn}" value="Cancel Order" id="CancelOrderBtn" rendered="{!queryController.showCancelOrderBtn}" rerender="OrderStatusSnippet, parentPanel, error-msg"/>
+				<apex:commandButton action="{!queryController.processOrderPrewarehouseCancel}" value="Pre-Warehouse Cancel" id="CancelpreWarehouseBtn" rendered="{!queryController.showPreWareHouseCancel}" rerender="OrderStatusSnippet, parentPanel, error-msg"/>
+				<apex:commandButton action="{!queryController.processOrderPOSTwarehouseCancel}"  value="Post-Warehouse Cancel" 
+												onclick="if(!confirm('You are about to attempt to cancel an Order that is in the warehouse or may have been shipped.')){return};" 
+												id="CancelPostWarehouseBtn" rendered="{!queryController.showPostWareHouseCancel}" rerender="OrderStatusSnippet, parentPanel, error-msg" />
+				<!-- <apex:commandButton action="{!queryController.startClearService}" value="Clear BO/ER" rendered="{!queryController.showClearButton}" rerender="OrderStatusSnippet, parentPanel" /> -->
+			</apex:pageBlockButtons>
+			<apex:outputPanel id="clearOrdersParent" >
+				<apex:outputPanel id="clearOrders1" layout="block" rendered="{!queryController.showClearButton}" >
+					<div>
+						<table width="80%" align="center">
+							<tr><td colspan="4"><hr/></td></tr>
+							<tr>
+								<td align="right" width="30%"><label for="clearType">Clear Options:</label></td>
+								<td align="left" width="20%">
+									<apex:selectList value="{!queryController.selectedClearOption}" id="clearType" styleClass="select-lg" multiselect="false" size="1">
+										<apex:selectOptions value="{!queryController.clearOptions}" />
+									</apex:selectList>
+								</td>
+								<td>
+									<apex:commandButton action="{!queryController.startClearService}" value="Submit" rerender="OrderStatusSnippet, parentPanel, error-msg, clearOrdersParent"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</apex:outputPanel>
+				
+				<apex:outputPanel id="clearOrders2" layout="block" rendered="{!queryController.showClearCancel}" >
+					<div>
+						<table width="80%" align="center">
+							<tr><td colspan="4"><hr/></td></tr>
+							<tr>
+								<td align="right" width="30%"><label for="clearCancel">Cancelled Reason:</label></td>
+								<td align="left" width="20%">
+									<apex:selectList value="{!queryController.selectedCancelReason}" id="clearCancel" styleClass="select-lg" multiselect="false" size="1">
+										<apex:selectOptions value="{!queryController.cancelReasonList}" />
+									</apex:selectList>
+								</td>
+								<td>
+									<!-- <apex:actionStatus id="submitStatus" startText="Attempting to clear BO/ER order" /> -->
+									<apex:commandButton action="{!queryController.finishClearService}" value="Submit" id="clearButton" onClick="showProgressBar('Attempting to Clear Order... Please wait.');" onComplete="hideProgressBar();" rerender="OrderStatusSnippet, parentPanel, error-msg, clearOrdersParent" status="submitStatus"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</apex:outputPanel>
+			</apex:outputPanel>
+			<apex:outputPanel id="CancelOrderPanel" layout="block" rendered="{!queryController.showCancelOrderPanel}">
+				<div>
+					<table width="80%" align="center">
+						<tr><td colspan="4"><hr/></td></tr>
+						<tr>
+							<td align="right" width="30%"><label for="cancelReason">Cancelled Reason:</label></td>
+							<td align="left" width="20%">
+								<apex:selectList value="{!queryController.selectedCancelReason}"
+									id="select-cancel-reason" styleClass="select-lg"
+									multiselect="false" size="1">
+									<apex:selectOptions value="{!queryController.cancelReasonList}" />
+								</apex:selectList> 
+								<apex:selectList value="{!queryController.selectedDisposition}" id="despositionNumber" styleClass="select-lg" rendered="{!queryController.showCancelOrderDisposition}" multiselect="false" size="1" >
+									<apex:selectOptions value="{!queryController.DispositionList}" /></apex:selectList>
+							</td>
+							<td>
+								<apex:commandButton action="{!queryController.ProcessAllOrderCancelSave}" value="Save" id="ButtonSaveCancel" onClick="showProgressBar('Attempting to Cancel Order... Please wait.');" onComplete="hideProgressBar();" rerender="OrderStatusSnippet, parentPanel, error-msg"/>
+							</td>
+							<td>
+								<apex:commandButton action="{!queryController.ProcessAllOrderCancelCancel}" value="Cancel" id="ButtonCancelCancel"  />
+							</td>
+						</tr>
+						<tr><td colspan="4"><hr/></td></tr>
+					</table>
+				</div>
+			</apex:outputPanel>
+			<apex:outputPanel id="resultsPanel" rendered="{!queryController.showResults}" >
+				<center>
+					<table style="width:50%">
+						<tr>
+							<th style="width:50%">Order Status Code</th>
+							<th style="width:50%">Order Status</th>
+						</tr>
+						<tr>
+							<td style="width:50%"><apex:outputText value="{!queryController.olisd.Order_Status_Code__c}"  /></td>
+							<td style="width:50%"><apex:outputText value="{!queryController.olisd.Order_Status__c}"  /></td>
+						</tr>
+						
+						<tr>
+							<th style="width:50%">Status Description:</th>	
+						</tr>
+						<tr>
+							<td style="width:50%"><apex:outputText value="{!queryController.olisd.Order_Status_Description__c}" /></td>
+						</tr>
+					</table>
+				</center>
+				
+				<apex:pageBlockSection title="Line Item Status Updates" columns="1" showHeader="false" rendered="{!queryController.showTable}">
+					<apex:pageBlockTable value="{!queryController.ordStatusDetails}" var="olisds" >
+						<apex:column value="{!olisds.Order_Line_Item__c}" headerValue="Line Number"/>
+						<apex:column value="{!olisds.Current_Item__c}" headerValue="Product"/>
+						<apex:column value="{!olisds.Current_Sku__c}" headerValue="Current Item Number"/>
+						<apex:column value="{!olisds.Previous_Sku__c}" headerValue="Previous Item Number"/>
+						<apex:column value="{!olisds.Current_Status_Code__c}" headerValue="Line Status Code"/>
+						<apex:column value="{!olisds.Current_Status__c}" headerValue="Line Status Detail"/>
+						<apex:column value="{!olisds.Current_Quantity__c}" headerValue="Current Quantity"/>
+						<apex:column value="{!olisds.Previous_Quantity__c}" headerValue="Previous Quantity"/>
+						<apex:column value="{!olisds.Disposition_Number__c}" headerValue="Disposition Number"/>
+						<apex:column value="{!olisds.Credit_Rejected__c}" headerValue="Credit Rejected?"/>
+						<apex:column headerValue="Tracking Number" >
+							<!-- <apex:outputLink value="{!olisds.Tracking_Link__c}" id="trackLink" >{!olisds.Tracking_Number__c}</apex:outputLink> -->
+							<a href="{!olisds.Tracking_Link__c}" target="_blank">{!olisds.Tracking_Number__c}</a>
+						</apex:column>
+						<apex:column value="{!olisds.Shipper__c}" headerValue="Shipper"/>
+						<apex:column value="{!olisds.Free_Item__c}" headerValue="Free Item?"/>
+					</apex:pageBlockTable>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+			<apex:outputPanel id="errorPanel" rendered="{!queryController.showError}" >
+				<apex:pageBlockSection title="Order Error Update" columns="2" showHeader="false">
+					<apex:outputText value="{!queryController.fault.code}" label="Status Code:"/>
+					<apex:outputText value="{!queryController.fault.msg}" label="Status Message:"/>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+		</apex:pageBlock>
+	</apex:outputPanel>
+	</div>
+</apex:component>

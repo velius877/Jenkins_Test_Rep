@@ -1,0 +1,81 @@
+<apex:page standardController="Case" extensions="CaseDetail" action="{!init}">
+
+	<c:jQueryInit bLoadingPanel="true"/> 
+	<script>
+
+		var j$ = jQuery.noConflict();
+		
+		j$(document).ready(function() {
+			sforce.console.setTabTitle('{!case.casenumber}');
+			
+		});
+		
+		
+	</script>
+	<chatter:feedWithFollowers entityId="{!Case.Id}"/>
+	<apex:variable rendered="{!Case.RecordType.DeveloperName=='Product_Complaint'}" var="case" value="{!Case}">
+	
+	<apex:detail subject="{!case.Id}" relatedList="false" title="true"/> 
+	<apex:relatedList list="Affected_Items__r" />
+	<apex:relatedList list="OpenActivities" />
+	<apex:relatedList list="Attachments" />
+	<apex:relatedList list="Orders__r" />
+	<apex:relatedList list="Order_Adjustments__r" />
+	<!-- <apex:relatedList list="CaseComment" /> -->
+	<apex:form >
+		<apex:outputPanel id="caseComments" >
+			<apex:pageBlock title="Case Comments">
+				<apex:pageBlockButtons location="top" >
+					<apex:commandButton value="New Comment" action="{!newComment}" rerender="caseComments"/>
+				</apex:pageBlockButtons>
+				<apex:outputPanel id="panel1" rendered="{!renderCC}">
+					<apex:pageBlockTable value="{!cc}" var="cc1">
+						<apex:column value="{!cc1.CreatedDate}" />
+						<apex:column value="{!cc1.CreatedBy.Name}"/>
+						<apex:column value="{!cc1.commentbody}"/>
+					</apex:pageBlockTable>
+				</apex:outputPanel>
+				
+				<apex:outputPanel id="panel2" rendered="{!!renderCC}">
+					<apex:outputText value="No records to display" />
+				</apex:outputPanel>
+				
+			</apex:pageBlock>
+		</apex:outputPanel>
+	</apex:form>
+	<apex:relatedList list="ActivityHistories" />
+	<apex:relatedList list="Adverse_Event_Reviews__r" rendered="{!renderAER}"/>
+	<apex:relatedList list="Nutrition_Reviews__r" rendered="{!renderNR}"/>
+	<!-- <c:historyRelatedList /> -->
+	<apex:pageBlock id="thePageBlock" title="Case History">
+	<!-- DE874 -->
+		<apex:form id="formRelatedList">
+			<apex:pageBlockTable value="{!CaseHistories}" var="h" rendered="{!CaseHistories.size != 0}">
+				<apex:column headerValue="Date"  value="{!h.History.CreatedDate}" rendered="{!h.showDateAndUser}" />
+				<apex:column headerValue="User">
+					<apex:outputLink id="linkCreatedBy" value="/{!h.History.CreatedById}" rendered="{!h.showDateAndUser}">{!HTMLENCODE(h.History.CreatedBy.Name)}</apex:outputLink>
+				</apex:column>
+				<apex:column headerValue="Action">
+					<apex:outputText id="textActionFormat" value="{!h.ActionFormat}" escape="false">
+						<apex:param value="{!h.History.Field}" />
+						<apex:param value="{!h.FieldLabel}" />
+						<apex:param value="{!h.History.OldValue}" />
+						<apex:param value="{!h.History.NewValue}" />
+					</apex:outputText>
+				</apex:column>
+			</apex:pageBlockTable>
+			<apex:outputPanel id="panelShowMore" layout="block" styleClass="pShowMore" rendered="{!AllowShowMore}">
+				<apex:commandLink id="linkShowMore" action="{!showMore}" rerender="formRelatedList">Show more »</apex:commandLink>
+				<span> | </span>
+				<apex:outputLink id="linkGotoList" value="/_ui/common/history/ui/EntityHistoryFilterPage?id={!subject}">Go to list »</apex:outputLink>
+			</apex:outputPanel>
+		</apex:form>
+	<!-- DE874 -->
+	</apex:pageBlock>
+	<apex:relatedList list="Other_Medications_OTCs__r" /> 
+	</apex:variable>
+	
+	<apex:variable rendered="{!Case.RecordType.DeveloperName!='Product_Complaint'}" var="case" value="{!Case}">
+		<apex:detail relatedList="true" title="true"/> 
+	</apex:variable>
+</apex:page>

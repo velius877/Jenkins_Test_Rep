@@ -1,0 +1,14 @@
+Dear {!Case.Account},
+
+Thank you for your recent order with {!Case.Brand__c}.  We received an email notification that the order you placed has not been delivered.  We apologize for the delay and will be more than happy to replace or credit/refund you.
+
+Please email or call our specialist to let us know how you would like to proceed. Also, we will be doing a full investigation as to why you haven’t received your order from us in a timely manner.
+
+Again, please accept our apology.  We truly appreciate your business and want you to continue to consider {!Case.Brand__c} as the source for your health and wellness needs. 
+
+If you need any further assistance please call our specialist at 1-800-645-1030. We’re here for you – 24 hours a day! 
+
+
+Sincerely,
+
+The {!Case.Brand__c} Customer Care Team

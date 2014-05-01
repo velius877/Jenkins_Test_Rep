@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Back_Office_Queue__c</fullName>
+        <description>Name of Back Office Queue for this Brand</description>
+        <externalId>false</externalId>
+        <label>Back Office Queue</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Brand_Image__c</fullName>
+        <description>Name of static resource that represents the brand.</description>
+        <externalId>false</externalId>
+        <label>Brand Image</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Company_Code__c</fullName>
+        <description>Company Code in Avalara</description>
+        <externalId>false</externalId>
+        <label>Company Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Merchant_Key__c</fullName>
+        <description>Merchant Key for BizTalk Payment Integration</description>
+        <externalId>false</externalId>
+        <label>Merchant Key</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Picklist_Brand__c</fullName>
+        <description>Needed for Inbound Call Controller</description>
+        <externalId>false</externalId>
+        <label>Picklist Brand</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Suffix_c__c</fullName>
+        <externalId>false</externalId>
+        <label>Product_Suffix__c</label>
+        <length>4</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RecordTypeName__c</fullName>
+        <description>Non-DeveloperName for Record Type; needed for CTI</description>
+        <externalId>false</externalId>
+        <label>RecordTypeName</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Server_Prefix__c</fullName>
+        <description>Server prefix for the Brand, Mainly used by the AS400 to differentiate orders/brands</description>
+        <externalId>false</externalId>
+        <label>Server Prefix</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Static_Image_URL__c</fullName>
+        <description>Location on the web of the products image; leading URL only</description>
+        <externalId>false</externalId>
+        <label>Static Image URL</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Taxable_States__c</fullName>
+        <description>Semicolon list of taxable states; important for Avalara integration/callouts</description>
+        <externalId>false</externalId>
+        <label>Taxable States</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TenantID__c</fullName>
+        <description>Tenant ID for AgilOne recommendations</description>
+        <externalId>false</externalId>
+        <label>TenantID</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>US_Only__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If checked, products can only be sold to US ship-to addresses</description>
+        <externalId>false</externalId>
+        <label>US Only?</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>WS_ID__c</fullName>
+        <description>Website ID needed for promotions engine</description>
+        <externalId>false</externalId>
+        <label>WS ID</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Customer Rec Type Brand Mapping</label>
+</CustomObject>

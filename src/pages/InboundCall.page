@@ -1,0 +1,345 @@
+<apex:page controller="InboundCallController" tabStyle="Inbound_Call__tab" sidebar="false">
+<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+<c:jQueryInit />
+<apex:includeScript value="/support/console/27.0/integration.js"/>
+	<script type="text/javascript">
+		var j$ = jQuery.noConflict();
+		function waitToLoad(){
+			window.setTimeout(function(){ 
+				callInit();
+			}, 800);
+		}
+		function testSetTabTitle() {
+			//Set the current tab's title
+			sforce.console.setTabTitle('Inbound Call Search');
+		}
+		j$(document).ready(function(){
+			testSetTabTitle();
+			waitToLoad();
+		});
+	
+		function testOpenPrimaryTab(stuff, sObjectType) {
+			sforce.console.openPrimaryTab(null, stuff, true, sObjectType, openSuccess, sObjectType);
+			
+		}
+		
+		var openSuccess = function openSuccess(result) {
+			//Report whether opening the new tab was successful
+			if (result.success == true) {
+				//alert('Primary tab successfully opened');
+			} else {
+				alert('Primary tab cannot be opened');
+			}
+		};
+	</script>
+	<style>
+	.odd {
+		background-color: #eee;
+	}
+	.even {
+		background-color:white;
+	}
+	
+	</style>
+	
+	<apex:form >
+		<apex:variable var="auto" value="{!autoRedirectStr}" />
+		
+		<apex:actionFunction action="{!Init}" name="callInit" reRender="block" />
+		<div class="new-account">
+		<h1>Automated Record Search</h1>
+		<apex:PageBlock mode="mainDetail" title="Search Results" id="block">
+		<script type="text/javascript">
+		sforce.console.setTabTitle('Inbound Call - {!ANI}');
+		</script>
+		
+		<apex:outputPanel rendered="{!!isCall}" >
+			<apex:pageMessage summary="No Call Data Available." severity="info" strength="0" />
+		</apex:outputPanel>
+		
+		<apex:outputPanel rendered="{!accDNIS}" >
+			<apex:pageMessage summary="This call is a transfer from the overflow call center.  No IVR or customer history via caller ID is available for this call." severity="info" strength="0" />
+		</apex:outputPanel>
+		
+			<apex:pageBlockButtons location="top" >
+				<apex:commandButton styleClass="btn btn-primary" onClick="testOpenPrimaryTab('/apex/AccountQuickSearchAdd?RecType={!devName}', 'New Customer');return false" value="Create New Customer" />
+			</apex:pageBlockButtons>
+			
+			<apex:outputPanel rendered="{!renderOutputPanel}" id="panel1">
+				<apex:PageBlockSection title="Customer Matches By Phone and Brand" columns="1" id="acctABTable">
+					
+					<apex:outputPanel rendered="{!!showAAB}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table1" rendered="{!showAAB}">
+						<apex:pageBlockTable value="{!acctABList}" var="ab" id="acctABTable" rowClasses="odd, even">
+							<apex:column >
+								<apex:commandLink value="{!ab.Name}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!ab.Id}', '{!ab.Name}');return false" >
+									<apex:param name="abId" value="{!ab.id}"/>
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!ab.Phone}" />
+							<apex:column value="{!ab.PersonEmail}" />
+							<apex:column value="{!ab.ShippingStreet}" />
+							<apex:column value="{!ab.ShippingCity}" />
+							<apex:column value="{!ab.ShippingState}" />
+							<apex:column value="{!ab.ShippingPostalCode}" />
+							<apex:column value="{!ab.Customer_Number__c}" />
+							<apex:column value="{!ab.AS_400_Customer_Number__c}" />
+							<apex:column value="{!ab.RecordType.Name}" headerValue="Brand"/>
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					
+					<apex:outputPanel rendered="{!showAAB2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!firstAAB}" rerender="acctABTable">First</apex:commandLink>
+							<apex:commandLink action="{!previousAAB}" rerender="acctABTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!nextAAB}" rerender="acctABTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!lastAAB}" rerender="acctABTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:pageBlockSection>
+				
+				<apex:pageBlockSection title="Activity Matches By Phone and Brand" columns="1" id="taskABTable">
+					
+					<apex:outputPanel rendered="{!!showTAB}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table2" rendered="{!showTAB}" >
+						<apex:pageBlockTable value="{!taskABList}" var="tab" id="taskABTable" >
+							<apex:column headervalue="Task Title">
+								<apex:commandLink value="{!tab.Subject}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!tab.Id}','{!tab.Subject}');return false" >
+									<apex:param name="tabId" value="{!tab.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!tab.WhoId}" headervalue="Customer" />
+							<apex:column value="{!tab.WhatId}" />
+							<apex:column value="{!tab.ANI__c}" />
+							<apex:column value="{!tab.Brand__c}" />
+							<apex:column value="{!tab.Call_Driver__c}" headervalue="Call Driver"/>
+							<apex:column value="{!tab.Queue_Name__c}" headervalue="Queue Name"/>
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					
+					<apex:outputPanel rendered="{!showTAB2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!ABFirst}" rerender="taskABTable">First</apex:commandLink>
+							<apex:commandLink action="{!ABPrevious}" rerender="taskABTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!ABNext}" rerender="taskABTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!ABLast}" rerender="taskABTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:PageBlockSection>
+				
+				<apex:PageBlockSection title="Case Matches By Phone and Brand" columns="1" id="caseSearchTable">
+					
+					<apex:outputPanel rendered="{!!showCAB}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table4" rendered="{!showCAB}">
+						<apex:pageBlockTable value="{!caseABList}" var="case1" id="caseABTable" >
+							<apex:column headervalue="Case Number">
+								<apex:commandLink value="{!case1.CaseNumber}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!case1.Id}','{!case1.CaseNumber}');return false">
+									<apex:param name="caseId" value="{!case1.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!case1.CreatedDate}" />
+							<apex:column value="{!case1.Status}" />
+							<apex:column value="{!case1.AccountId}" headervalue="Customer"/>
+							<apex:column value="{!case1.Case_Driver__c}" />
+							<apex:column value="{!case1.Reason}" />
+							<apex:column value="{!case1.Origin}" />
+							<apex:column value="{!case1.Case_Resolution__c}" />
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!showCAB2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!firstCAB}" rerender="caseABTable">First</apex:commandLink>
+							<apex:commandLink action="{!previousCAB}" rerender="caseABTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!nextCAB}" rerender="caseABTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!lastCAB}" rerender="caseABTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:PageBlockSection>
+				
+				<apex:PageBlockSection title="Order Matches By Phone and Brand" columns="1" id="orderABTable">
+					
+					<apex:outputPanel rendered="{!!showOAB}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table4" rendered="{!showOAB}">
+						<apex:pageBlockTable value="{!orderABList}" var="ord1" id="orderABTable"  >
+							<apex:column headervalue="Order Number">
+								<apex:commandLink value="{!ord1.Name}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!ord1.Id}','{!ord1.Name}');return false">
+									<apex:param name="orderId" value="{!ord1.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!ord1.Order_Date__c}" />
+							<apex:column value="{!ord1.Customer__c}" headervalue="Customer"/>
+							<apex:column value="{!ord1.Order_Status__c}" />
+							<apex:column value="{!ord1.Related_Cases__c}" />
+							<apex:column value="{!ord1.Order_Total__c}" />
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<!-- <apex:outputPanel rendered="{!showTAO2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!AOFirst}" rerender="taskAOTable">First</apex:commandLink>
+							<apex:commandLink action="{!AOPrevious}" rerender="taskAOTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!AONext}" rerender="taskAOTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!AOLast}" rerender="taskAOTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel> -->
+				</apex:PageBlockSection>
+				
+				<hr size="2" style="border-color:#FF0000;background-color:#FF0000;"/>
+				
+				<apex:PageBlockSection title="Customer Matches By Phone ONLY!" columns="1" id="acctAOTable">
+					
+					<apex:outputPanel rendered="{!!showAAO}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table3" rendered="{!showAAO}" >
+						<apex:pageBlockTable value="{!acctAOList}" var="ao" id="acctAOTable" >
+							<apex:column >
+								<apex:commandLink value="{!ao.Name}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!ao.Id}','{!ao.Name}');return false" >
+									<apex:param name="aoId" value="{!ao.id}"/>
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!ao.Phone}" />
+							<apex:column value="{!ao.PersonEmail}" />
+							<apex:column value="{!ao.ShippingStreet}" />
+							<apex:column value="{!ao.ShippingCity}" />
+							<apex:column value="{!ao.ShippingState}" />
+							<apex:column value="{!ao.ShippingPostalCode}" />
+							<apex:column value="{!ao.Customer_Number__c}" />
+							<apex:column value="{!ao.AS_400_Customer_Number__c}" />
+							<apex:column value="{!ao.RecordType.Name}" headerValue="Brand"/>
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!showAAO2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!firstAAO}" rerender="acctAOTable">First</apex:commandLink>
+							<apex:commandLink action="{!previousAAO}" rerender="acctAOTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!nextAAO}" rerender="acctAOTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!lastAAO}" rerender="acctAOTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:pageBlockSection>
+				
+				<apex:PageBlockSection title="Activity Matches By Phone ONLY!" columns="1" id="taskAOTable">
+					
+					<apex:outputPanel rendered="{!!showTAO}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table4" rendered="{!showTAO}">
+						<apex:pageBlockTable value="{!taskAOList}" var="tao" id="taskAOTable" >
+							<apex:column headervalue="Task Title">
+								<apex:commandLink value="{!tao.Subject}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!tao.Id}','{!tao.Subject}');return false">
+									<apex:param name="taoId" value="{!tao.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!tao.WhoId}" headervalue="Customer"/>
+							<apex:column value="{!tao.WhatId}" />
+							<apex:column value="{!tao.ANI__c}" />
+							<apex:column value="{!tao.Brand__c}" />
+							<apex:column value="{!tao.Call_Driver__c}" headervalue="Call Driver"/>
+							<apex:column value="{!tao.Queue_Name__c}" headervalue="Queue Name"/>
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!showTAO2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!AOFirst}" rerender="taskAOTable">First</apex:commandLink>
+							<apex:commandLink action="{!AOPrevious}" rerender="taskAOTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!AONext}" rerender="taskAOTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!AOLast}" rerender="taskAOTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:PageBlockSection>
+				
+				<apex:PageBlockSection title="Case Matches By Phone ONLY!" columns="1" id="caseAOTable">
+					
+					<apex:outputPanel rendered="{!!showCAO}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table4" rendered="{!showCAO}">
+						<apex:pageBlockTable value="{!caseAOList}" var="case" id="caseAOTable" >
+							<apex:column headervalue="Case Number">
+								<apex:commandLink value="{!case.CaseNumber}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!case.Id}','{!case.CaseNumber}');return false">
+									<apex:param name="caseId" value="{!case.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!case.CreatedDate}" />
+							<apex:column value="{!case.Status}" />
+							<apex:column value="{!case.AccountId}" headervalue="Customer"/>
+							<apex:column value="{!case.Case_Driver__c}" />
+							<apex:column value="{!case.Reason}" />
+							<apex:column value="{!case.Origin}" />
+							<apex:column value="{!case.Case_Resolution__c}" />
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<apex:outputPanel rendered="{!showCAO2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!firstCAO}" rerender="caseAOTable">First</apex:commandLink>
+							<apex:commandLink action="{!previousCAO}" rerender="caseAOTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!nextCAO}" rerender="caseAOTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!lastCAO}" rerender="caseAOTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel>
+				</apex:PageBlockSection>
+				
+				<apex:PageBlockSection title="Order Matches By Phone ONLY!" columns="1" id="orderAOTable">
+					
+					<apex:outputPanel rendered="{!!showOAO}" >
+						<apex:pageMessage summary="No Matches Found" severity="info" strength="0" />
+					</apex:outputPanel>
+					
+					<apex:outputPanel id="table4" rendered="{!showOAO}">
+						<apex:pageBlockTable value="{!orderAOList}" var="ord" id="orderAOTable"  >
+							<apex:column headervalue="Order Number">
+								<apex:commandLink value="{!ord.Name}" style="Color:#0000CC" onClick="testOpenPrimaryTab('/{!ord.Id}','{!ord.Name}');return false">
+									<apex:param name="orderId" value="{!ord.Id}" />
+								</apex:commandLink>
+							</apex:column>
+							<apex:column value="{!ord.Order_Date__c}" />
+							<apex:column value="{!ord.Customer__c}" headervalue="Customer"/>
+							<apex:column value="{!ord.Order_Status__c}" />
+							<apex:column value="{!ord.Related_Cases__c}" />
+							<apex:column value="{!ord.Order_Total__c}" />
+						</apex:pageBlockTable>
+					</apex:outputPanel>
+					<!-- <apex:outputPanel rendered="{!showTAO2}" >
+						<apex:panelGrid columns="4">
+							<apex:commandLink action="{!AOFirst}" rerender="taskAOTable">First</apex:commandLink>
+							<apex:commandLink action="{!AOPrevious}" rerender="taskAOTable">Previous</apex:commandLink>
+							<apex:commandLink action="{!AONext}" rerender="taskAOTable">Next</apex:commandLink> 
+							<apex:commandLink action="{!AOLast}" rerender="taskAOTable">Last</apex:commandLink> 
+						</apex:panelGrid>
+					</apex:outputPanel> -->
+				</apex:PageBlockSection>
+			</apex:outputPanel>
+			
+			<apex:outputPanel id="panel2" rendered="{!renderAutoRedirect}" >
+				<script type="text/javascript">
+					sforce.console.openPrimaryTab(null, '{!autoRedirectStr}', true, '{!objectType}', openSuccess, '{!objectType}');
+					
+					var openSuccess = function openSuccess(result) {
+						//Report whether opening the new tab was successful
+						if (result.success == true) {
+							//alert('Primary tab successfully opened');
+						} else {
+							alert('Primary tab cannot be opened');
+						}
+					};
+				</script>
+			</apex:outputPanel>
+		</apex:PageBlock>
+		</div>
+	</apex:form>
+</apex:page>

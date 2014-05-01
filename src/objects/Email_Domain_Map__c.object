@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>All accepted domains for email to case</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Email Domain Map</label>
+</CustomObject>

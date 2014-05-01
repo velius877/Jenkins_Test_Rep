@@ -1,0 +1,110 @@
+<apex:page standardController="Account" extensions="AccountU2PController">
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+	<apex:includeScript value="/support/console/22.0/integration.js"/>
+	<style>
+	.logo {
+		float:left; padding-right:10px;
+	}
+		.marquee{
+			-webkit-marquee: auto medium infinite scroll normal;   
+			overflow-x: -webkit-marquee; 
+			color:red;
+			font-size:18px;
+		}
+	</style>
+	<script type="text/javascript">
+	
+		function testOpenSubtab1() {
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtab1);
+		}
+		
+		var openSubtab1 = function openSubtab1(result) {
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;
+			//sforce.console.openSubtab(primaryTabId , '/apex/Order_NewOrder', false, 'New Order', null, openSuccess);
+			sforce.console.openSubtab(primaryTabId , '/apex/Order_EditOverride?CustId={!Id}', true, 'New Order');
+			
+		};
+		
+		function testOpenSubtab3(mailtypeid) {
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtab3);
+		}
+		
+		var openSubtab3= function openSubtab3(result) {
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;
+			//sforce.console.openSubtab(primaryTabId , '/apex/Order_NewOrder', false, 'New Mail Order', null, openSuccess);
+			sforce.console.openSubtab(primaryTabId , '/apex/Order_EditOverride?CustId={!Id}&mo=1' , true, 'New Mail Order');
+			
+		};
+		
+		
+		function testOpenSubtab2() {
+			//First find the ID of the primary tab to put the new subtab in
+			sforce.console.getEnclosingPrimaryTabId(openSubtab2);
+		}
+		
+		var openSubtab2 = function openSubtab2(result) {
+			//Now that we've got the primary tab ID, we can open a new subtab in it
+			var primaryTabId = result.id;
+			sforce.console.openSubtab(primaryTabId , '{!URLFOR($Action.Case.NewCase)}&def_account_id={!ID}', true, 'New Case');
+			//sforce.console.openSubtab(primaryTabId , '/setup/ui/recordtypeselect.jsp?ent=Case', false, 'New Case');
+		};
+	</script> 
+	<apex:form >
+		<div class="account-header-wrapper">
+			<div class="account-header">
+			<div class="logo">
+				<apex:variable value="{!account.recordType.developerName}" rendered="{!IF(account.recordType.developerName=='Vitamin_World_Customer',true,false)}" var="vwc">
+				<img src="{!$Resource.VW_small_logo}" />
+				</apex:variable>
+				<apex:variable value="{!account.recordType.developerName}" rendered="{!IF(account.recordType.developerName=='Puritans_Pride_Customer',true,false)}" var="vwc">
+				<img src="{!$Resource.Puritan_small_logo}" />
+				</apex:variable>
+				<apex:variable value="{!account.recordType.developerName}" rendered="{!IF(account.recordType.developerName=='Perfectly_Pure_Customer',true,false)}" var="vwc">
+				<img src="{!$Resource.perfectlyPure_logo_small}" /> 
+				</apex:variable>
+				
+				
+				<apex:variable value="{!account.recordType.developerName}" rendered="{!IF(account.recordType.developerName=='Natures_Origin_Customer',true,false)}" var="vwc">
+                <img src="{!$Resource.natures_origin_small_logo}" /> 
+                </apex:variable> 
+		
+				
+			
+			</div>
+			
+				<div class="account-name">
+					<h2><apex:outputText value="{!Account.Name}"/></h2>
+    			</div>
+				
+				<div class="account-address">
+					<apex:outputText value="{!Account.billingStreet}"/><br />
+					<apex:outputText value="{!Account.billingCity}"/>,&nbsp;<apex:outputText value="{!Account.billingState}"/>&nbsp;<apex:outputText value="{!Account.billingPostalCode}"/>
+				</div>  
+				
+				<div class="account-contact">
+					<apex:outputText value="{!Account.Phone}"/><br />
+					<a href="mailto:{!Account.PersonEmail}"><apex:outputText value="{!Account.PersonEmail}"/></a><br/>
+  			   </div>
+  			   <div class="account-name">
+     			   <h3>&nbsp;Credit Available:&nbsp;<apex:outputField value="{!Account.Customer_Credit_Available__c}"/></h3>
+  			   </div>
+								
+				<div class="header-actions">
+					<!-- <input type="button" class="btn btn-primary" value="New Case" /> -->
+					<apex:commandButton styleClass="btn btn-primary" value="New Case" onClick="testOpenSubtab2();return false"/>
+					<apex:commandButton styleClass="btn btn-primary disabled" value="New Order" onClick="testOpenSubtab1();return false"/>
+					<apex:commandButton styleClass="btn btn-primary disabled" rendered="{!isUserforMailorder}" value="New Mail Order" onClick="testOpenSubtab3();return false"/>
+				</div>
+			</div> <!-- END account-header -->
+			<apex:variable rendered="{!account.Possible_Fraud__c}" value="{!account.Possible_Fraud__c}" var="pf">
+				<div class="marquee" >
+					Possible Fraud!
+				</div>
+			</apex:variable>
+		</div> <!-- END account-header-wrapper -->
+	</apex:form>
+</apex:page>

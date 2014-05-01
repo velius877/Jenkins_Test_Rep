@@ -1,0 +1,22 @@
+<apex:page standardController="Account" extensions="AccountPaymentProfileController" >
+<c:jQueryInit bDataTables="true" bLoadingPanel="true" />
+<script type="text/javascript"
+        src="{!URLFOR($Resource.orderWizard,'js/orderWizardScripts.js')}">
+        </script>
+	<apex:form id="TokenForm">
+		<apex:pageBlock rendered="{!IF(lstPaymentTokens.size>0,true,false)}">
+			<apex:pageBlockTable value="{!lstPaymentTokens}" var="Recpmt">
+			<apex:column >
+					<apex:commandLink value="Delete" onClick="showProgressBar('Deleting Payment.  Please Wait....');" onComplete="hideProgressBar();" action="{!DeleteToken}" reRender="TokenForm"> 
+							<apex:param name="deltokenid" value="{!Recpmt.TokenId}" />
+					</apex:commandLink>
+			  </apex:column>
+				<apex:column headerValue="Name on Card" value="{!Recpmt.name}"/>
+				<apex:column headerValue="Credit Card Type" value="{!Recpmt.creditcardType}"/>
+				<apex:column headerValue="Expiration Date" value="{!Recpmt.creditcardExpiry}"/>
+				<apex:column headerValue="Payment Token" value="{!Recpmt.TokenId}"/>
+				<apex:column headerValue="Address" value="{!Recpmt.Address}"/>
+			</apex:pageBlockTable>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

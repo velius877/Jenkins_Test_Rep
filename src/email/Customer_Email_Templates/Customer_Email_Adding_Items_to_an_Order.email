@@ -1,0 +1,12 @@
+Dear {!Account.Name},
+
+Thank you for your recent order with {!Account.RecordType}. We received a notification that you would like to add items to your order. Your order has already been processed and is being shipped. If you would like, we can place a separate order for you with no additional shipping charge. Please call us at 1-800-645-1030 and press option 1 to speak to one of our dedicated specialists. We’re here for you – 24 hours a day!
+
+We truly appreciate your business and want you to continue to consider {!Account.RecordType} as the source for your health and wellness needs.
+
+
+Sincerely, 
+
+The {!Account.RecordType} Customer Care Team
+
+ref:{!Account.Id}:ref

@@ -1,0 +1,48 @@
+<apex:page controller="CaseRoutingController">
+	<c:jQueryInit />
+	<apex:includeScript value="/support/console/27.0/integration.js"/>
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}"/>
+	<apex:form >
+	<!--Add action function with oncomplete to openprimarytab  -->
+	<apex:outputPanel id="parentPanel" >
+		<apex:outputPanel id="msgPanel" >
+			<script type="text/javascript">
+				var j$ = jQuery.noConflict();
+				
+				function openPrimaryTab(){
+					//alert('Start');
+					//Open a new primary tab
+					sforce.console.openPrimaryTab(null, '{!redirectStr}', true, 'Case View', openSuccess, 'caseList');
+					
+				}
+				
+				var openSuccess = function openSuccess(result) {
+					//Report whether opening the new tab was successful
+					if (result.success == true) {
+						
+					} else {
+						alert('Primary tab cannot be opened');
+					}
+				};
+				
+			</script>
+			<apex:pageMessages />
+		</apex:outputPanel>
+		<apex:pageBlock id="parentBlock" mode="detail" >
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="Accept Case(s)" styleClass="btn btn-primary" action="{!assignCases}" oncomplete="openPrimaryTab();return false;" rerender="msgPanel, parentPanel"/>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection columns="1" >
+				<apex:outputLabel >Assignment Rule</apex:outputLabel>
+				<apex:selectList value="{!selectedQueue}" multiselect="false" size="1" styleClass="select-lg">
+					<apex:selectOptions value="{!QueueSelect}" />
+				</apex:selectList>
+				<apex:outputLabel >Quantity</apex:outputLabel>
+				<apex:selectList value="{!selectedQuantity}" multiselect="false" size="1" styleClass="select-lg">
+					<apex:selectOptions value="{!CaseQuantitySelect}" />
+				</apex:selectList>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+	</apex:outputPanel>
+	</apex:form>
+</apex:page>

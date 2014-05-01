@@ -1,0 +1,59 @@
+<project name="Schoolforce" default="validate" basedir="." xmlns:sf="antlib:com.salesforce">
+
+  <property name="build.properties" value="build.properties" />
+  <property file="${build.properties}" />
+  <property environment="env" />
+
+  <target name="validate">
+    <property name="sf.allowMissingFiles" value="false" />
+    <property name="sf.ignoreWarnings" value="false" />
+  	<property name="sf.runAllTests" value="false" />
+  	<property name="sf.deployRoot" value="./src" />
+    <sf:deploy username="${sf.username}" 
+	       password="${sf.password}" 
+	       serverurl="${sf.serverUrl}" 
+	       deployRoot="${sf.deployRoot}"
+	       pollWaitMillis="10000"
+	       maxPoll="500"
+	       allowMissingFiles="${sf.allowMissingFiles}"
+	       ignoreWarnings="${sf.ignoreWarnings}"
+		   runAllTests="${sf.runAllTests}"
+	       checkOnly="true"/>
+  </target>
+  
+  <target name="build">
+    <property name="sf.trace" value="false" />
+  	<property name="sf.runAllTests" value="false" />
+  	<property name="sf.deployRoot" value="./src" />
+    <sf:deploy username="${sf.username}" 
+	       password="${sf.password}" 
+	       serverurl="${sf.serverUrl}" 
+	       deployRoot="${sf.deployRoot}"
+	       pollWaitMillis="10000" 
+	       trace="${sf.trace}" 
+	       maxPoll="500"  
+	       logType="Debugonly"
+    	   runAllTests="${sf.runAllTests}"
+	       checkOnly="false"/>
+  </target>
+	
+  <target name="undeployCode">
+	<property name="sf.ignoreWarnings" value="true" />
+  	<property name="sf.deployRoot" value="./removecodepkg" />
+    <sf:deploy username="${sf.username}" 
+	       password="${sf.password}" 
+	       serverurl="${sf.serverUrl}" 
+	       deployRoot="${sf.deployRoot}"
+	       maxPoll="500"  
+	       logType="Debugonly"/>
+  </target>
+  
+  <target name="retrieve">
+  	<mkdir dir="${sf.directory}"/>
+    <sf:retrieve username="${sf.username}" 
+		 password="${sf.password}" 
+		 serverurl="${sf.serverUrl}" 
+		 retrieveTarget="${sf.retrieveTarget}" 
+		 unpackaged="${sf.unpackaged}" />
+  </target>
+</project>

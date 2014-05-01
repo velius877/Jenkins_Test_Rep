@@ -1,0 +1,10 @@
+<apex:page controller="OrderLookupController" sidebar="false" tabStyle="Orders__c" action="{!getSubmittedOrders}">
+    <c:jQueryInit bDataTables="true" bLoadingPanel="true"/>
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}" />
+    <apex:includeScript value="/support/console/27.0/integration.js"/>
+    <apex:form >
+	    <apex:outputPanel id="orderLookupDetails" >
+	   		<c:OrderLookup lookupController="{!lookupController}"/>
+	   	</apex:outputPanel>
+    </apex:form>
+</apex:page>

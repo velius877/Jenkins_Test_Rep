@@ -1,0 +1,35 @@
+<apex:page standardController="Order_Line_Items__c" extensions="OrderLineItemCancelController" >
+<c:jQueryInit bLoadingPanel="true" />
+
+	<script>
+
+		var j$ = jQuery.noConflict();
+		
+		j$(document).ready(function() {
+			sforce.console.setTabTitle('{!OrderlineItem.name}');
+			
+		});
+		
+	</script>
+<apex:form id="OrderDetail">
+ <apex:pageMessages id="error-msg" />
+
+<center>
+<apex:commandButton action="{!showOrderCancelPanel}" onclick="if(!confirm('Are you sure you want to cancel?')){return};" onComplete="hideProgressBar();"  value="Cancel Line Item" id="CancelOrderBtn" rendered="{!showCancelOrderBtn}" rerender="OrderDetail"/>
+<apex:outputPanel id="listPanel" rendered="{!showCancelOrderReason}">
+
+<apex:selectList value="{!selectedCancelReason}"
+	                    id="select-cancel-reason" styleClass="select-lg"
+	                    multiselect="false" size="1">
+	                    <apex:selectOptions value="{!cancelReasonList}" />
+</apex:selectList> 
+<apex:commandButton action="{!processOrderCancelBtn}" value="Save" id="ButtonSaveCancel" onClick="showProgressBar('Attempting to Cancel Order... Please wait.');" onComplete="hideProgressBar();" rerender="OrderDetail"/>
+<apex:commandButton action="{!processOrderCancelBtn}" value="Cancel" id="ButtonCancelCancel"  />
+  
+</apex:outputPanel>
+</center>
+
+
+<apex:detail relatedList="true"/>
+</apex:form>
+</apex:page>

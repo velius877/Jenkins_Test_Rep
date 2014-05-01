@@ -1,0 +1,139 @@
+<apex:page standardController="Account"  action="{!init}" extensions="AccountCommentsController,AccountPanelController" >
+<c:jQueryInit bDataTables="true" bLoadingPanel="true" bClueTip="true"/>
+	<apex:stylesheet value="{!URLFOR($Resource.LT_Core_UX, 'style/LT_Core_UX.css')}" />
+<apex:form > 
+	<style>
+	table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+	    .orderInfo {
+		   	position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background-color: #eeeeee;
+	    }
+	   
+	   .max_view_header {
+	   		vertical-align: middle;
+	   		background: lightslategrey;
+			border-radius: 6px;
+			width: 100%;
+			height: 30px;
+			border: 2px solid #eeeeee;
+			line-height:2em;
+	   }
+	
+	   .tdColumnLabel {
+	   		
+	   		text-transform: uppercase;
+	   		font-weight:bold;
+	   }
+	   .orderPrv {
+	   		border:2px solid #a1a1a1;
+			padding:5px; 
+			border-radius:10px;
+	   }
+
+	   .tbTitle
+	   {
+			color: #222;
+			font-size: 15px;
+			width: 30%;
+			
+	   }
+
+	   .ordersTable tr:nth-child(even) {
+			background-color:#FFFFFF;
+	   }
+
+   </style>
+   
+<apex:outputPanel id="scriptsPanel">
+<script type="text/javascript">
+	var bLoyaltyCalled = {!bLoyaltyDone};
+	var bOHCalloutDone = {!bOHCalloutDone};
+	var bpaymentCalloutDone = {!bpaymentCalloutDone};
+	</script>
+</apex:outputPanel>
+
+<apex:outputPanel >
+    <apex:pageBlock tabStyle="Account"> 
+    		<apex:outputPanel id="error-msg">
+			<apex:pageMessages /> 
+		</apex:outputPanel>
+	 
+    
+        <apex:tabPanel switchType="client" id="cssPanel" contentStyle="padding:10px;" activeTabClass="ui-widget ui-widget-header" inactiveTabClass="ui-widget ui-state-default">
+            <apex:tab rendered="{!IF(account.AS_400_Customer_Number__c!=null||account.personEmail!=null,true,false)}"  label="Order History" name="ohistory" id="ohistory" styleClass="ui-widget ui-widget-content historyTab">
+                <apex:outputPanel id="oh123">
+                	<apex:outputPanel id="orderDetails" rendered="{!bOHCalloutDone}">
+                	<c:OrderLookup lookupController="{!ohController}"/>
+                	</apex:outputPanel>
+                	<apex:outputPanel id="orderHistoryButtonPanel" rendered="{!!bOHCalloutDone}">
+                		<input type="button" class="btn-primary" value="Query Orders" onClick="if (!bOHCalloutDone) {showProgressBar('Refreshing Order History, Please Wait'); ohCallout();}"/>
+                	</apex:outputPanel>
+                </apex:outputPanel>
+            </apex:tab>
+        
+            <apex:tab ontabenter="paymentCallout(); " label="Payment Profile" name="payment" id="paymenttab" styleClass="ui-widget ui-widget-content paymentTab" rendered="{!IF(account.Payment_Profile_Id__c!=null,true,false)}">
+            	<apex:outputPanel id="paymentPanel">
+            	<c:PaymentProfile profileController="{!payprofileController}"/>
+            	
+            	</apex:outputPanel>
+           </apex:tab>
+       
+               <apex:tab rendered="{!loyaltyController.showloyalty}" ontabenter="if (!bLoyaltyCalled) {showProgressBar('Refreshing Loyalty... Please Wait'); loyaltyCallout();}" label="VW Loyalty" name="lhistory" id="lhistory" styleClass="ui-widget ui-widget-content historyTab">
+                <apex:outputPanel id="loyaltyPanel">
+                <c:LoyaltyProfile loyaltyController="{!loyaltyController}"/>
+              
+                </apex:outputPanel>
+            </apex:tab>
+            
+         
+            <apex:tab rendered="{!commentWrapperList.size>0}" label="AS400 Notes" name="notes" id="notes" styleClass="ui-widget ui-widget-content notesTab">
+              	<apex:pageBlockTable value="{!commentWrapperList}" var="cw">
+					<apex:column headerValue="Complaint Date" >
+					
+					<apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+					       <apex:param value="{!cw.complaintDate}" />
+					   </apex:outputText>
+					   </apex:column>
+					  <apex:column headerValue="Activity Date" >
+					   <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+					       <apex:param value="{!cw.activityDate}" />
+					   </apex:outputText>
+					   </apex:column>
+					<apex:column headerValue="Comment Details" value="{!cw.comment}"/>
+					</apex:pageBlockTable>
+
+            </apex:tab>
+             
+        </apex:tabPanel>
+    </apex:pageBlock>
+</apex:outputPanel>
+<apex:actionFunction name="paymentCallout" action="{!paymentCallout}" rerender="paymentPanel, error-msg" onComplete="hideProgressBar();"  />
+<apex:actionFunction name="ohCallout" action="{!ohCallout}" rerender="scriptsPanel, oh123, error-msg" onComplete="hideProgressBar();"  />
+<apex:actionFunction name="loyaltyCallout" action="{!loyaltyCallout}" rerender="scriptsPanel, loyaltyPanel, error-msg" onComplete="hideProgressBar();"  />
+</apex:form>
+</apex:page>

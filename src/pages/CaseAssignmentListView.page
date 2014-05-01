@@ -1,0 +1,49 @@
+<apex:page controller="CaseAssignmentListViewController" action="{!init}">
+	<c:jQueryInit />
+	<apex:includeScript value="/support/console/27.0/integration.js"/>
+	<script type="text/javascript">
+		var j$ = jQuery.noConflict();
+		
+		function openPrimarytab2(redirectStr, caseNumber){
+			//Open a new primary tab
+			sforce.console.openPrimaryTab(null, redirectStr, true, caseNumber, openSuccess2, caseNumber);
+		}
+		
+		var openSuccess2 = function openSuccess(result) {
+			//Report whether opening the new tab was successful
+			if (result.success == true) {
+				//alert('Primary tab successfully opened');
+			} else {
+				alert('Primary tab cannot be opened');
+			}
+		};
+	</script>
+	
+	<apex:form >
+		<apex:pageBlock id="parentBlock" mode="detail" title="Assigned Case(s)">
+			<apex:pageBlockButtons location="Both" >
+				<apex:commandButton action="{!refreshList}" value="Refresh" rerender="parentBlock"/>
+				<apex:commandButton action="{!markAsSpam}" value="Remove Spam" rerender="parentBlock"/>
+			</apex:pageBlockButtons>
+			<apex:pageBlockTable value="{!cseWrap}" var="cw" rendered="{!showTable}">
+				<apex:column headerValue="Spam?">
+					<apex:inputCheckbox value="{!cw.isSpam}" />
+				</apex:column>
+				<apex:column HeaderValue="Case Number">
+					<apex:commandLink value="{!cw.cs.CaseNumber}" style="Color:#0000CC" onClick="openPrimarytab2('/{!cw.cs.Id}', '{!cw.cs.CaseNumber}');return false" >
+						<apex:param name="caseId" value="{!cw.cs.Id}"/>
+					</apex:commandLink>
+				</apex:column>
+				<apex:column value="{!cw.cs.CreatedDate}" />
+				<apex:column value="{!cw.cs.Brand__c}" />
+				<apex:column value="{!cw.cs.Customer__c}" />
+				<apex:column value="{!cw.cs.Origin}" />
+				<apex:column value="{!cw.cs.Subject}" />
+				<apex:column value="{!cw.cs.Web_Form_Subject__c}" />
+			</apex:pageBlockTable>
+			<apex:outputPanel id="panel1" rendered="{!!showTable}" >
+				<h2><b>{!msg}</b></h2>
+			</apex:outputPanel>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

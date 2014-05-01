@@ -1,0 +1,437 @@
+<apex:component allowDML="true">
+	<apex:attribute access="public" name="lookupController" description="Controller for Order Lookup" type="OrderLookupController" required="true" />
+	
+	<style>
+	
+		body, td {
+		font-size: 11px;
+	}
+		.orderInfo {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background-color: #eeeeee;
+		}
+		
+		.max_view_header {
+			vertical-align: middle;
+			background: lightslategrey;
+			border-radius: 6px;
+			width: 100%;
+			height: 30px;
+			border: 2px solid #eeeeee;
+			line-height:2em;
+		}
+	
+		.tdColumnLabel {
+			
+			text-transform: uppercase;
+			font-weight:bold;
+		}
+		.orderPrv {
+			border:2px solid #a1a1a1;
+			padding:5px; 
+			border-radius:10px;
+		}
+
+		.tbTitle
+		{
+			color: #222;
+			font-size: 15px;
+			width: 30%;
+			
+		}
+
+		.ordersTable tr:nth-child(even) {
+			background-color:#FFFFFF;
+		}
+		
+		.dataTables_paginate {
+				float:right;
+				font-size:2em;
+				margin-top:-0.7em;
+				padding:8px
+		}
+		
+		.dataTables_paginate a {
+			padding:3px;
+			color: lightslategrey;
+		}
+		
+		.tabCls {
+				height:25px;
+				
+		}
+		
+			.active {
+				font-weight:bold;
+				border-color:white;
+								
+		}
+		.inactive {
+			background-color:#E8E8E8;
+					}
+		
+
+
+
+
+	</style>
+	
+	<script>
+	var j$ = jQuery.noConflict();
+	j$(document).ready(function() {
+		if ({!!lookupController.fromAccountPanel}&&{!!lookupController.submittedOrdersMode}) paginateTable();	
+	});
+		
+	function paginateTable()
+	{
+		 	//'iDisplayLength': 10 - can e changed
+ 		j$('.ordersTable').dataTable( {
+			"bPaginate": true,
+			"bFilter": true,
+			"bSort": false,
+			"bLengthChange": false
+		} );
+		
+		//j$( '.dataTables_paginate a' ).addClass( 'btn btn-primary' );
+	}
+	
+	 sforce.console.getEnclosingPrimaryTabId(enclosingPrimaryTabId);
+	 function enclosingPrimaryTabId(result)
+	 {
+		primaryTabId = result.id;
+	 }
+	 
+			
+	 function SwitchTomaxView(viewId)
+	 {
+		maxDivId = viewId;
+		document.getElementById(viewId).style.display = "block";	
+	 }
+	 
+	 function hideMaxView()
+	 {
+		document.getElementById(maxDivId).style.display = "none";
+	 }
+	
+	</script>
+	
+	<apex:outputPanel id="scriptPanel" >
+		<script type="text/javascript">
+			
+			function openPrimaryTab(){
+				//Open a new primary tab
+				if('{!lookupController.redirectUrl}'.length > 0)
+				{
+					sforce.console.openPrimaryTab(primaryTabId, '{!lookupController.redirectUrl}', true, 'Case View', openSuccess);
+				}
+				else
+					hideProgressBar();
+			}
+			
+			var openSuccess = function openSuccess(result) {
+				//Report whether opening the new tab was successful
+				if (result.success == true) {
+					
+				} else {
+					alert('Primary tab cannot be opened');
+				}
+			};
+		</script>
+	</apex:outputPanel>
+	
+	<apex:actionFunction action="{!lookupController.switchTabs}" name="switchToNonSubmittedOrdersTab" reRender="mainPgBlock,errorMessages" oncomplete="paginateTable();hideProgressBar();">
+		<apex:param name="submittedOrdersMode" assignTo="{!lookupController.submittedOrdersMode}" value="false" />
+	</apex:actionFunction>
+	
+	<apex:actionFunction action="{!lookupController.switchTabs}" name="switchToSubmittedOrdersTab" reRender="mainPgBlock,errorMessages"	oncomplete=" hideProgressBar();">
+		<apex:param name="submittedOrdersMode" assignTo="{!lookupController.submittedOrdersMode}" value="true" />
+	</apex:actionFunction>
+	
+	<apex:outputpanel id="mainPanel" style="width:100%;height:100%;">
+		<apex:outputPanel id="errorMessages">
+			<apex:pageMessages /> 
+		</apex:outputPanel>
+		
+		<apex:outputPanel rendered="{!!lookupController.fromAccountPanel}">
+		<apex:tabPanel switchType="client" id="cssPanel" style="margin-top:5px;" contentStyle="padding:10px;" inactiveTabClass="ui-state-default inactive" activeTabClass=" active">
+			
+				
+				<apex:tab ontabenter="showProgressBar('Refreshing Orders... Please Wait');switchToSubmittedOrdersTab();"	label="Submitted Orders" name="hisOrders" id="hisrders" styleClass="ui-widget ui-widget-content tabCls"/>
+					<apex:tab ontabenter="showProgressBar('Refreshing Orders... Please Wait');switchToNonSubmittedOrdersTab();" label="Non-Submitted Orders" name="sfOrders" id="sfOrders"	styleClass="ui-widget ui-widget-content tabCls"/>
+			
+		</apex:tabPanel>
+		</apex:outputPanel>
+		
+		<apex:pageBlock id="mainPgBlock">
+		<apex:pageBlockButtons location="top">
+			<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.searchHistoryByEmail}" value="Search by Email" 
+									rendered="{!IF(lookupController.submittedOrdersMode&&!lookupController.bHistoryByEmail&&lookupController.acct.personEmail!=null ,true,false)}" oncomplete="hideProgressBar();" rerender="mainPanel,scriptPanel">
+									</apex:commandbutton>
+			<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.clearHistoryByEmail}" value="Search by Customer Number" 
+				 					rendered="{!IF(lookupController.submittedOrdersMode&&!!lookupController.bHistoryByEmail ,true,false)}" oncomplete="hideProgressBar();" rerender="mainPanel,scriptPanel">
+									</apex:commandbutton>
+			<br/>
+			<apex:inputText rendered="{!IF(lookupController.submittedOrdersMode&&!lookupController.bSearchBySku ,true,false)}" value="{!lookupController.inputSku}"/>
+			<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.searchBySku}" value="Search by Item Number" 
+									rendered="{!IF(lookupController.submittedOrdersMode&&!lookupController.bSearchBySku ,true,false)}" oncomplete="hideProgressBar();" rerender="mainPanel,scriptPanel">
+									</apex:commandbutton>
+			<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.removeBySku}" value="Clear Item Number Search" 
+									rendered="{!IF(lookupController.submittedOrdersMode&&lookupController.bSearchBySku ,true,false)}" oncomplete="hideProgressBar();" rerender="mainPanel,scriptPanel">
+									</apex:commandbutton>
+		</apex:pageBlockButtons>
+			<div id="tableHolder" style="height:500px;width:90%;overflow:scroll;">
+				<TABLE class="ordersTable" BORDER="2" width="100%"	CELLPADDING="10" CELLSPACING="3">
+					<Thead>
+						
+						<TR style="background-color: lightslategrey;">
+							<TH>AS400 Order Number</TH>
+							<TH>Salesforce Order Number</TH>
+							<TH>Web Order Number</TH>
+							<TH>Order Date</TH>
+							<TH>Order Status</TH>
+							<TH>Line Items#</TH>
+							<TH>Order Total</TH>
+							<TH></TH>
+						</TR>
+					</Thead>
+					<Tbody style="vertical-align: middle;">	
+						<apex:repeat value="{!if(lookupController.submittedOrdersMode,lookupController.submittedOrderWrapList,lookupController.nonSubmittedOrderWrapList)}" var="orderw">
+							 <TR>
+								<TD> <apex:outputText value="{!If(orderw.isHisOrder,orderw.hisOrder.orderHeader.as400PurchaseNumber,'')}"/> </TD>
+								<TD> <apex:outputText value="{!If(!orderw.isHisOrder,orderw.orderRec.Name,orderw.SFOrderNo)}"/> </TD>
+								<TD> <apex:outputText value="{!If(!orderw.isHisOrder,orderw.orderRec.Webstack_Order_ID__c,orderw.WebOrderNo)}"/> </TD>
+								<TD> <apex:outputText value="{!orderw.orderDate}"/> </TD>
+								<TD><apex:outputText rendered="{!If(orderw.isHisOrder,lookupController.osmMap[orderw.hisOrder.orderHeader.purchaseStatus]!=null,true)}" value="{!If(orderw.isHisOrder,lookupController.osmMap[orderw.hisOrder.orderHeader.purchaseStatus]['SFDC_Order_Status__c'],orderw.orderRec.Order_Status__c)}"/></TD>
+								
+								<TD><apex:outputText value="{!If(orderw.isHisOrder,(orderw.hisOrder.lineitems.lineItem.size),(orderw.orderRec.Order_Line_Items__r.size))}"/></TD>
+
+								<TD><apex:outputText value="{!orderw.orderAmount}"/></TD> 
+								<Td>
+									<a style="text-transform: uppercase;font-weight: bold;" href="#" onclick="SwitchTomaxView('{!$Component.ordWview}');"	title="View Complete Order">View Details</a>
+									
+									<apex:outputpanel layout="block"	id="ordWview" styleclass="orderInfo" style="display:none;padding-top:10px;width:100%;height:100%;overflow: scroll;" >
+										<div class="max_view_header">
+											<h3 style="margin-left: 7px;text-transform: uppercase;font-weight: bold;">Order Details</h3>
+											<span style="padding-left: 85%;">
+												<a style="text-transform: uppercase;font-weight: bold;background: lightslategrey;" href="#" onclick="hideMaxView();" class="minimize" title="Go Back">Go Back</a>
+											</span>
+										</div>
+										<div class="action-buttons" style="text-align:center;padding-top: 10px;">
+											<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.converToOrderAdjustment}" value="Create Refund" 
+												rendered="{!IF(orderw.isHisOrder&&!lookupController.fromAccountPanel,true,false)}" oncomplete="hideMaxView();hideProgressBar();" rerender="errorMessages,scriptPanel">
+												<apex:param name="orderid" value="{!orderw.hisOrder.orderHeader.as400PurchaseNumber}" assignTo="{!lookupController.orderNumber}"/>
+											</apex:commandbutton>
+											
+											<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.createMiscCharge}" value="Create Misc Charge" 
+												rendered="{!IF(orderw.isHisOrder&&!lookupController.fromAccountPanel,true,false)}" oncomplete="hideMaxView();hideProgressBar();" rerender="errorMessages,scriptPanel">
+												<apex:param name="orderid" value="{!orderw.hisOrder.orderHeader.as400PurchaseNumber}" assignTo="{!lookupController.orderNumber}"/>
+											</apex:commandbutton>
+											
+											<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.redirectToAdjustmentPage}" value="Create Order Adjustment" 
+												rendered="{!IF(!orderw.isHisOrder&&!lookupController.fromAccountPanel,true,false)}" oncomplete="hideMaxView();hideProgressBar();" rerender="errorMessages">
+												<apex:param name="orderid" value="{!orderw.orderRec.Name}" assignTo="{!lookupController.orderNumber}"/>
+											</apex:commandbutton>
+											
+											<apex:commandbutton style="text-align:center;" styleclass="btn btn-primary" onClick="showProgressBar('Processing...');" action="{!lookupController.attachToCase}" value="Add To Case" 
+												rendered="{!IF(!lookupController.fromAccountPanel,true,false)}" oncomplete="openPrimaryTab();hideMaxView();" rerender="errorMessages,scriptPanel">
+												<apex:param name="orderid" value="{!if(orderw.isHisOrder,orderw.hisOrder.orderHeader.as400PurchaseNumber,orderw.orderRec.Name)}" assignTo="{!lookupController.orderNumber}"/>
+											</apex:commandbutton>
+										</div>
+										<div class="Ship-Bill-Info" style="width:40%;margin: 8px;">
+											<table width="100%" CELLPADDING="10" CELLSPACING="3" valign="top">
+												<tr>
+													<td valign="top">
+														<h2>Shipping Address</h2>
+														<apex:variable rendered="{!orderw.isHisOrder}" var="isHisOrder1" value="">
+															<br/>
+															{!orderw.hisOrder.shipTo.shipToAddressFirstN}
+															{!orderw.hisOrder.shipTo.shipToAddressLastNa}
+															<br/> 
+															{!orderw.hisOrder.shipTo.shipToAddress1stLi}
+															<br/>
+															{!orderw.hisOrder.shipTo.shipToAddress2ndLi}
+															<br/>
+															{!orderw.hisOrder.shipTo.shipToAddress3rdLi},&nbsp;	{!orderw.hisOrder.shipTo.shipToState}
+															{!orderw.hisOrder.shipTo.shipToZipCode}
+															<br/>
+															{!orderw.hisOrder.shipTo.shipToTitle}
+															
+														</apex:variable>
+														
+														<apex:variable rendered="{!!orderw.isHisOrder}" var="isHisOrder2" value="">
+															<br/>
+															<apex:variable value="{!AND(orderw.orderRec.Ship_to_First_Name__c != null,orderw.orderRec.Ship_to_Last_Name__c != null)}" var="showShipto"/> 
+															<apex:outputtext value="{!orderw.orderRec.Ship_to_First_Name__c}" rendered="{!showShipto}" />	
+															<apex:outputtext value="{!orderw.orderRec.Ship_to_Last_Name__c}" rendered="{!showShipto}" />
+															<apex:outputtext value="{!orderw.orderRec.Customer__r.Name}"/>
+															<br/>
+															{!orderw.orderRec.Ship_To_Address__r.Address_Line_1__c} &nbsp;
+															{!orderw.orderRec.Ship_To_Address__r.Address_Line_2__c}
+															<br/>
+															{!orderw.orderRec.Ship_To_Address__r.City__c},	&nbsp; {!orderw.OrderRec.Ship_To_Address__r.State_Providence__c}
+															<br/>
+															{!orderw.orderRec.Ship_To_Address__r.Zip_Code__c}
+														</apex:variable>
+													</td>
+													<td valign="top">
+														<h2>Billing Address</h2>
+														<apex:variable rendered="{!orderw.isHisOrder}" var="isHisOrder3" value="">
+														<br/>
+															{!orderw.hisOrder.orderHeader.billToAddressFirstN}
+															{!orderw.hisOrder.orderHeader.billToAddressLastNa}
+															<br/>
+															{!orderw.hisOrder.orderHeader.billToAddress1stLi}
+															<br/>
+															{!orderw.hisOrder.orderHeader.billToAddress2ndLi}
+															<br/>
+															{!orderw.hisOrder.orderHeader.billToAddress3rdLi},
+															{!orderw.hisOrder.orderHeader.billToState}
+															<br/>
+															{!orderw.hisOrder.orderHeader.billToZipCode}
+														</apex:variable>
+														
+														<apex:variable rendered="{!!orderw.isHisOrder}" var="isHisOrder4" value="">
+														 	<br/>
+															{!orderw.orderRec.Customer__r.Name}
+															<br/>
+															{!orderw.orderRec.Bill_To_Address__r.Address_Line_1__c} &nbsp;
+															{!orderw.orderRec.Bill_To_Address__r.Address_Line_2__c}
+															<br/>
+															{!orderw.orderRec.Bill_To_Address__r.City__c},State_Providence__c &nbsp;
+															{!orderw.orderRec.Bill_To_Address__r.Zip_Code__c}
+														</apex:variable>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<br/>
+										<div class="orderFields" style="width:30%;margin:8px;">
+										<h2>Order Information:</h2><br/>
+											<table width="100%" CELLPADDING="5" valign="top">
+												<tr style="background-color: #eeeeee;">
+													<td class="tdColumnLabel">
+														<apex:outputText value="{!If(orderw.isHisOrder,'AS400 Order Number','SF Order Number')}"/>
+													</td>
+													<td>
+														<apex:outputText value="{!If(orderw.isHisOrder,orderw.hisOrder.orderHeader.as400PurchaseNumber,orderw.orderRec.Name)}"/>
+													</td>
+												</tr>
+												<tr style="background-color:#eeeeee;">
+													<td class="tdColumnLabel">
+														Order Total 
+													</td>
+													<td>
+														{!orderw.orderAmount}
+													</td>
+												</tr>
+												<tr style="background-color: #eeeeee;">
+													<td class="tdColumnLabel">
+														Order Date 
+													</td>
+													<td>
+														{!orderw.orderDate} 
+													</td>
+												</tr>
+												<tr style="background-color: #eeeeee;">
+													<td class="tdColumnLabel">
+														Order Status
+													</td>
+													<td>
+														<apex:outputText rendered="{!If(orderw.isHisOrder,lookupController.osmMap[orderw.hisOrder.orderHeader.purchaseStatus]!=null,true)	}" value="{!If(orderw.isHisOrder,lookupController.osmMap[orderw.hisOrder.orderHeader.purchaseStatus]['SFDC_Order_Status__c'],orderw.orderRec.Order_Status__c)}"/>
+													</td>
+												</tr>
+												<tr style="background-color: #eeeeee;">
+													<td class="tdColumnLabel">
+														Source Code
+													</td>
+													<td>
+														<apex:outputText value="{!If(orderw.isHisOrder,orderw.hisOrder.orderHeader.purchaseSource,orderw.orderRec.Source_Code__c)}"/> 
+													</td>
+												</tr>
+												<tr style="background-color: #eeeeee;">
+													<td class="tdColumnLabel">
+														Number of Shipments
+													</td>
+													<td>
+														<apex:outputText value="{!If(orderw.isHisOrder,orderw.hisOrder.orderHeader.noOfShipmentsThisPurchase,'')}"/>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<br/>
+										<div class="lineItems" style="width:80%;margin:8px;max-height: 400px;overflow-y: scroll;">
+										<h2>Order Line Items:</h2><br/>
+										<TABLE BORDER="1"	WIDTH="100%" CELLPADDING="5" CELLSPACING="3">
+											<Tbody style="vertical-align: middle;">
+												<TR style="background-color: lightslategrey;">
+													<TH>SKU #</TH>
+													<TH>Item Name</TH>
+													<TH>Original Quantity</TH>
+													<TH>Quantity Shipped</TH>
+													<TH>Purchase Status</TH>
+													<TH>Amount</TH>
+													<TH>Disposition Number</TH>
+													<TH>Ship Method</TH>
+													<TH>Tracking #</TH>
+												</TR>
+												<apex:variable rendered="{!orderw.isHisOrder}" var="isHisOrder5" value="">	
+													<apex:repeat value="{!orderw.wrapperLineList}" var="li">
+														 <TR>
+															<TD> {!li.lineItem.enterSku}</TD>
+															<TD> {!li.lineItem.ItemName} </TD>
+															<TD>{!li.lineItem.originalQuantityOrdered}</TD>
+															<TD>{!li.lineItem.qtyShippedOnShipVerif}</TD>
+															<TD>{!li.sfStatus}</TD>
+															<TD>{!li.lineItem.salesPrice}</TD> 
+															<TD>{!li.lineItem.dispositionNumber}</TD>
+															<TD>{!li.lineItem.shipper}</TD>
+															<TD>{!li.lineItem.trackingNumber}</TD>
+														 </TR>
+													</apex:repeat>
+												</apex:variable>
+												
+												<apex:variable rendered="{!!orderw.isHisOrder}" var="isHisOrder6" value="">	
+													<apex:repeat value="{!orderw.orderRec.Order_Line_Items__r}" var="li">
+														 <TR>
+															<TD> {!li.SKU_Number__c}</TD>
+															<TD> {!li.Product_Name__r.name} </TD>
+															<TD>{!li.Original_Quantity__c}</TD>
+															<TD>{!li.Quantity_Shipped__c}</TD>
+															<TD>{!li.Item_Status__c}</TD>
+															<TD>{!li.Final_Price__c}</TD>
+															<TD></TD>
+															<TD>{!li.Shipper__c}</TD>
+															<TD>{!li.Shipment_Tracking_Number__c}</TD>
+														 </TR>
+													</apex:repeat>
+												</apex:variable>
+											</Tbody>
+										</TABLE> 
+									</div>
+									</apex:outputpanel>
+								</Td>
+							</TR>
+						</apex:repeat>
+								<apex:variable rendered="{!lookupController.submittedOrdersMode}" var="mode1" value="">
+								<TR style="background-color: #E8E8E8;">
+									
+									<TH style="padding: 10px;border: none;" COLSPAN="3">Displaying {!lookupController.startIndex} - {!lookupController.endIndex} of {!lookupController.ordersCount} entries</TH>
+									<TH style="padding: 10px;border: none;text-align:right;" COLSPAN="5">
+										<apex:commandButton rendered="{!lookupController.showPrevButton}" onClick="showProgressBar('Processing...');" styleClass=" btn btn-primary" 
+											action="{!lookupController.previous}" value="Previous" reRender="mainPanel" onComplete="hideProgressBar();" /><!-- if(lookupController.currentPage > 0,true,false) -->
+											&nbsp;&nbsp;&nbsp;
+										<apex:commandButton rendered="{!lookupController.showNextButton}" onClick="showProgressBar('Processing...');" styleClass=" btn btn-primary" 
+											action="{!lookupController.next}" value="Next" reRender="mainPanel" onComplete="hideProgressBar();" /><!-- if(lookupController.endIndex < lookupController.ordersCount,true,false) -->
+									</TH>
+								</TR>
+							</apex:variable> 
+						</Tbody>
+				</TABLE>
+			</div>
+		</apex:pageBlock>
+	</apex:outputpanel>
+</apex:component>
